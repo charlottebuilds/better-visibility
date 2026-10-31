@@ -1,12 +1,20 @@
 import { Link } from "@tanstack/react-router";
 import { langs, useI18n } from "@/lib/i18n";
+import brandMark from "@/assets/brand-mark.png";
 
 export function SiteHeader() {
   const { t, lang, setLang } = useI18n();
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
-        <Link to="/" className="font-display text-lg font-bold">
+        <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold">
+          <img
+            src={brandMark}
+            alt=""
+            width={28}
+            height={28}
+            className="h-7 w-7 rounded-[9px] ring-1 ring-white/10"
+          />
           better<span className="text-gradient">visibility</span>
         </Link>
         <nav className="flex items-center gap-5 text-sm text-muted-foreground">
