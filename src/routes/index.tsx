@@ -78,14 +78,14 @@ function Index() {
           <div className="grid gap-10 border-b border-border p-8 md:grid-cols-[auto_1fr] md:items-end md:gap-12 md:p-12">
             <div>
               <p className="text-xs uppercase tracking-widest text-accent">{cs.tag}</p>
-              <p className="mt-4 font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{cs.hero}</p>
+              <p className="mt-4 whitespace-nowrap font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{cs.hero}</p>
               <p className="mt-4 max-w-xs text-sm text-muted-foreground">{cs.heroLabel}</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {cs.stats.map((s, i) => (
                 <div key={i} className="rounded-2xl bg-secondary p-5">
-                  <p className="font-display text-3xl font-bold">{s.k}</p>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">{s.l}</p>
+                  <p className="whitespace-nowrap font-display text-3xl font-bold">{s.k}</p>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-foreground/70">{s.l}</p>
                 </div>
               ))}
             </div>
@@ -102,29 +102,31 @@ function Index() {
           </div>
 
           <div className="p-8 md:p-12">
-            <p className="text-xs uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
+              <p className="text-xs text-foreground/60">{cs.client}</p>
+            </div>
             <figure className="mt-6">
               <img src={caseRank} alt={cs.captions[0]} width={1408} height={480} loading="lazy" className="w-full rounded-2xl border border-border" />
-              <figcaption className="mt-3 text-sm text-muted-foreground">{cs.captions[0]}</figcaption>
+              <figcaption className="mt-3 text-sm text-foreground/70">{cs.captions[0]}</figcaption>
             </figure>
             <div className="mt-8 grid items-start gap-8 md:grid-cols-2">
               {evidence.map((e, i) => (
                 <figure key={i}>
                   <img src={e.src} alt={e.alt} width={e.w} height={e.h} loading="lazy" className="w-full rounded-2xl border border-border" />
-                  <figcaption className="mt-3 text-sm text-muted-foreground">{e.alt}</figcaption>
+                  <figcaption className="mt-3 text-sm text-foreground/70">{e.alt}</figcaption>
                 </figure>
               ))}
             </div>
-            <p className="mt-8 text-xs text-muted-foreground">{cs.client}</p>
           </div>
         </div>
 
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           {t.stories.map((s, i) => (
             <figure key={i} className="flex flex-col rounded-3xl border border-border bg-card p-8">
-              <p className="font-display text-5xl font-bold text-gradient">{s.k}</p>
+              <p className="whitespace-nowrap font-display text-5xl font-bold text-gradient">{s.k}</p>
               <p className="mt-1 text-sm uppercase tracking-widest text-accent">{s.l}</p>
-              <blockquote className="mt-6 flex-1 text-muted-foreground">„{s.q}“</blockquote>
+              <blockquote className="mt-6 flex-1 text-muted-foreground">{t.quotes.o}{s.q}{t.quotes.c}</blockquote>
               <figcaption className="mt-6 font-semibold">{s.c}</figcaption>
             </figure>
           ))}
