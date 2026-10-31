@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { langs, useI18n } from "@/lib/i18n";
+import brandMark from "@/assets/brand-mark.png";
 
 export function SiteHeader() {
   const { t, lang, setLang } = useI18n();
