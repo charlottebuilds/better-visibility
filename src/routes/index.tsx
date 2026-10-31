@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero.jpg";
+import caseRank from "@/assets/case-rank-tracking.png";
+import caseGa4 from "@/assets/case-ga4.png";
+import caseAhrefs from "@/assets/case-ahrefs.png";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n } from "@/lib/i18n";
@@ -18,6 +21,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { t } = useI18n();
+  const cs = t.caseStudy;
+  const evidence = [
+    { src: caseGa4, alt: cs.captions[1], w: 1008, h: 656 },
+    { src: caseAhrefs, alt: cs.captions[2], w: 1168, h: 720 },
+  ];
   return (
     <div>
       <SiteHeader />
@@ -65,12 +73,60 @@ function Index() {
 
       <section id="referenzen" className="mx-auto max-w-6xl px-6 py-20">
         <h2 className="text-4xl font-bold">{t.storiesTitle}</h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+
+        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card">
+          <div className="grid gap-10 border-b border-border p-8 md:grid-cols-[auto_1fr] md:items-end md:gap-12 md:p-12">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-accent">{cs.tag}</p>
+              <p className="mt-4 whitespace-nowrap font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{cs.hero}</p>
+              <p className="mt-4 max-w-xs text-sm text-muted-foreground">{cs.heroLabel}</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {cs.stats.map((s, i) => (
+                <div key={i} className="rounded-2xl bg-secondary p-5">
+                  <p className="whitespace-nowrap font-display text-3xl font-bold">{s.k}</p>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-foreground/70">{s.l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-5 border-b border-border bg-secondary/60 p-8 md:flex-row md:items-center md:gap-6 md:p-12">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-brand font-display text-sm font-bold text-primary-foreground">
+              AI
+            </span>
+            <div>
+              <p className="font-display text-xl font-semibold">{cs.aiTitle}</p>
+              <p className="mt-2 max-w-3xl text-muted-foreground">{cs.aiText}</p>
+            </div>
+          </div>
+
+          <div className="p-8 md:p-12">
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
+              <p className="text-xs text-foreground/60">{cs.client}</p>
+            </div>
+            <figure className="mt-6">
+              <img src={caseRank} alt={cs.captions[0]} width={1408} height={480} loading="lazy" className="w-full rounded-2xl border border-border" />
+              <figcaption className="mt-3 text-sm text-foreground/70">{cs.captions[0]}</figcaption>
+            </figure>
+            <div className="mt-8 grid items-start gap-8 md:grid-cols-2">
+              {evidence.map((e, i) => (
+                <figure key={i}>
+                  <img src={e.src} alt={e.alt} width={e.w} height={e.h} loading="lazy" className="w-full rounded-2xl border border-border" />
+                  <figcaption className="mt-3 text-sm text-foreground/70">{e.alt}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
           {t.stories.map((s, i) => (
             <figure key={i} className="flex flex-col rounded-3xl border border-border bg-card p-8">
-              <p className="font-display text-5xl font-bold text-gradient">{s.k}</p>
+              <p className="whitespace-nowrap font-display text-5xl font-bold text-gradient">{s.k}</p>
               <p className="mt-1 text-sm uppercase tracking-widest text-accent">{s.l}</p>
-              <blockquote className="mt-6 flex-1 text-muted-foreground">„{s.q}“</blockquote>
+              <blockquote className="mt-6 flex-1 text-muted-foreground">{t.quotes.o}{s.q}{t.quotes.c}</blockquote>
               <figcaption className="mt-6 font-semibold">{s.c}</figcaption>
             </figure>
           ))}
