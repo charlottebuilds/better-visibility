@@ -3,6 +3,7 @@ import hero from "@/assets/hero.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
 import caseGa4 from "@/assets/case-ga4.png";
 import caseAhrefs from "@/assets/case-ahrefs.png";
+import portrait from "@/assets/portrait-charlotte.png";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n } from "@/lib/i18n";
@@ -135,10 +136,11 @@ function Index() {
 
       <section id="ueber-mich" className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid items-center gap-10 rounded-3xl border border-border bg-card p-8 md:grid-cols-[1fr_2fr] md:p-12">
-          <div className="flex aspect-square items-center justify-center rounded-3xl bg-gradient-brand text-primary-foreground glow">
-            <div className="text-center">
-              <p className="font-display text-7xl font-bold">10+</p>
-              <p className="mt-2 text-sm uppercase tracking-widest">{t.years}</p>
+          <div className="relative">
+            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-square w-full rounded-3xl object-cover glow" />
+            <div className="absolute bottom-4 left-4 rounded-2xl bg-gradient-brand px-5 py-3 text-primary-foreground shadow-lg">
+              <p className="font-display text-2xl font-bold leading-none">10+</p>
+              <p className="mt-1 text-[11px] uppercase tracking-widest">{t.years}</p>
             </div>
           </div>
           <div>
