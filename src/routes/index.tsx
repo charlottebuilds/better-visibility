@@ -148,6 +148,12 @@ function Index() {
             <p className="mt-2 font-display text-lg text-accent">{t.aboutRole}</p>
             <p className="mt-6 text-lg text-muted-foreground">{t.aboutP1}</p>
             <p className="mt-4 text-lg text-muted-foreground">{t.aboutP2}</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {t.skills.map((s) => (
+                <span key={s} className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-foreground/80">{s}</span>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-muted-foreground">{t.languages}</p>
           </div>
         </div>
       </section>
