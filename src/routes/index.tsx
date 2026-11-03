@@ -86,10 +86,10 @@ function Index() {
               <p className="mt-4 whitespace-nowrap font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{c.d.hero}</p>
               <p className="mt-4 max-w-xs text-sm text-muted-foreground">{c.d.heroLabel}</p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               {c.d.stats.map((s, i) => (
                 <div key={i} className="rounded-2xl bg-secondary p-5">
-                  <p className="whitespace-nowrap font-display text-2xl font-bold xl:text-3xl">{s.k}</p>
+                  <p className="whitespace-nowrap font-display text-3xl font-bold">{s.k}</p>
                   <p className="mt-2 text-xs uppercase tracking-wider text-foreground/70">{s.l}</p>
                 </div>
               ))}
