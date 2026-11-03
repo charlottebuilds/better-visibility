@@ -5,6 +5,9 @@ export const langs: Lang[] = ["de", "en", "es"];
 
 const dict = {
   de: {
+    navigationLabel: "Hauptnavigation",
+    aboutIntro: "10+ Jahre Erfahrung für organisches Wachstum – in Google und KI-Suchen.",
+    aboutDetails: { background: "Mein Hintergrund & Ansatz", skills: "Expertise & Tools", languages: "Sprachen" },
     nav: { services: "Leistungen", process: "Ablauf", stories: "Referenzen", about: "Über mich", blog: "Blog", contact: "Kontakt" },
     hero: { h1a: "Gefunden werden – ", h1b: "bei Google und in der KI.", p: "Beratung und Umsetzung von SEO- und GEO-Kampagnen, die Ihre Marke dort sichtbar machen, wo Kunden suchen.", cta: "Erstgespräch buchen" },
     services: [
@@ -78,6 +81,9 @@ const dict = {
     footer: "SEO & GEO Beratung",
   },
   en: {
+    navigationLabel: "Main navigation",
+    aboutIntro: "10+ years of experience driving organic growth – on Google and in AI search.",
+    aboutDetails: { background: "My background & approach", skills: "Expertise & tools", languages: "Languages" },
     nav: { services: "Services", process: "Process", stories: "Case studies", about: "About me", blog: "Blog", contact: "Contact" },
     hero: { h1a: "Get found – ", h1b: "on Google and in AI.", p: "Consulting and execution of SEO and GEO campaigns that make your brand visible where customers search.", cta: "Book a free call" },
     services: [
@@ -151,6 +157,9 @@ const dict = {
     footer: "SEO & GEO consulting",
   },
   es: {
+    navigationLabel: "Navegación principal",
+    aboutIntro: "Más de 10 años impulsando el crecimiento orgánico – en Google y en búsquedas con IA.",
+    aboutDetails: { background: "Mi trayectoria y enfoque", skills: "Experiencia y herramientas", languages: "Idiomas" },
     nav: { services: "Servicios", process: "Proceso", stories: "Casos de éxito", about: "Sobre mí", blog: "Blog", contact: "Contacto" },
     hero: { h1a: "Que te encuentren – ", h1b: "en Google y en la IA.", p: "Consultoría y ejecución de campañas SEO y GEO que hacen visible tu marca donde buscan tus clientes.", cta: "Reservar llamada" },
     services: [

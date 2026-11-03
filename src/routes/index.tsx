@@ -9,6 +9,7 @@ import portrait from "@/assets/portrait-charlotte.png";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n } from "@/lib/i18n";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,6 +18,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mehr Sichtbarkeit in Google und KI-Suchen: Beratung und Umsetzung von SEO- und GEO-Kampagnen." },
       { property: "og:title", content: "Better Visibility – SEO & GEO" },
       { property: "og:description", content: "Sichtbar in Google, ChatGPT & Co. – Beratung und Umsetzung von SEO und GEO." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -109,7 +112,7 @@ function Index() {
           <div className="p-8 md:p-12">
             <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
             <figure className="mt-6">
-              <img src={c.imgs[0]!.src} alt={c.d.captions[0]} width={c.imgs[0]!.w} height={c.imgs[0]!.h} loading="lazy" className="w-full rounded-2xl border border-border" />
+              <img src={c.imgs[0]?.src} alt={c.d.captions[0]} width={c.imgs[0]?.w} height={c.imgs[0]?.h} loading="lazy" className="w-full rounded-2xl border border-border" />
               <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[0]}</figcaption>
             </figure>
             <div className={`mt-8 grid items-start gap-8 ${c.imgs.length > 2 ? "md:grid-cols-2" : ""}`}>
@@ -137,8 +140,8 @@ function Index() {
       </section>
 
       <section id="ueber-mich" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid items-center gap-10 rounded-3xl border border-border bg-card p-8 md:grid-cols-[1fr_2fr] md:p-12">
-          <div className="relative">
+        <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12">
+          <div className="relative mx-auto w-full max-w-72 md:max-w-none">
             <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-square w-full rounded-3xl object-cover glow" />
             <div className="absolute bottom-4 left-4 rounded-2xl bg-gradient-brand px-5 py-3 text-primary-foreground shadow-lg">
               <p className="font-display text-2xl font-bold leading-none">10+</p>
@@ -147,15 +150,32 @@ function Index() {
           </div>
           <div>
             <h2 className="text-4xl font-bold">{t.aboutTitle}</h2>
+            <p className="mt-4 font-display text-2xl font-bold">Charlotte Götz</p>
             <p className="mt-2 font-display text-lg text-accent">{t.aboutRole}</p>
-            <p className="mt-6 text-lg text-muted-foreground">{t.aboutP1}</p>
-            <p className="mt-4 text-lg text-muted-foreground">{t.aboutP2}</p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {t.skills.map((s) => (
-                <span key={s} className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-foreground/80">{s}</span>
-              ))}
-            </div>
-            <p className="mt-6 text-sm text-muted-foreground">{t.languages}</p>
+            <p className="mt-4 text-muted-foreground">{t.aboutIntro}</p>
+            <Accordion key={t.aboutTitle} type="single" collapsible className="mt-6 border-t border-border">
+              <AccordionItem value="background">
+                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.background}</AccordionTrigger>
+                <AccordionContent className="space-y-3 leading-relaxed text-muted-foreground">
+                  <p>{t.aboutP1}</p>
+                  <p>{t.aboutP2}</p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="skills">
+                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.skills}</AccordionTrigger>
+                <AccordionContent>
+                  <div className="flex flex-wrap gap-2">
+                    {t.skills.map((s) => (
+                      <span key={s} className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-foreground/80">{s}</span>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="languages">
+                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.languages}</AccordionTrigger>
+                <AccordionContent className="leading-relaxed text-muted-foreground">{t.languages}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </section>

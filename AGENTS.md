@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the one-page section navigation visible at every screen size using TanStack hash links; Blog remains a separate route.
+- Present extended biography, skills and languages through the shared single-open accordion, keeping the initial About view compact.

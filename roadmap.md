@@ -1,5 +1,8 @@
 # Roadmap
 
+- [ ] Vier Navigationspunkte auf allen Bildschirmgrößen sichtbar
+- [ ] „Über mich“ kompakt mit anklickbaren Hintergrund-, Expertise- und Sprachenbereichen
+
 - [x] Success-Story-Sektion mit echten Zahlen (+700 %, 8,4, +141 %, +128 %, 95 %) und drei restylten Chart-Screenshots
 - [x] Feinschliff Referenzen (Zeilenumbruch, Kontrast, Anführungszeichen je Sprache)
 - [x] Portrait Charlotte_BT.png an das Website-Design angepasst und in „Über mich" eingebaut
