@@ -109,7 +109,7 @@ function Index() {
           <div className="p-8 md:p-12">
             <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
             <figure className="mt-6">
-              <img src={c.imgs[0].src} alt={c.d.captions[0]} width={c.imgs[0].w} height={c.imgs[0].h} loading="lazy" className="w-full rounded-2xl border border-border" />
+              <img src={c.imgs[0]!.src} alt={c.d.captions[0]} width={c.imgs[0]!.w} height={c.imgs[0]!.h} loading="lazy" className="w-full rounded-2xl border border-border" />
               <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[0]}</figcaption>
             </figure>
             <div className={`mt-8 grid items-start gap-8 ${c.imgs.length > 2 ? "md:grid-cols-2" : ""}`}>
