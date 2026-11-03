@@ -3,6 +3,8 @@ import hero from "@/assets/hero.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
 import caseGa4 from "@/assets/case-ga4.png";
 import caseAhrefs from "@/assets/case-ahrefs.png";
+import caseGsc from "@/assets/case2-gsc.png";
+import caseHealth from "@/assets/case2-health.png";
 import portrait from "@/assets/portrait-charlotte.png";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
@@ -23,9 +25,9 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { t } = useI18n();
   const cs = t.caseStudy;
-  const evidence = [
-    { src: caseGa4, alt: cs.captions[1], w: 1008, h: 656 },
-    { src: caseAhrefs, alt: cs.captions[2], w: 1168, h: 720 },
+  const cases = [
+    { d: cs, imgs: [{ src: caseRank, w: 1408, h: 480 }, { src: caseGa4, w: 1008, h: 656 }, { src: caseAhrefs, w: 1168, h: 720 }] },
+    { d: t.caseStudy2, imgs: [{ src: caseGsc, w: 1280, h: 528 }, { src: caseHealth, w: 1168, h: 576 }] },
   ];
   return (
     <div>
@@ -75,15 +77,17 @@ function Index() {
       <section id="referenzen" className="mx-auto max-w-6xl px-6 py-20">
         <h2 className="text-4xl font-bold">{t.storiesTitle}</h2>
 
-        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card">
+        {cases.map((c, ci) => (
+        <div key={ci} className="mt-10 overflow-hidden rounded-3xl border border-border bg-card">
           <div className="grid gap-10 border-b border-border p-8 md:grid-cols-[auto_1fr] md:items-end md:gap-12 md:p-12">
             <div>
-              <p className="text-xs uppercase tracking-widest text-accent">{cs.tag}</p>
-              <p className="mt-4 whitespace-nowrap font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{cs.hero}</p>
-              <p className="mt-4 max-w-xs text-sm text-muted-foreground">{cs.heroLabel}</p>
+              <p className="text-xs uppercase tracking-widest text-accent">0{ci + 1} · {c.d.tag}</p>
+              <p className="mt-2 text-xs text-foreground/60">{c.d.client}</p>
+              <p className="mt-4 whitespace-nowrap font-display text-6xl font-bold leading-none text-gradient md:text-8xl">{c.d.hero}</p>
+              <p className="mt-4 max-w-xs text-sm text-muted-foreground">{c.d.heroLabel}</p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {cs.stats.map((s, i) => (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {c.d.stats.map((s, i) => (
                 <div key={i} className="rounded-2xl bg-secondary p-5">
                   <p className="whitespace-nowrap font-display text-3xl font-bold">{s.k}</p>
                   <p className="mt-2 text-xs uppercase tracking-wider text-foreground/70">{s.l}</p>
@@ -94,35 +98,33 @@ function Index() {
 
           <div className="flex flex-col gap-5 border-b border-border bg-secondary/60 p-8 md:flex-row md:items-center md:gap-6 md:p-12">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-brand font-display text-sm font-bold text-primary-foreground">
-              AI
+              {c.d.badge}
             </span>
             <div>
-              <p className="font-display text-xl font-semibold">{cs.aiTitle}</p>
-              <p className="mt-2 max-w-3xl text-muted-foreground">{cs.aiText}</p>
+              <p className="font-display text-xl font-semibold">{c.d.aiTitle}</p>
+              <p className="mt-2 max-w-3xl text-muted-foreground">{c.d.aiText}</p>
             </div>
           </div>
 
           <div className="p-8 md:p-12">
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
-              <p className="text-xs text-foreground/60">{cs.client}</p>
-            </div>
+            <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
             <figure className="mt-6">
-              <img src={caseRank} alt={cs.captions[0]} width={1408} height={480} loading="lazy" className="w-full rounded-2xl border border-border" />
-              <figcaption className="mt-3 text-sm text-foreground/70">{cs.captions[0]}</figcaption>
+              <img src={c.imgs[0]!.src} alt={c.d.captions[0]} width={c.imgs[0]!.w} height={c.imgs[0]!.h} loading="lazy" className="w-full rounded-2xl border border-border" />
+              <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[0]}</figcaption>
             </figure>
-            <div className="mt-8 grid items-start gap-8 md:grid-cols-2">
-              {evidence.map((e, i) => (
+            <div className={`mt-8 grid items-start gap-8 ${c.imgs.length > 2 ? "md:grid-cols-2" : ""}`}>
+              {c.imgs.slice(1).map((e, i) => (
                 <figure key={i}>
-                  <img src={e.src} alt={e.alt} width={e.w} height={e.h} loading="lazy" className="w-full rounded-2xl border border-border" />
-                  <figcaption className="mt-3 text-sm text-foreground/70">{e.alt}</figcaption>
+                  <img src={e.src} alt={c.d.captions[i + 1]} width={e.w} height={e.h} loading="lazy" className="w-full rounded-2xl border border-border" />
+                  <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[i + 1]}</figcaption>
                 </figure>
               ))}
             </div>
           </div>
         </div>
+        ))}
 
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
           {t.stories.map((s, i) => (
             <figure key={i} className="flex flex-col rounded-3xl border border-border bg-card p-8">
               <p className="whitespace-nowrap font-display text-5xl font-bold text-gradient">{s.k}</p>
