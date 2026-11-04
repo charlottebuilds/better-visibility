@@ -1,8 +1,8 @@
 # Roadmap
 
-- [ ] Navigation mit sichtbarem Mouseover-Effekt prüfen
-- [ ] B2B-Screenshot auf den gewünschten Kennzahlen-Ausschnitt reduzieren und Beispielkästen entfernen
-- [ ] Sprachen-Reiter entfernen und Portrait-Hintergrund dezenter gestalten
+- [x] Navigation mit sichtbarem Mouseover-Effekt prüfen
+- [x] B2B-Screenshot auf den gewünschten Kennzahlen-Ausschnitt reduzieren und Beispielkästen entfernen
+- [x] Sprachen-Reiter entfernen und Portrait-Hintergrund dezenter gestalten
 
 - [x] Success-Story-Sektion mit echten Zahlen (+700 %, 8,4, +141 %, +128 %, 95 %) und drei restylten Chart-Screenshots
 - [x] Feinschliff Referenzen (Zeilenumbruch, Kontrast, Anführungszeichen je Sprache)
