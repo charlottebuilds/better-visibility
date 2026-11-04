@@ -94,17 +94,6 @@ function Index() {
         </div>
       </section>
 
-      <section id="ablauf" className="mx-auto max-w-6xl px-6 py-20">
-        <h2 className="text-4xl font-bold">{t.processTitle}</h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-4">
-          {t.steps.map((s, i) => (
-            <div key={i} className="rounded-3xl bg-secondary p-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand font-bold text-primary-foreground">{i + 1}</div>
-              <p className="mt-4 font-display text-xl font-semibold">{s}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section id="referenzen" className="mx-auto max-w-6xl px-6 py-20">
         <h2 className="text-4xl font-bold">{t.storiesTitle}</h2>
