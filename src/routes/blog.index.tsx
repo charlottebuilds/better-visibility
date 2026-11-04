@@ -9,6 +9,8 @@ export const Route = createFileRoute("/blog/")({
       { name: "description", content: "Artikel rund um SEO, GEO und Sichtbarkeit in KI-Suchen." },
       { property: "og:title", content: "Blog – Better Visibility" },
       { property: "og:description", content: "Artikel rund um SEO, GEO und Sichtbarkeit in KI-Suchen." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Blog,

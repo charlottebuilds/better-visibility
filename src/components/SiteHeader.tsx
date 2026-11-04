@@ -19,10 +19,10 @@ export function SiteHeader() {
           better<span className="text-gradient">visibility</span>
         </Link>
         <nav aria-label={t.navigationLabel} className="order-3 col-span-2 grid grid-cols-4 items-center gap-1 text-center text-xs text-muted-foreground sm:text-sm lg:order-none lg:flex lg:gap-5">
-          <Link to="/" hash="leistungen" className="py-2 hover:text-foreground">{t.nav.services}</Link>
-          <Link to="/" hash="referenzen" className="py-2 hover:text-foreground">{t.nav.stories}</Link>
-          <Link to="/" hash="ueber-mich" className="py-2 hover:text-foreground">{t.nav.about}</Link>
-          <Link to="/blog" className="py-2 hover:text-foreground">{t.nav.blog}</Link>
+          <Link to="/" hash="leistungen" className="site-nav-link py-2">{t.nav.services}</Link>
+          <Link to="/" hash="referenzen" className="site-nav-link py-2">{t.nav.stories}</Link>
+          <Link to="/" hash="ueber-mich" className="site-nav-link py-2">{t.nav.about}</Link>
+          <Link to="/blog" className="site-nav-link py-2">{t.nav.blog}</Link>
         </nav>
         <div className="flex items-center gap-3">
           <div className="flex rounded-full border border-border p-0.5 text-xs">
