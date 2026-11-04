@@ -71,6 +71,30 @@
   box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--primary) 60%, transparent);
 }
 
+.site-nav-link {
+  position: relative;
+  transition: color 180ms ease;
+}
+.site-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient-brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.site-nav-link:hover,
+.site-nav-link:focus-visible { color: var(--accent); }
+.site-nav-link:hover::after,
+.site-nav-link:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-link, .site-nav-link::after { transition: none; }
+}
+
 @layer base {
   * { border-color: var(--color-border); }
   html { scroll-behavior: smooth; }

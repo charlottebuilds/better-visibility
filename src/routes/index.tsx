@@ -5,7 +5,7 @@ import caseGa4 from "@/assets/case-ga4.png";
 import caseAhrefs from "@/assets/case-ahrefs.png";
 import caseGsc from "@/assets/case2-gsc.png";
 import caseHealth from "@/assets/case2-health.png";
-import portrait from "@/assets/portrait-charlotte.png";
+import portrait from "@/assets/portrait-charlotte-subtle.jpg";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n } from "@/lib/i18n";
@@ -112,8 +112,14 @@ function Index() {
           <div className="p-8 md:p-12">
             <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
             <figure className="mt-6">
+              {ci === 1 ? (
+                <div className="aspect-[1280/210] overflow-hidden rounded-2xl border border-border">
+                  <img src={caseGsc} alt="Google Search Console: 100.247 clicks · 4,91 Mio. impressions · CTR 2 % · position 12,9" width={1280} height={528} loading="lazy" className="w-full" />
+                </div>
+              ) : (
               <img src={c.imgs[0]?.src} alt={c.d.captions[0]} width={c.imgs[0]?.w} height={c.imgs[0]?.h} loading="lazy" className="w-full rounded-2xl border border-border" />
-              <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[0]}</figcaption>
+              )}
+              {ci !== 1 && <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[0]}</figcaption>}
             </figure>
             <div className={`mt-8 grid items-start gap-8 ${c.imgs.length > 2 ? "md:grid-cols-2" : ""}`}>
               {c.imgs.slice(1).map((e, i) => (
@@ -127,22 +133,12 @@ function Index() {
         </div>
         ))}
 
-        <div className="mt-6 grid gap-5 md:grid-cols-2">
-          {t.stories.map((s, i) => (
-            <figure key={i} className="flex flex-col rounded-3xl border border-border bg-card p-8">
-              <p className="whitespace-nowrap font-display text-5xl font-bold text-gradient">{s.k}</p>
-              <p className="mt-1 text-sm uppercase tracking-widest text-accent">{s.l}</p>
-              <blockquote className="mt-6 flex-1 text-muted-foreground">{t.quotes.o}{s.q}{t.quotes.c}</blockquote>
-              <figcaption className="mt-6 font-semibold">{s.c}</figcaption>
-            </figure>
-          ))}
-        </div>
       </section>
 
       <section id="ueber-mich" className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12">
           <div className="relative mx-auto w-full max-w-72 md:max-w-none">
-            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-square w-full rounded-3xl object-cover glow" />
+            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-square w-full rounded-3xl object-cover" />
             <div className="absolute bottom-4 left-4 rounded-2xl bg-gradient-brand px-5 py-3 text-primary-foreground shadow-lg">
               <p className="font-display text-2xl font-bold leading-none">10+</p>
               <p className="mt-1 text-[11px] uppercase tracking-widest">{t.years}</p>
@@ -170,10 +166,6 @@ function Index() {
                     ))}
                   </div>
                 </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="languages">
-                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.languages}</AccordionTrigger>
-                <AccordionContent className="leading-relaxed text-muted-foreground">{t.languages}</AccordionContent>
               </AccordionItem>
             </Accordion>
           </div>
