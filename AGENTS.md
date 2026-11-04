@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep the one-page section navigation visible at every screen size using TanStack hash links; Blog remains a separate route.
-- Present extended biography, skills and languages through the shared single-open accordion, keeping the initial About view compact.
+- Present extended biography and skills through the shared single-open accordion, keeping the initial About view compact.
