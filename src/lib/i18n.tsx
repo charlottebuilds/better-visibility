@@ -17,6 +17,13 @@ const dict = {
       { t: "GEO-Kampagnen", d: "Semantic SEO, strukturierte Inhalte, E-E-A-T und Monitoring Ihrer KI-Sichtbarkeit." },
     ],
     processTitle: "So arbeiten wir",
+    packagesTitle: "Pakete zum Fixpreis", packagesSub: "Klare Leistungen, klarer Preis – wählen Sie das Paket, das zu Ihnen passt.", priceNote: "zzgl. MwSt.", choose: "Paket anfragen", popular: "Beliebt",
+    packages: [
+      { n: "Check", p: "€ XXX", u: "einmalig", d: "Der schnelle Überblick, wo Sie stehen.", f: ["SEO- & GEO-Audit", "Keyword-Potenzialanalyse", "Top-10-Maßnahmenliste", "60 Min. Ergebnis-Call"] },
+      { n: "Wachstum", p: "€ X.XXX", u: "pro Monat", d: "Laufende Optimierung für mehr Sichtbarkeit.", f: ["Alles aus „Check“", "Technical & OnPage SEO", "2 optimierte Inhalte / Monat", "GEO: Sichtbarkeit in KI-Suchen", "Monatliches Reporting"] },
+      { n: "Premium", p: "€ X.XXX", u: "pro Monat", d: "Volle Betreuung für starkes Wachstum.", f: ["Alles aus „Wachstum“", "4 Inhalte / Monat", "Digital PR & Linkaufbau", "LLM-Visibility-Monitoring", "Persönliche Ansprechpartnerin"] },
+    ],
+    custom: { n: "Individuelles Angebot", p: "Preis auf Anfrage", d: "Ihr Projekt passt in kein Paket? Wir stellen es gemeinsam zusammen – auch über SEO hinaus.", f: ["Marketing-Maßnahmen (Content, Social, Kampagnen)", "Websiteerstellung & Relaunch", "Kombination mit jedem Paket"], cta: "Angebot anfragen" },
     steps: ["Analyse", "Strategie", "Umsetzung", "Messen & Optimieren"],
     storiesTitle: "Success Stories",
     caseStudy: {
@@ -93,6 +100,13 @@ const dict = {
       { t: "GEO campaigns", d: "Semantic SEO, structured content, E-E-A-T and monitoring of your AI visibility." },
     ],
     processTitle: "How we work",
+    packagesTitle: "Fixed-price packages", packagesSub: "Clear services, clear price – choose the package that fits you.", priceNote: "plus VAT", choose: "Request package", popular: "Popular",
+    packages: [
+      { n: "Check", p: "€ XXX", u: "one-time", d: "A quick overview of where you stand.", f: ["SEO & GEO audit", "Keyword potential analysis", "Top-10 action list", "60-min results call"] },
+      { n: "Growth", p: "€ X,XXX", u: "per month", d: "Ongoing optimization for more visibility.", f: ["Everything in “Check”", "Technical & on-page SEO", "2 optimized pieces / month", "GEO: visibility in AI search", "Monthly reporting"] },
+      { n: "Premium", p: "€ X,XXX", u: "per month", d: "Full support for strong growth.", f: ["Everything in “Growth”", "4 pieces / month", "Digital PR & link building", "LLM visibility monitoring", "Personal point of contact"] },
+    ],
+    custom: { n: "Custom offer", p: "Price on request", d: "Your project doesn't fit a package? We'll build it together – beyond SEO too.", f: ["Marketing activities (content, social, campaigns)", "Website creation & relaunch", "Combine with any package"], cta: "Request offer" },
     steps: ["Analysis", "Strategy", "Execution", "Measure & optimize"],
     storiesTitle: "Success stories",
     caseStudy: {
@@ -169,6 +183,13 @@ const dict = {
       { t: "Campañas GEO", d: "SEO semántico, contenido estructurado, E-E-A-T y monitoreo de tu visibilidad en IA." },
     ],
     processTitle: "Cómo trabajamos",
+    packagesTitle: "Paquetes a precio fijo", packagesSub: "Servicios claros, precio claro: elija el paquete que mejor le convenga.", priceNote: "IVA no incluido", choose: "Solicitar paquete", popular: "Popular",
+    packages: [
+      { n: "Check", p: "€ XXX", u: "pago único", d: "Una visión rápida de dónde está.", f: ["Auditoría SEO y GEO", "Análisis de potencial de keywords", "Lista de 10 acciones clave", "Llamada de resultados de 60 min"] },
+      { n: "Crecimiento", p: "€ X.XXX", u: "al mes", d: "Optimización continua para más visibilidad.", f: ["Todo lo de «Check»", "SEO técnico y on-page", "2 contenidos optimizados / mes", "GEO: visibilidad en búsquedas con IA", "Informe mensual"] },
+      { n: "Premium", p: "€ X.XXX", u: "al mes", d: "Acompañamiento completo para un fuerte crecimiento.", f: ["Todo lo de «Crecimiento»", "4 contenidos / mes", "Digital PR y link building", "Monitorización de visibilidad en LLM", "Contacto personal"] },
+    ],
+    custom: { n: "Oferta individual", p: "Precio a consultar", d: "¿Su proyecto no encaja en un paquete? Lo diseñamos juntos, también más allá del SEO.", f: ["Acciones de marketing (contenido, social, campañas)", "Creación y relanzamiento de webs", "Combinable con cualquier paquete"], cta: "Solicitar oferta" },
     steps: ["Análisis", "Estrategia", "Ejecución", "Medir y optimizar"],
     storiesTitle: "Casos de éxito",
     caseStudy: {

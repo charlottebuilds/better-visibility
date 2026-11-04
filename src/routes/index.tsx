@@ -63,6 +63,35 @@ function Index() {
             </div>
           ))}
         </div>
+        <div id="pakete" className="mt-20">
+          <h3 className="text-3xl font-bold">{t.packagesTitle}</h3>
+          <p className="mt-3 text-muted-foreground">{t.packagesSub}</p>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {t.packages.map((pk, i) => (
+              <div key={i} className={`relative flex flex-col rounded-3xl border bg-card p-8 ${i === 1 ? "border-primary glow" : "border-border"}`}>
+                {i === 1 && <span className="absolute -top-3 left-8 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground">{t.popular}</span>}
+                <p className="font-display text-xl font-bold">{pk.n}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{pk.d}</p>
+                <p className="mt-6 font-display text-4xl font-bold text-gradient">{pk.p}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-foreground/60">{pk.u} · {t.priceNote}</p>
+                <ul className="mt-6 flex-1 space-y-2 text-sm">
+                  {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
+                </ul>
+                <a href="#kontakt" className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 1 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-col gap-6 rounded-3xl border border-dashed border-accent bg-secondary/60 p-8 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="font-display text-xl font-bold">{t.custom.n} <span className="ml-2 text-sm font-normal text-accent">{t.custom.p}</span></p>
+              <p className="mt-2 max-w-xl text-muted-foreground">{t.custom.d}</p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {t.custom.f.map((f) => <li key={f} className="rounded-full border border-border bg-card px-3 py-1 text-xs">{f}</li>)}
+              </ul>
+            </div>
+            <a href="#kontakt" className="shrink-0 rounded-full bg-gradient-brand px-6 py-3 text-center font-semibold text-primary-foreground">{t.custom.cta}</a>
+          </div>
+        </div>
       </section>
 
       <section id="ablauf" className="mx-auto max-w-6xl px-6 py-20">
