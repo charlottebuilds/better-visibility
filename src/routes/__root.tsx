@@ -101,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   const { locale } = useParams({ strict: false }) as { locale?: string };
   return (
-    <html lang={locale === "en" ? "en" : "de"}>
+    <html lang={locale === "en" || locale === "es" ? locale : "de"}>
       <head>
         <HeadContent />
       </head>

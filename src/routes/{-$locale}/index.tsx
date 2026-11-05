@@ -23,7 +23,7 @@ export const Route = createFileRoute("/{-$locale}/")({
         { property: "og:title", content: m.ogTitle },
         { property: "og:description", content: m.description },
         { property: "og:type", content: "website" },
-        { property: "og:locale", content: lang === "en" ? "en_US" : "de_DE" },
+        { property: "og:locale", content: { de: "de_DE", en: "en_US", es: "es_ES" }[lang] },
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: seoLinks("/", lang),

@@ -11,4 +11,4 @@
 
 - Keep the one-page section navigation visible at every screen size using TanStack hash links; Blog remains a separate route.
 - Present extended biography and skills through the shared single-open accordion, keeping the initial About view compact.
-- i18n is URL-based: pages live under src/routes/{-$locale}/ (German unprefixed, English at /en); texts live in src/locales/*.ts; head() adds canonical + hreflang via seoLinks() — so each language is indexable separately.
+- i18n is URL-based: pages live under src/routes/{-$locale}/ (German unprefixed, other languages at /<code>); texts live in src/locales/*.ts; head() adds canonical + hreflang via seoLinks() — so each language is indexable separately.
