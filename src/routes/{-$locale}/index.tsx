@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import hero from "@/assets/hero.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
 import caseGa4 from "@/assets/case-ga4.png";
@@ -8,25 +8,33 @@ import caseHealth from "@/assets/case2-health.png";
 import portrait from "@/assets/portrait-charlotte-subtle.jpg";
 import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Better Visibility – SEO & GEO Beratung und Umsetzung" },
-      { name: "description", content: "Mehr Sichtbarkeit in Google und KI-Suchen: Beratung und Umsetzung von SEO- und GEO-Kampagnen." },
-      { property: "og:title", content: "Better Visibility – SEO & GEO" },
-      { property: "og:description", content: "Sichtbar in Google, ChatGPT & Co. – Beratung und Umsetzung von SEO und GEO." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+export const Route = createFileRoute("/{-$locale}/")({
+  beforeLoad: ({ params }) => { if (!isValidLocaleParam(params.locale)) throw notFound(); },
+  head: ({ params }) => {
+    const lang = langFromParam(params.locale);
+    const m = getDict(lang).meta.home;
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.ogTitle },
+        { property: "og:description", content: m.description },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: lang === "en" ? "en_US" : "de_DE" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: seoLinks("/", lang),
+    };
+  },
   component: Index,
 });
 
 function Index() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const lp = localeParam(lang);
   const cs = t.caseStudy;
   const cases = [
     { d: cs, imgs: [{ src: caseRank, w: 1408, h: 480 }, { src: caseGa4, w: 1008, h: 656 }, { src: caseAhrefs, w: 1168, h: 720 }] },
@@ -48,7 +56,7 @@ function Index() {
               <a href="#leistungen" className="rounded-full border border-border px-6 py-3 font-semibold hover:bg-secondary">{t.nav.services}</a>
             </div>
           </div>
-          <img src={hero} alt="Lupe und KI-Netzwerk in Lila und Orange" width={1600} height={1008} className="rounded-3xl glow" />
+          <img src={hero} alt={t.heroImgAlt} width={1600} height={1008} className="rounded-3xl glow" />
         </div>
       </section>
 
@@ -193,11 +201,11 @@ function Index() {
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between">
           <h2 className="text-4xl font-bold">{t.blogTitle}</h2>
-          <Link to="/blog" className="text-accent hover:underline">{t.allPosts}</Link>
+          <Link to="/{-$locale}/blog" params={{ locale: lp }} className="text-accent hover:underline">{t.allPosts}</Link>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {posts.slice(0, 2).map((p) => (
-            <Link key={p.slug} to="/blog/$slug" params={{ slug: p.slug }} className="group overflow-hidden rounded-3xl border border-border bg-card">
+            <Link key={p.slug} to="/{-$locale}/blog/$slug" params={{ locale: lp, slug: p.slug }} className="group overflow-hidden rounded-3xl border border-border bg-card">
               <img src={p.image} alt={p.title} loading="lazy" width={1200} height={752} className="aspect-[16/9] w-full object-cover transition group-hover:scale-105" />
               <div className="p-6">
                 <h3 className="text-xl font-bold">{p.title}</h3>

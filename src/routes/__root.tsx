@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useParams,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -25,7 +26,7 @@ function NotFoundComponent() {
         </p>
         <div className="mt-6">
           <Link
-            to="/"
+            to="/{-$locale}" params={{ locale: undefined }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
@@ -79,9 +80,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Better Visibility – SEO & GEO" },
-      { name: "description", content: "SEO- und GEO-Beratung und Umsetzung." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Better Visibility" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -99,8 +99,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const { locale } = useParams({ strict: false }) as { locale?: string };
   return (
-    <html lang="en">
+    <html lang={locale === "en" ? "en" : "de"}>
       <head>
         <HeadContent />
       </head>
