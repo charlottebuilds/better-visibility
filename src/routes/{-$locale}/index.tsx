@@ -80,16 +80,17 @@ function Index() {
           <p className="mt-3 text-muted-foreground">{t.packagesSub}</p>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {t.packages.map((pk, i) => (
-              <div key={i} className={`relative flex flex-col rounded-3xl border bg-card p-8 ${i === 1 ? "border-primary glow" : "border-border"}`}>
-                {i === 1 && <span className="absolute -top-3 left-8 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground">{t.popular}</span>}
-                <p className="font-display text-xl font-bold">{pk.n}</p>
+              <div key={i} className={`relative flex flex-col rounded-3xl border bg-card p-8 ${i === 2 ? "border-primary glow" : "border-border"}`}>
+                {i === 2 && <span className="absolute -top-3 left-8 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground">{t.popular}</span>}
+                <p className="text-xs uppercase tracking-widest text-accent">{pk.k}</p>
+                <p className="mt-1 font-display text-xl font-bold">{pk.n}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{pk.d}</p>
                 <p className="mt-6 font-display text-4xl font-bold text-gradient">{pk.p}</p>
                 <p className="mt-1 text-xs uppercase tracking-wider text-foreground/60">{pk.u} · {t.priceNote}</p>
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
-                <a href="#kontakt" className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 1 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+                <a href="#kontakt" className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
               </div>
             ))}
           </div>
@@ -142,7 +143,7 @@ function Index() {
           <div className="p-8 md:p-12">
             <p className="text-sm font-semibold uppercase tracking-widest text-accent">{cs.evidenceTitle}</p>
             <figure className="mt-6">
-              {ci === 1 ? (
+              {ci === 2 ? (
                 <div className="aspect-[1280/210] overflow-hidden rounded-2xl border border-border">
                   <img src={caseGsc} alt="Google Search Console: 100.247 clicks · 4,91 Mio. impressions · CTR 2 % · position 12,9" width={1280} height={528} loading="lazy" className="w-full" />
                 </div>

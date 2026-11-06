@@ -16,11 +16,11 @@ const en = {
     processTitle: "How we work",
     packagesTitle: "Fixed-price packages", packagesSub: "Clear services, clear price – choose the package that fits you.", priceNote: "plus VAT", choose: "Request package", popular: "Popular",
     packages: [
-      { n: "Check", p: "€ XXX", u: "one-time", d: "A quick overview of where you stand.", f: ["SEO & GEO audit", "Keyword potential analysis", "Top-10 action list", "60-min results call"] },
-      { n: "Growth", p: "€ X,XXX", u: "per month", d: "Ongoing optimization for more visibility.", f: ["Everything in “Check”", "Technical & on-page SEO", "2 optimized pieces / month", "GEO: visibility in AI search", "Monthly reporting"] },
-      { n: "Premium", p: "€ X,XXX", u: "per month", d: "Full support for strong growth.", f: ["Everything in “Growth”", "4 pieces / month", "Digital PR & link building", "LLM visibility monitoring", "Personal point of contact"] },
+      { k: "Consulting", n: "Check", p: "€ XXX", u: "one-time", d: "Where do you stand – and where is your potential?", f: ["SEO & GEO audit", "Keyword & search intent research", "Top-10 action roadmap", "60-min results call"] },
+      { k: "Consulting", n: "Strategy", p: "€ X,XXX", u: "per month", d: "Your team executes – I provide strategy and know-how.", f: ["Everything in “Check”", "Content strategy & E-E-A-T", "AI search & LLM visibility", "Workshops & team coaching", "Monthly strategy call"] },
+      { k: "Hands-on", n: "Organic Growth", p: "€ X,XXX", u: "per month", d: "I execute – for predictable inbound leads.", f: ["Everything in “Check”", "SEO & GEO campaigns", "Technical SEO", "Content marketing & digital PR", "Monthly reporting"] },
     ],
-    custom: { n: "Custom offer", p: "Price on request", d: "Your project doesn't fit a package? We'll build it together – beyond SEO too.", f: ["Marketing activities (content, social, campaigns)", "Website creation & relaunch", "Combine with any package"], cta: "Request offer" },
+    custom: { n: "Hands-on · Custom", p: "Price on request", d: "Website creation, relaunch or classic marketing? We put your package together.", f: ["Website creation & relaunch", "Online & social media marketing", "Combine with any package"], cta: "Request offer" },
     steps: ["Analysis", "Strategy", "Execution", "Measure & optimize"],
     storiesTitle: "Success stories",
     caseStudy: {

@@ -16,11 +16,11 @@ const es = {
     processTitle: "Cómo trabajamos",
     packagesTitle: "Paquetes a precio fijo", packagesSub: "Servicios claros, precio claro: elija el paquete que mejor le convenga.", priceNote: "IVA no incluido", choose: "Solicitar paquete", popular: "Popular",
     packages: [
-      { n: "Check", p: "€ XXX", u: "pago único", d: "Una visión rápida de dónde está.", f: ["Auditoría SEO y GEO", "Análisis de potencial de keywords", "Lista de 10 acciones clave", "Llamada de resultados de 60 min"] },
-      { n: "Crecimiento", p: "€ X.XXX", u: "al mes", d: "Optimización continua para más visibilidad.", f: ["Todo lo de «Check»", "SEO técnico y on-page", "2 contenidos optimizados / mes", "GEO: visibilidad en búsquedas con IA", "Informe mensual"] },
-      { n: "Premium", p: "€ X.XXX", u: "al mes", d: "Acompañamiento completo para un fuerte crecimiento.", f: ["Todo lo de «Crecimiento»", "4 contenidos / mes", "Digital PR y link building", "Monitorización de visibilidad en LLM", "Contacto personal"] },
+      { k: "Consultoría", n: "Check", p: "€ XXX", u: "pago único", d: "¿Dónde está – y dónde está su potencial?", f: ["Auditoría SEO y GEO", "Keywords e intención de búsqueda", "Hoja de ruta con 10 acciones", "Llamada de resultados de 60 min"] },
+      { k: "Consultoría", n: "Estrategia", p: "€ X.XXX", u: "al mes", d: "Su equipo ejecuta – yo aporto estrategia y know-how.", f: ["Todo lo de «Check»", "Estrategia de contenidos y E-E-A-T", "AI Search y visibilidad en LLM", "Talleres y coaching de equipos", "Llamada estratégica mensual"] },
+      { k: "Hands-on", n: "Organic Growth", p: "€ X.XXX", u: "al mes", d: "Yo ejecuto – para leads inbound previsibles.", f: ["Todo lo de «Check»", "Campañas SEO y GEO", "SEO técnico", "Content marketing y digital PR", "Informe mensual"] },
     ],
-    custom: { n: "Oferta individual", p: "Precio a consultar", d: "¿Su proyecto no encaja en un paquete? Lo diseñamos juntos, también más allá del SEO.", f: ["Acciones de marketing (contenido, social, campañas)", "Creación y relanzamiento de webs", "Combinable con cualquier paquete"], cta: "Solicitar oferta" },
+    custom: { n: "Hands-on · Individual", p: "Precio a consultar", d: "¿Creación de web, relanzamiento o marketing clásico? Diseñamos su paquete juntos.", f: ["Creación y relanzamiento de webs", "Marketing online y en redes sociales", "Combinable con cualquier paquete"], cta: "Solicitar oferta" },
     steps: ["Análisis", "Estrategia", "Ejecución", "Medir y optimizar"],
     storiesTitle: "Casos de éxito",
     caseStudy: {

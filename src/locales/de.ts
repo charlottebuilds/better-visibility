@@ -15,11 +15,11 @@ const de = {
     processTitle: "So arbeiten wir",
     packagesTitle: "Pakete zum Fixpreis", packagesSub: "Klare Leistungen, klarer Preis – wählen Sie das Paket, das zu Ihnen passt.", priceNote: "zzgl. MwSt.", choose: "Paket anfragen", popular: "Beliebt",
     packages: [
-      { n: "Check", p: "€ XXX", u: "einmalig", d: "Der schnelle Überblick, wo Sie stehen.", f: ["SEO- & GEO-Audit", "Keyword-Potenzialanalyse", "Top-10-Maßnahmenliste", "60 Min. Ergebnis-Call"] },
-      { n: "Wachstum", p: "€ X.XXX", u: "pro Monat", d: "Laufende Optimierung für mehr Sichtbarkeit.", f: ["Alles aus „Check“", "Technical & OnPage SEO", "2 optimierte Inhalte / Monat", "GEO: Sichtbarkeit in KI-Suchen", "Monatliches Reporting"] },
-      { n: "Premium", p: "€ X.XXX", u: "pro Monat", d: "Volle Betreuung für starkes Wachstum.", f: ["Alles aus „Wachstum“", "4 Inhalte / Monat", "Digital PR & Linkaufbau", "LLM-Visibility-Monitoring", "Persönliche Ansprechpartnerin"] },
+      { k: "Beratung", n: "Check", p: "€ XXX", u: "einmalig", d: "Wo stehen Sie – und wo liegt Ihr Potenzial?", f: ["SEO- & GEO-Audit", "Keyword- & Search-Intent-Recherche", "Top-10-Maßnahmen-Roadmap", "60 Min. Ergebnis-Call"] },
+      { k: "Beratung", n: "Strategie", p: "€ X.XXX", u: "pro Monat", d: "Ihr Team setzt um – ich liefere Strategie und Know-how.", f: ["Alles aus „Check“", "Content-Strategie & E-E-A-T", "AI Search & LLM Visibility", "Workshops & Team-Coaching", "Monatlicher Strategie-Call"] },
+      { k: "Hands-on", n: "Organic Growth", p: "€ X.XXX", u: "pro Monat", d: "Ich setze um – für planbare Inbound-Leads.", f: ["Alles aus „Check“", "SEO- & GEO-Kampagnen", "Technical SEO", "Content Marketing & Digital PR", "Monatliches Reporting"] },
     ],
-    custom: { n: "Individuelles Angebot", p: "Preis auf Anfrage", d: "Ihr Projekt passt in kein Paket? Wir stellen es gemeinsam zusammen – auch über SEO hinaus.", f: ["Marketing-Maßnahmen (Content, Social, Kampagnen)", "Websiteerstellung & Relaunch", "Kombination mit jedem Paket"], cta: "Angebot anfragen" },
+    custom: { n: "Hands-on · Individuell", p: "Preis auf Anfrage", d: "Websiteerstellung, Relaunch oder klassisches Marketing? Wir stellen Ihr Paket gemeinsam zusammen.", f: ["Websiteerstellung & Relaunch", "Online- & Social-Media-Marketing", "Kombinierbar mit jedem Paket"], cta: "Angebot anfragen" },
     steps: ["Analyse", "Strategie", "Umsetzung", "Messen & Optimieren"],
     storiesTitle: "Success Stories",
     caseStudy: {
