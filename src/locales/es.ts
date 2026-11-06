@@ -11,12 +11,8 @@ const es = {
     aboutDetails: { background: "Mi trayectoria y enfoque", skills: "Experiencia y herramientas", languages: "Idiomas" },
     nav: { services: "Servicios", process: "Proceso", stories: "Casos de éxito", about: "Sobre mí", blog: "Blog", contact: "Contacto" },
     hero: { h1a: "Que te encuentren – ", h1b: "en Google y en la IA.", p: "Consultoría y ejecución de campañas SEO y GEO que hacen visible tu marca donde buscan tus clientes.", cta: "Reservar llamada" },
-    services: [
-      { t: "Consultoría SEO", d: "Auditoría, investigación de palabras clave e intención de búsqueda y análisis de la competencia para descubrir tu potencial." },
-      { t: "Consultoría GEO", d: "AI Search y visibilidad en LLMs: haz que tu marca aparezca en ChatGPT, Perplexity y Google AI Overviews." },
-      { t: "Campañas SEO", d: "SEO técnico, arquitectura de contenidos, link building y digital PR: nosotros lo ejecutamos." },
-      { t: "Campañas GEO", d: "SEO semántico, contenido estructurado, E-E-A-T y monitoreo de tu visibilidad en IA." },
-    ],
+    services: [{ t: "Consultoría", s: "Estrategia y know-how", d: "Auditoría, análisis de competencia y keywords, intención de búsqueda y visibilidad en IA: recibe una hoja de ruta clara y la implementa usted o su equipo.", f: ["Auditoría SEO y GEO", "Keywords e intención de búsqueda", "AI Search y visibilidad en LLM", "Estrategia de contenidos y E-E-A-T", "Talleres y coaching de equipos"] }, { t: "Ejecución hands-on", s: "Crecimiento orgánico de una sola mano", d: "Implemento lo que genera leads inbound – medible y optimizado paso a paso.", f: ["Campañas SEO y GEO", "SEO técnico", "Creación y relanzamiento de webs", "Content marketing y digital PR", "Marketing online y en redes sociales"] }],
+    servicesIntro: "Crecimiento orgánico que genera leads inbound de forma constante – tanto si implementa la estrategia usted mismo como si lo quiere todo de una sola mano.",
     processTitle: "Cómo trabajamos",
     packagesTitle: "Paquetes a precio fijo", packagesSub: "Servicios claros, precio claro: elija el paquete que mejor le convenga.", priceNote: "IVA no incluido", choose: "Solicitar paquete", popular: "Popular",
     packages: [
@@ -28,7 +24,7 @@ const es = {
     steps: ["Análisis", "Estrategia", "Ejecución", "Medir y optimizar"],
     storiesTitle: "Casos de éxito",
     caseStudy: {
-      tag: "Caso de éxito · SEO y GEO",
+      tag: "Hands-on · Campaña SEO y GEO",
       client: "Sector salud · B2B2C · anonimizado",
       hero: "+700 %",
       heroLabel: "más tráfico orgánico mensual – de aprox. 350 hasta 2.800 (estimado)",
@@ -49,7 +45,7 @@ const es = {
       ],
     },
     caseStudy2: {
-      tag: "Caso de éxito · SEO y SEO técnico",
+      tag: "Hands-on · Campaña SEO y SEO técnico",
       client: "Software B2B · anonimizado",
       hero: "4,91 M",
       heroLabel: "impresiones en la búsqueda de Google – más de 100.000 clics en 16 meses",
@@ -86,6 +82,9 @@ const es = {
     years: "años de experiencia",
     blogTitle: "Del blog", allPosts: "Todos los artículos →",
     contactTitle: "¿Listo para más visibilidad?", contactP: "Hablemos de tu potencial en una primera llamada gratuita.",
+    footerLinks: { imprint: "Aviso legal", privacy: "Privacidad", blog: "Blog" },
+    legal: { imprint: { title: "Aviso legal", sub: "Información según el § 5 DDG (ley alemana de servicios digitales)", sections: [{ h: "Responsable", p: "Charlotte Götz\nbetter-visibility.com\n[Calle n.º]\n[CP ciudad]\nAlemania" }, { h: "Contacto", p: "Email: hallo@better-visibility.com\nTeléfono: [pendiente]" }, { h: "IVA", p: "NIF-IVA según § 27a UStG: [pendiente]" }, { h: "Responsable del contenido", p: "Charlotte Götz, dirección arriba indicada" }, { h: "Responsabilidad", p: "El contenido se ha elaborado con el máximo cuidado. Los operadores de enlaces externos son los únicos responsables de su contenido." }] }, privacy: { title: "Política de privacidad", sub: "Cómo se tratan sus datos según el RGPD", sections: [{ h: "Responsable", p: "Charlotte Götz, [dirección], hallo@better-visibility.com" }, { h: "Alojamiento y registros", p: "Al visitar esta web se tratan datos técnicamente necesarios (p. ej. IP, hora, navegador) para ofrecerla de forma segura (art. 6.1.f RGPD). Proveedor: [pendiente]." }, { h: "Contacto", p: "Si me escribe un email, trato sus datos para gestionar su consulta (art. 6.1.b RGPD)." }, { h: "Cookies y analítica", p: "Actualmente esta web no utiliza cookies de analítica ni de marketing. [Completar si se usan herramientas]" }, { h: "Sus derechos", p: "Tiene derecho de acceso, rectificación, supresión, limitación, portabilidad y oposición, y a reclamar ante una autoridad de control." }] } },
+    legalMeta: { imprint: { title: "Aviso legal – Better Visibility", description: "Aviso legal e información del responsable de better-visibility.com." }, privacy: { title: "Política de privacidad – Better Visibility", description: "Cómo better-visibility.com trata los datos personales." } },
     footer: "Consultoría SEO y GEO",
   } satisfies Dict;
 export default es;

@@ -54,10 +54,17 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const lp = localeParam(lang);
+  const cls = "transition-colors hover:text-accent";
   return (
     <footer className="border-t border-border py-10 text-center text-sm text-muted-foreground">
-      © {new Date().getFullYear()} better-visibility.com · {t.footer}
+      <p>© {new Date().getFullYear()} better-visibility.com · {t.footer}</p>
+      <nav aria-label="Footer" className="mt-3 flex justify-center gap-5 text-xs text-foreground/50">
+        <Link to="/{-$locale}/blog" params={{ locale: lp }} className={cls}>{t.footerLinks.blog}</Link>
+        <Link to="/{-$locale}/impressum" params={{ locale: lp }} className={cls}>{t.footerLinks.imprint}</Link>
+        <Link to="/{-$locale}/datenschutz" params={{ locale: lp }} className={cls}>{t.footerLinks.privacy}</Link>
+      </nav>
     </footer>
   );
 }

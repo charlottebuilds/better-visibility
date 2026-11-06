@@ -10,12 +10,8 @@ const de = {
     aboutDetails: { background: "Mein Hintergrund & Ansatz", skills: "Expertise & Tools", languages: "Sprachen" },
     nav: { services: "Leistungen", process: "Ablauf", stories: "Referenzen", about: "Über mich", blog: "Blog", contact: "Kontakt" },
     hero: { h1a: "Gefunden werden – ", h1b: "bei Google und in der KI.", p: "Beratung und Umsetzung von SEO- und GEO-Kampagnen, die Ihre Marke dort sichtbar machen, wo Kunden suchen.", cta: "Erstgespräch buchen" },
-    services: [
-      { t: "SEO-Beratung", d: "Audit, Keyword- & Search-Intent-Recherche und Wettbewerbsanalyse – damit Sie wissen, wo Ihr Potenzial liegt." },
-      { t: "GEO-Beratung", d: "AI Search & LLM Visibility: So wird Ihre Marke in ChatGPT, Perplexity und Google AI Overviews genannt." },
-      { t: "SEO-Kampagnen", d: "Technical SEO, Content-Architektur, Linkbuilding & Digital PR – wir setzen um." },
-      { t: "GEO-Kampagnen", d: "Semantic SEO, strukturierte Inhalte, E-E-A-T und Monitoring Ihrer KI-Sichtbarkeit." },
-    ],
+    services: [{ t: "Beratung", s: "Strategie & Know-how", d: "Audit, Wettbewerbs- und Keyword-Analyse, Search Intent und KI-Sichtbarkeit: Sie erhalten eine klare Roadmap und setzen selbst oder mit Ihrem Team um.", f: ["SEO- & GEO-Audit", "Keyword- & Search-Intent-Recherche", "AI Search & LLM Visibility", "Content-Strategie & E-E-A-T", "Workshops & Team-Coaching"] }, { t: "Hands-on Umsetzung", s: "Organic Growth aus einer Hand", d: "Ich setze um, was Inbound-Leads bringt – messbar und Schritt für Schritt optimiert.", f: ["SEO- & GEO-Kampagnen", "Technical SEO", "Websiteerstellung & Relaunch", "Content Marketing & Digital PR", "Online- & Social-Media-Marketing"] }],
+    servicesIntro: "Organic Growth, der planbar Inbound-Leads bringt – ob Sie die Strategie selbst umsetzen oder alles aus einer Hand möchten.",
     processTitle: "So arbeiten wir",
     packagesTitle: "Pakete zum Fixpreis", packagesSub: "Klare Leistungen, klarer Preis – wählen Sie das Paket, das zu Ihnen passt.", priceNote: "zzgl. MwSt.", choose: "Paket anfragen", popular: "Beliebt",
     packages: [
@@ -27,7 +23,7 @@ const de = {
     steps: ["Analyse", "Strategie", "Umsetzung", "Messen & Optimieren"],
     storiesTitle: "Success Stories",
     caseStudy: {
-      tag: "Case Study · SEO & GEO",
+      tag: "Hands-on · SEO- & GEO-Kampagne",
       client: "Health Care · B2B2C · anonymisiert",
       hero: "+700 %",
       heroLabel: "mehr monatlicher organischer Traffic – von ca. 350 auf bis zu 2.800 (geschätzt)",
@@ -48,7 +44,7 @@ const de = {
       ],
     },
     caseStudy2: {
-      tag: "Case Study · SEO & Technical SEO",
+      tag: "Hands-on · SEO-Kampagne & Technical SEO",
       client: "B2B Software · anonymisiert",
       hero: "4,91 Mio.",
       heroLabel: "Impressionen in der Google-Suche – über 100.000 Klicks in 16 Monaten",
@@ -85,6 +81,9 @@ const de = {
     years: "Jahre Erfahrung",
     blogTitle: "Aus dem Blog", allPosts: "Alle Beiträge →",
     contactTitle: "Bereit für mehr Sichtbarkeit?", contactP: "Lassen Sie uns in einem kostenlosen Erstgespräch Ihr Potenzial besprechen.",
+    footerLinks: { imprint: "Impressum", privacy: "Datenschutz", blog: "Blog" },
+    legal: { imprint: { title: "Impressum", sub: "Angaben gemäß § 5 DDG", sections: [{ h: "Anbieterin", p: "Charlotte Götz\nbetter-visibility.com\n[Straße Nr.]\n[PLZ Ort]\nDeutschland" }, { h: "Kontakt", p: "E-Mail: hallo@better-visibility.com\nTelefon: [Platzhalter]" }, { h: "Umsatzsteuer", p: "USt-IdNr. gemäß § 27a UStG: [Platzhalter]" }, { h: "Verantwortlich für den Inhalt", p: "Charlotte Götz, Anschrift wie oben" }, { h: "Haftung für Inhalte und Links", p: "Die Inhalte wurden mit größter Sorgfalt erstellt. Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich." }] }, privacy: { title: "Datenschutzerklärung", sub: "Informationen zur Verarbeitung Ihrer Daten nach DSGVO", sections: [{ h: "Verantwortliche", p: "Charlotte Götz, [Anschrift], hallo@better-visibility.com" }, { h: "Hosting & Server-Logs", p: "Beim Aufruf der Website werden technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt, Browser) verarbeitet, um die Seite sicher bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO). Hoster: [Platzhalter]." }, { h: "Kontaktaufnahme", p: "Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre Angaben zur Bearbeitung der Anfrage (Art. 6 Abs. 1 lit. b DSGVO)." }, { h: "Cookies & Analyse", p: "Diese Website setzt derzeit keine Analyse- oder Marketing-Cookies ein. [Bei Einsatz von Tools ergänzen]" }, { h: "Ihre Rechte", p: "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch sowie auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde." }] } },
+    legalMeta: { imprint: { title: "Impressum – Better Visibility", description: "Impressum und Anbieterkennzeichnung von better-visibility.com." }, privacy: { title: "Datenschutzerklärung – Better Visibility", description: "Wie better-visibility.com personenbezogene Daten verarbeitet." } },
     footer: "SEO & GEO Beratung",
   };
 export default de;

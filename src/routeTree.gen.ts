@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
+import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-$locale}/datenschutz'
+import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
 import { Route as Char123LocaleChar125BlogIndexRouteImport } from './routes/{-$locale}/blog.index'
 import { Route as Char123LocaleChar125BlogSlugRouteImport } from './routes/{-$locale}/blog.$slug'
 
@@ -17,6 +19,18 @@ const Char123LocaleChar125IndexRoute =
   Char123LocaleChar125IndexRouteImport.update({
     id: '/{-$locale}/',
     path: '/{-$locale}/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125DatenschutzRoute =
+  Char123LocaleChar125DatenschutzRouteImport.update({
+    id: '/{-$locale}/datenschutz',
+    path: '/{-$locale}/datenschutz',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ImpressumRoute =
+  Char123LocaleChar125ImpressumRouteImport.update({
+    id: '/{-$locale}/impressum',
+    path: '/{-$locale}/impressum',
     getParentRoute: () => rootRouteImport,
   } as any)
 const Char123LocaleChar125BlogIndexRoute =
@@ -33,31 +47,54 @@ const Char123LocaleChar125BlogSlugRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/{-$locale}/blog/': typeof Char123LocaleChar125BlogIndexRoute
 }
 export interface FileRoutesByTo {
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/{-$locale}/blog': typeof Char123LocaleChar125BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/{-$locale}/blog/': typeof Char123LocaleChar125BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/{-$locale}/' | '/{-$locale}/blog/$slug' | '/{-$locale}/blog/'
+  fullPaths:
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
+    | '/{-$locale}/'
+    | '/{-$locale}/blog/$slug'
+    | '/{-$locale}/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/{-$locale}' | '/{-$locale}/blog/$slug' | '/{-$locale}/blog'
+  to:
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
+    | '/{-$locale}'
+    | '/{-$locale}/blog/$slug'
+    | '/{-$locale}/blog'
   id:
-    '__root__' | '/{-$locale}/' | '/{-$locale}/blog/$slug' | '/{-$locale}/blog/'
+    | '__root__'
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
+    | '/{-$locale}/'
+    | '/{-$locale}/blog/$slug'
+    | '/{-$locale}/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  Char123LocaleChar125DatenschutzRoute: typeof Char123LocaleChar125DatenschutzRoute
+  Char123LocaleChar125ImpressumRoute: typeof Char123LocaleChar125ImpressumRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
   Char123LocaleChar125BlogSlugRoute: typeof Char123LocaleChar125BlogSlugRoute
   Char123LocaleChar125BlogIndexRoute: typeof Char123LocaleChar125BlogIndexRoute
@@ -70,6 +107,20 @@ declare module '@tanstack/react-router' {
       path: '/{-$locale}'
       fullPath: '/{-$locale}/'
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/datenschutz': {
+      id: '/{-$locale}/datenschutz'
+      path: '/{-$locale}/datenschutz'
+      fullPath: '/{-$locale}/datenschutz'
+      preLoaderRoute: typeof Char123LocaleChar125DatenschutzRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/impressum': {
+      id: '/{-$locale}/impressum'
+      path: '/{-$locale}/impressum'
+      fullPath: '/{-$locale}/impressum'
+      preLoaderRoute: typeof Char123LocaleChar125ImpressumRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/{-$locale}/blog/': {
@@ -90,6 +141,8 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  Char123LocaleChar125DatenschutzRoute: Char123LocaleChar125DatenschutzRoute,
+  Char123LocaleChar125ImpressumRoute: Char123LocaleChar125ImpressumRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
   Char123LocaleChar125BlogSlugRoute: Char123LocaleChar125BlogSlugRoute,
   Char123LocaleChar125BlogIndexRoute: Char123LocaleChar125BlogIndexRoute,

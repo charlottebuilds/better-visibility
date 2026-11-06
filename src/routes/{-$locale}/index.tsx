@@ -62,12 +62,16 @@ function Index() {
 
       <section id="leistungen" className="mx-auto max-w-6xl px-6 py-20">
         <h2 className="text-4xl font-bold">{t.nav.services}</h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <p className="mt-3 max-w-2xl text-muted-foreground">{t.servicesIntro}</p>
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
           {t.services.map((s, i) => (
             <div key={i} className="rounded-3xl border border-border bg-card p-8 transition hover:-translate-y-1 hover:border-primary">
-              <span className="font-display text-sm text-accent">0{i + 1}</span>
+              <span className="font-display text-sm text-accent">0{i + 1} · {s.s}</span>
               <h3 className="mt-3 text-2xl font-bold">{s.t}</h3>
               <p className="mt-3 text-muted-foreground">{s.d}</p>
+              <ul className="mt-6 space-y-2 text-sm">
+                {s.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
+              </ul>
             </div>
           ))}
         </div>
