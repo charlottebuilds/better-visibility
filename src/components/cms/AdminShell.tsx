@@ -2,7 +2,7 @@ import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { FileText, Tag, UserRound, LogOut, ArrowUpRight } from "lucide-react";
+import { FileText, Tag, UserRound, LogOut, ArrowUpRight, Sparkles } from "lucide-react";
 import type { ReactNode } from "react";
 export function AdminShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
@@ -52,6 +52,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <Link to="/admin/categories">
               <Tag />
               Kategorien
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" className="justify-start">
+            <Link to="/admin/ki-optimierung">
+              <Sparkles />
+              KI-Optimierung
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">

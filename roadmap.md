@@ -22,3 +22,5 @@
 - [x] Dynamische XML-Sitemap mit DE/EN/ES-Blogversionen (hreflang)
 - [x] JSON-LD Schema-Markup (Interview mit Charlotte zuerst)
 - [x] Kontakt-CTAs per WhatsApp mit Textvorlage
+- [x] KI SEO/GEO-Optimierung im CMS (Menüpunkt „KI-Optimierung“)
+- [ ] Google Drive für Bilder + Sicherungskopien (wartet auf Bestätigung der Drive-Verbindung durch Charlotte)

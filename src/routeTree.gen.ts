@@ -19,6 +19,7 @@ import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-
 import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminKiOptimierungRouteImport } from './routes/_authenticated/admin.ki-optimierung'
 import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin.profile'
 import { Route as ApiPublicBlogMediaRouteImport } from './routes/api.public.blog-media'
 import { Route as Char123LocaleChar125BlogIndexRouteImport } from './routes/{-$locale}/blog.index'
@@ -78,6 +79,12 @@ const AuthenticatedAdminCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminKiOptimierungRoute =
+  AuthenticatedAdminKiOptimierungRouteImport.update({
+    id: '/ki-optimierung',
+    path: '/ki-optimierung',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminProfileRoute =
   AuthenticatedAdminProfileRouteImport.update({
     id: '/profile',
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
@@ -152,6 +161,7 @@ export interface FileRoutesById {
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/impressum'
     | '/{-$locale}/'
     | '/admin/categories'
+    | '/admin/ki-optimierung'
     | '/admin/profile'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/impressum'
     | '/{-$locale}'
     | '/admin/categories'
+    | '/admin/ki-optimierung'
     | '/admin/profile'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
@@ -204,6 +216,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/impressum'
     | '/{-$locale}/'
     | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/ki-optimierung'
     | '/_authenticated/admin/profile'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/ki-optimierung': {
+      id: '/_authenticated/admin/ki-optimierung'
+      path: '/ki-optimierung'
+      fullPath: '/admin/ki-optimierung'
+      preLoaderRoute: typeof AuthenticatedAdminKiOptimierungRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/profile': {
       id: '/_authenticated/admin/profile'
       path: '/profile'
@@ -337,6 +357,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminKiOptimierungRoute: typeof AuthenticatedAdminKiOptimierungRoute
   AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminEditIdRoute: typeof AuthenticatedAdminEditIdRoute
@@ -344,6 +365,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+  AuthenticatedAdminKiOptimierungRoute: AuthenticatedAdminKiOptimierungRoute,
   AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminEditIdRoute: AuthenticatedAdminEditIdRoute,
