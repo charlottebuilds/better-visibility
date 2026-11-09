@@ -5,6 +5,7 @@ import { langs, useI18n, localeParam } from "@/lib/i18n";
 import brandMark from "@/assets/brand-mark.png";
 import { Button } from "@/components/ui/button";
 import { whatsappLink } from "@/components/ContactActions";
+import { openCookieSettings } from "@/lib/consent";
 
 export function SiteHeader() {
   const { t, lang } = useI18n();
@@ -72,6 +73,7 @@ export function SiteFooter() {
         <Link to="/{-$locale}/impressum" params={{ locale: lp }} className={cls}>{t.footerLinks.imprint}</Link>
         <Link to="/{-$locale}/datenschutz" params={{ locale: lp }} className={cls}>{t.footerLinks.privacy}</Link>
         <Link to="/auth" className={cls}>CMS</Link>
+        <button type="button" onClick={openCookieSettings} className={cls}>{t.cookie.footerLink}</button>
       </nav>
     </footer>
   );

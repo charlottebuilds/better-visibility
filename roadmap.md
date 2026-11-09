@@ -18,9 +18,12 @@
 - [x] Portrait Charlotte_BT.png an das Website-Design angepasst und in „Über mich" eingebaut
 - [x] CV-Buzzwords eingebaut: Skill-Chips in „Über mich", geschärfte Leistungstexte, Sprachenzeile
 - [x] Case Study: Branche „Health Care · B2B2C · anonymisiert", Traffic-Detail 350 → 2.800 ergänzt
-- [ ] Offen: echte Kontaktadresse (aktuell hallo@better-visibility.com), echte Blogtexte
+- [ ] Offen: echte Blogtexte, Anschrift und Firmierung (aktuell Platzhalter); Kontaktmail ist visibility@better-technologies.com
 - [x] Dynamische XML-Sitemap mit DE/EN/ES-Blogversionen (hreflang)
 - [x] JSON-LD Schema-Markup (Interview mit Charlotte zuerst)
 - [x] Kontakt-CTAs per WhatsApp mit Textvorlage
 - [x] KI SEO/GEO-Optimierung im CMS (Menüpunkt „KI-Optimierung“)
 - [ ] Google Drive für Bilder + Sicherungskopien (wartet auf Bestätigung der Drive-Verbindung durch Charlotte)
+- [x] Hosting/Auslieferung über Cloudflare und Veröffentlichung über GitHub in der Datenschutzerklärung ergänzt (DE/EN/ES)
+- [x] Cookie-Banner für Google Analytics: Einwilligung nötig, Auswahl später über „Cookie-Einstellungen“ im Fußzeilen-Menü änderbar
+- [ ] Google Analytics Messkennung hinterlegen (VITE_GA_MEASUREMENT_ID), damit die Einwilligung auch wirklich Daten sammelt
