@@ -19,3 +19,5 @@
 - [x] CV-Buzzwords eingebaut: Skill-Chips in „Über mich", geschärfte Leistungstexte, Sprachenzeile
 - [x] Case Study: Branche „Health Care · B2B2C · anonymisiert", Traffic-Detail 350 → 2.800 ergänzt
 - [ ] Offen: echte Kontaktadresse (aktuell hallo@better-visibility.com), echte Blogtexte
+- [x] Dynamische XML-Sitemap mit DE/EN/ES-Blogversionen (hreflang)
+- [ ] JSON-LD Schema-Markup (Interview mit Charlotte zuerst)

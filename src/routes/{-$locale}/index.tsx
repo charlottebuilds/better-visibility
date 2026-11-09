@@ -159,7 +159,9 @@ function Index() {
             <div className={`mt-8 grid items-start gap-8 ${c.imgs.length > 2 ? "md:grid-cols-2" : ""}`}>
               {c.imgs.slice(1).map((e, i) => (
                 <figure key={i}>
-                  <img src={e.src} alt={c.d.captions[i + 1]} width={e.w} height={e.h} loading="lazy" className="w-full rounded-2xl border border-border" />
+                  <div className={`${c.imgs.length > 2 ? "aspect-[16/10]" : ""} overflow-hidden rounded-2xl border border-border`}>
+                    <img src={e.src} alt={c.d.captions[i + 1]} width={e.w} height={e.h} loading="lazy" className={`w-full ${c.imgs.length > 2 ? "h-full scale-[1.06] object-cover" : ""}`} />
+                  </div>
                   <figcaption className="mt-3 text-sm text-foreground/70">{c.d.captions[i + 1]}</figcaption>
                 </figure>
               ))}
