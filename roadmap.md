@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Explizite Sprachversionen /de, /en, /es mit bidirektionalem hreflang und Haupt-URL als x-default
+
 - [x] Über mich modernisiert: kurze Vertrauenssignale, einmalige Erfahrungsangabe, interaktive Details und Hovereffekte in DE/EN/ES
 
 - [x] Navigation mit sichtbarem Mouseover-Effekt prüfen

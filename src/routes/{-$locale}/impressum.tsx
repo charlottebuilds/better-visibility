@@ -16,7 +16,7 @@ export const Route = createFileRoute("/{-$locale}/impressum")({
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },
       ],
-      links: seoLinks("/impressum", lang),
+      links: seoLinks("/impressum", lang, params.locale === "de"),
     };
   },
   component: () => <LegalPage kind="imprint" />,

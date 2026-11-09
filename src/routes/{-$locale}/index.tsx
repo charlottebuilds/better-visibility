@@ -27,7 +27,7 @@ export const Route = createFileRoute("/{-$locale}/")({
         { property: "og:locale", content: { de: "de_DE", en: "en_US", es: "es_ES" }[lang] },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: seoLinks("/", lang),
+      links: seoLinks("/", lang, params.locale === "de"),
     };
   },
   component: Index,

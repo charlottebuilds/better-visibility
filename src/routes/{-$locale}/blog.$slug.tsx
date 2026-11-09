@@ -11,7 +11,7 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
     return post;
   },
   head: ({ loaderData, params }) => ({
-    links: loaderData ? seoLinks(`/blog/${params.slug}`, langFromParam(params.locale)) : [],
+    links: loaderData ? seoLinks(`/blog/${params.slug}`, langFromParam(params.locale), params.locale === "de") : [],
     meta: loaderData
       ? [
           { title: `${loaderData.title} – Better Visibility` },

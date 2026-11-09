@@ -17,7 +17,7 @@ export const Route = createFileRoute("/{-$locale}/blog/")({
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: seoLinks("/blog", lang),
+      links: seoLinks("/blog", lang, params.locale === "de"),
     };
   },
   component: Blog,

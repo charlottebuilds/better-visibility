@@ -11,19 +11,18 @@ export const SITE_URL = "https://better-visibility.com";
 
 const dict = { de, en, es };
 
-/** Value for the optional {-$locale} URL segment: German has no prefix. */
-export const localeParam = (l: Lang) => (l === defaultLang ? undefined : l);
+/** Language-switcher destinations use explicit prefixes; / remains the fallback. */
+export const localeParam = (l: Lang) => l;
 export const langFromParam = (p?: string): Lang => (p === "en" || p === "es" ? p : "de");
-export const isValidLocaleParam = (p?: string) => p === undefined || p === "en" || p === "es";
+export const isValidLocaleParam = (p?: string) => p === undefined || p === "de" || p === "en" || p === "es";
 
 /** hreflang alternates + canonical for a path without locale prefix (e.g. "/blog"). */
-export function seoLinks(path: string, lang: Lang) {
-  const url = (l: Lang) => SITE_URL + (l === defaultLang ? path : path === "/" ? `/${l}` : `/${l}${path}`);
-  const deUrl = url("de");
+export function seoLinks(path: string, lang: Lang, prefixedGerman = false) {
+  const url = (l: Lang) => SITE_URL + (path === "/" ? `/${l}` : `/${l}${path}`);
   return [
-    { rel: "canonical", href: url(lang) },
+    { rel: "canonical", href: lang === "de" && !prefixedGerman ? SITE_URL + path : url(lang) },
     ...langs.map((l) => ({ rel: "alternate", hrefLang: l, href: url(l) })),
-    { rel: "alternate", hrefLang: "x-default", href: deUrl },
+    { rel: "alternate", hrefLang: "x-default", href: SITE_URL + path },
   ];
 }
 

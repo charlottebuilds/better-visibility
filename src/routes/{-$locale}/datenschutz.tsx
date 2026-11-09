@@ -16,7 +16,7 @@ export const Route = createFileRoute("/{-$locale}/datenschutz")({
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },
       ],
-      links: seoLinks("/datenschutz", lang),
+      links: seoLinks("/datenschutz", lang, params.locale === "de"),
     };
   },
   component: () => <LegalPage kind="privacy" />,
