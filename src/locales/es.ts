@@ -88,6 +88,7 @@ const es = {
     legalMeta: { imprint: { title: "Aviso legal – Better Visibility", description: "Aviso legal e información del responsable de better-visibility.com." }, privacy: { title: "Política de privacidad – Better Visibility", description: "Cómo better-visibility.com trata los datos personales." } },
     mail: { subject: "Consulta: paquete «{pkg}»", body: "Hola Charlotte:\n\nMe interesa el paquete «{pkg}» y me gustaría recibir más información y una oferta sin compromiso.\n\nEmpresa / web:\nObjetivos:\nInicio deseado:\n\nUn saludo\n" },
     booking: { title: "Reservar llamada", close: "Cerrar" },
+    whatsapp: { cta: "Contactar por WhatsApp", text: "Hola Charlotte, me interesan sus servicios de SEO/GEO y agradecería que me contactara.\n\nNombre:\nEmpresa / web:\nMi consulta:\nMi número de móvil (obligatorio):\n" },
     footer: "Consultoría SEO y GEO",
   } satisfies Dict;
 export default es;

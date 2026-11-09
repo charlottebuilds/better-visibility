@@ -11,7 +11,7 @@ import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { BookingDialog, packageMailto } from "@/components/ContactActions";
+import { BookingDialog, packageMailto, whatsappLink } from "@/components/ContactActions";
 import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
@@ -31,6 +31,26 @@ export const Route = createFileRoute("/{-$locale}/")({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: seoLinks("/", lang, params.locale === "de"),
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person", "@id": "https://better-visibility.com/#charlotte", name: "Charlotte Götz",
+              jobTitle: "Organic Growth Specialist · Content Strategist", email: "mailto:visibility@better-technologies.com",
+              url: "https://better-visibility.com/", sameAs: ["https://www.linkedin.com/in/charlotte-goetz-public/"],
+              knowsAbout: getDict(lang).skills, knowsLanguage: ["de", "en", "es"],
+            },
+            {
+              "@type": "ProfessionalService", "@id": "https://better-visibility.com/#service", name: "Better Visibility",
+              url: "https://better-visibility.com/", email: "visibility@better-technologies.com", areaServed: "Worldwide",
+              description: m.description, founder: { "@id": "https://better-visibility.com/#charlotte" },
+              hasOfferCatalog: { "@type": "OfferCatalog", name: getDict(lang).packagesTitle, itemListElement: getDict(lang).packages.map((p) => ({ "@type": "Offer", name: p.n, description: p.d })) },
+            },
+          ],
+        }),
+      }],
     };
   },
   component: Index,
@@ -239,9 +259,10 @@ function Index() {
         <div className="rounded-3xl bg-gradient-brand p-12 text-center text-primary-foreground">
           <h2 className="text-4xl font-bold md:text-5xl">{t.contactTitle}</h2>
           <p className="mx-auto mt-4 max-w-lg opacity-90">{t.contactP}</p>
-          <a href="mailto:visibility@better-technologies.com" className="mt-8 inline-block rounded-full bg-background px-8 py-3 font-semibold text-foreground">
-            visibility@better-technologies.com
-          </a>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full bg-background px-8 py-3 font-semibold text-foreground">{t.whatsapp.cta}</a>
+            <a href="mailto:visibility@better-technologies.com" className="inline-block rounded-full border border-primary-foreground/40 px-8 py-3 font-semibold">visibility@better-technologies.com</a>
+          </div>
         </div>
       </section>
       <SiteFooter />

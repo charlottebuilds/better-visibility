@@ -6,6 +6,8 @@ export const CONTACT_EMAIL = "visibility@better-technologies.com";
 const CALENDAR_URL =
   "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0sjmFn56dnkqi7939pqd9tAODgx-qskLHwHMfVouVaCPeaIb_AO-Y-jI0iBsmekVgyOMu8QODP?gv=true";
 
+export const whatsappLink = (text: string) => `https://wa.me/4917677883219?text=${encodeURIComponent(text)}`;
+
 export function packageMailto(t: { mail: { subject: string; body: string } }, pkg: string) {
   const fill = (s: string) => s.replaceAll("{pkg}", pkg);
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(fill(t.mail.subject))}&body=${encodeURIComponent(fill(t.mail.body))}`;
