@@ -1,0 +1,6 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { supabase } from '@/integrations/supabase/client';
+export const Route=createFileRoute('/_authenticated')({ssr:false,beforeLoad:async()=>{
+ const {data:{user}}=await supabase.auth.getUser();if(!user)throw redirect({to:'/auth'});
+ const {data:admin,error}=await supabase.rpc('cms_is_admin');if(error||!admin)throw redirect({to:'/auth'});
+},component:Outlet});
