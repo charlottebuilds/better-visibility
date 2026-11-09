@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Vollständiges Blog-CMS: geschützte Verwaltung, visueller Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung und Änderungshistorie (offen: Nutzerprofile und Übersetzungsablauf klären)
+
 - [x] Explizite Sprachversionen /de, /en, /es mit bidirektionalem hreflang und Haupt-URL als x-default
 
 - [x] Über mich modernisiert: kurze Vertrauenssignale, einmalige Erfahrungsangabe, interaktive Details und Hovereffekte in DE/EN/ES
