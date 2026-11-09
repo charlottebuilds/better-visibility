@@ -49,6 +49,9 @@ export const cleanContent = (html: string) =>
     allowedStyles: {
       "*": {
         "text-align": [/^(left|center|right)$/],
+        display: [/^block$/],
+        "margin-left": [/^(auto|0)$/],
+        "margin-right": [/^(auto|0)$/],
         width: [/^\d+(px|%)$/],
         "max-width": [/^\d+(px|%)$/],
       },
@@ -142,7 +145,7 @@ export const savePost = createServerFn({ method: "POST" })
       );
       if (
         existing?.published_snapshot &&
-        post.content !== existing.content &&
+        post.content !== (existing.published_snapshot as unknown as CmsPost).content &&
         post.updated_at === existing.updated_at
       )
         dates.updated_at = new Date().toISOString();

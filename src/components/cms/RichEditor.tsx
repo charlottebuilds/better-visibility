@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/cms/browser";
 import { mediaUrl } from "@/lib/cms/types";
+import { supabase } from "@/integrations/supabase/client";
 const InfoBox = Node.create({
   name: "infoBox",
   group: "block",
@@ -60,6 +61,11 @@ const SizedImage = Image.extend({
         parseHTML: (e) => e.getAttribute("width"),
         renderHTML: (a) => ({ width: a["width"], style: `width:${a["width"]};max-width:100%` }),
       },
+      alignment: {
+        default: "left",
+        parseHTML: (e) => e.style.marginLeft === "auto" ? (e.style.marginRight === "auto" ? "center" : "right") : "left",
+        renderHTML: (a) => ({ style: `display:block;margin-left:${a["alignment"] === "left" ? "0" : "auto"};margin-right:${a["alignment"] === "right" ? "0" : "auto"}` }),
+      },
     };
   },
 });
@@ -79,6 +85,7 @@ export function RichEditor({
   const [alt, setAlt] = useState("");
   const [caption, setCaption] = useState("");
   const [width, setWidth] = useState("100%");
+  const [alignment, setAlignment] = useState("left");
   const [path, setPath] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -103,6 +110,22 @@ export function RichEditor({
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     onSelectionUpdate: () => redraw((n) => n + 1),
   });
+  useEffect(() => {
+    if (!editor) return;
+    let live = true;
+    const resolveImages = () => {
+      editor.view.dom.querySelectorAll<HTMLImageElement>('img').forEach(async (img) => {
+        const url = new URL(img.src, window.location.origin);
+        const file = url.pathname === '/api/public/blog-media' ? url.searchParams.get('path') : null;
+        if (!file) return;
+        const { data } = await supabase.storage.from('blog-media').createSignedUrl(file, 3600);
+        if (live && data) img.src = data.signedUrl;
+      });
+    };
+    resolveImages();
+    editor.on('update', resolveImages);
+    return () => { live = false; editor.off('update', resolveImages); };
+  }, [editor]);
   useEffect(() => {
     if (editor && editor.getHTML() !== content && !editor.isFocused)
       editor.commands.setContent(content, { emitUpdate: false });
@@ -170,6 +193,7 @@ export function RichEditor({
         const a = editor.getAttributes("image");
         setAlt(a["alt"] ?? "");
         setWidth(a["width"] ?? "100%");
+        setAlignment(a["alignment"] ?? "left");
         setPath(a["src"] ?? "");
         setCaption("");
         setDialog("image");
@@ -405,6 +429,11 @@ export function RichEditor({
                     <option value="25%">25 %</option>
                   </select>
                 </label>
+                <label className="cms-label">Bildausrichtung
+                  <select className="cms-input w-full" value={alignment} onChange={(e) => setAlignment(e.target.value)}>
+                    <option value="left">Links</option><option value="center">Mittig</option><option value="right">Rechts</option>
+                  </select>
+                </label>
               </div>
             )}
             {error && (
@@ -476,7 +505,7 @@ export function RichEditor({
                       editor
                         .chain()
                         .focus()
-                        .updateAttributes("image", { src: path, alt, width })
+                        .updateAttributes("image", { src: path, alt, width, alignment })
                         .run();
                     else
                       editor
@@ -485,7 +514,7 @@ export function RichEditor({
                         .insertContent({
                           type: "figure",
                           content: [
-                            { type: "image", attrs: { src: path, alt, width } },
+                            { type: "image", attrs: { src: path, alt, width, alignment } },
                             ...(caption
                               ? [{ type: "figcaption", content: [{ type: "text", text: caption }] }]
                               : []),
