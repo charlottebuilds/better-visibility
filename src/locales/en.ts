@@ -10,7 +10,7 @@ const en = {
     aboutIntro: "I make companies visible on Google and in AI search – with a clear strategy, relevant content and hands-on execution.",
     aboutDetails: { background: "My approach", skills: "Expertise & tools", languages: "Languages" },
     aboutProof: ["Journalism background", "Strategy & hands-on execution", "Data-led decisions"],
-    nav: { services: "Services", process: "Process", stories: "Case studies", about: "About me", blog: "Blog", contact: "Contact" },
+    nav: { services: "Services", process: "Process", stories: "Success Stories", about: "About me", blog: "Blog", contact: "Contact" },
     hero: { h1a: "Get found – ", h1b: "on Google and in AI.", p: "Consulting and execution of SEO and GEO campaigns that make your brand visible where customers search.", cta: "Book a free call" },
     services: [{ t: "Consulting", s: "Strategy & know-how", d: "Audit, competitor and keyword analysis, search intent and AI visibility: you get a clear roadmap and implement it yourself or with your team.", f: ["SEO & GEO audit", "Keyword & search intent research", "AI search & LLM visibility", "Content strategy & E-E-A-T", "Workshops & team coaching"] }, { t: "Hands-on execution", s: "Organic growth from one source", d: "I implement what drives inbound leads – measurable and optimized step by step.", f: ["SEO & GEO campaigns", "Technical SEO", "Website creation & relaunch", "Content marketing & digital PR", "Online & social media marketing"] }],
     servicesIntro: "Organic growth that reliably generates inbound leads – whether you implement the strategy yourself or want everything from one source.",
