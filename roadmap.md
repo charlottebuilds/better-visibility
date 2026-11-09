@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Über mich modernisiert: kurze Vertrauenssignale, einmalige Erfahrungsangabe, interaktive Details und Hovereffekte in DE/EN/ES
+
 - [x] Navigation mit sichtbarem Mouseover-Effekt prüfen
 - [x] B2B-Screenshot auf den gewünschten Kennzahlen-Ausschnitt reduzieren und Beispielkästen entfernen
 - [x] Sprachen-Reiter entfernen und Portrait-Hintergrund dezenter gestalten

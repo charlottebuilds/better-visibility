@@ -91,8 +91,21 @@
 .site-nav-link:focus-visible { color: var(--accent); }
 .site-nav-link:hover::after,
 .site-nav-link:focus-visible::after { transform: scaleX(1); }
+.about-portrait { transition: border-color 220ms ease; }
+.about-portrait:hover { border-color: var(--accent); }
+.about-proof { transition: color 180ms ease, transform 180ms ease; }
+.about-proof:hover { color: var(--accent); transform: translateX(4px); }
+.about-detail { border-radius: 8px; transition: background-color 180ms ease; }
+.about-detail:hover, .about-detail[data-state="open"] {
+  background-color: color-mix(in oklab, var(--secondary) 55%, transparent);
+}
+.about-trigger:hover, .about-trigger[data-state="open"] { color: var(--accent); }
+.about-skill { transition: border-color 180ms ease, color 180ms ease; }
+.about-skill:hover { border-color: var(--accent); color: var(--foreground); }
 @media (prefers-reduced-motion: reduce) {
   .site-nav-link, .site-nav-link::after { transition: none; }
+  .about-portrait, .about-proof, .about-detail, .about-skill { transition: none; }
+  .about-proof:hover { transform: none; }
 }
 
 @layer base {

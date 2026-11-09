@@ -10,6 +10,7 @@ import { posts } from "@/lib/posts";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
   beforeLoad: ({ params }) => { if (!isValidLocaleParam(params.locale)) throw notFound(); },
@@ -166,36 +167,43 @@ function Index() {
 
       </section>
 
-      <section id="ueber-mich" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12">
-          <div className="relative mx-auto w-full max-w-72 md:max-w-none">
-            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-square w-full rounded-3xl object-cover" />
-            <div className="absolute bottom-4 left-4 rounded-2xl bg-gradient-brand px-5 py-3 text-primary-foreground shadow-lg">
-              <p className="font-display text-2xl font-bold leading-none">10+</p>
-              <p className="mt-1 text-[11px] uppercase tracking-widest">{t.years}</p>
+      <section id="ueber-mich" className="about-section mx-auto max-w-6xl px-6 py-20">
+        <div className="grid items-start gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-12">
+          <div className="about-portrait group relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-border md:max-w-none">
+            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-[4/5] w-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.025]" />
+            <div className="absolute inset-x-0 bottom-0 flex items-center gap-4 border-t border-border bg-background/90 px-6 py-5 backdrop-blur-md">
+              <p className="font-display text-4xl font-bold text-gradient">10+</p>
+              <p className="max-w-32 text-sm text-foreground">{t.years}</p>
+              <ArrowUpRight aria-hidden="true" className="ml-auto h-6 w-6 text-accent" />
             </div>
           </div>
-          <div>
-            <h2 className="text-4xl font-bold">{t.aboutTitle}</h2>
-            <p className="mt-4 font-display text-2xl font-bold">Charlotte Götz</p>
-            <p className="mt-2 font-display text-lg text-accent">{t.aboutRole}</p>
-            <p className="mt-4 text-muted-foreground">{t.aboutIntro}</p>
-            <Accordion key={t.aboutTitle} type="single" collapsible className="mt-6 border-t border-border">
-              <AccordionItem value="background">
-                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.background}</AccordionTrigger>
-                <AccordionContent className="space-y-3 leading-relaxed text-muted-foreground">
+          <div className="min-w-0 md:py-2">
+            <h2 className="flex items-center gap-3 text-sm font-semibold text-accent"><span aria-hidden="true" className="h-px w-8 bg-gradient-brand" />{t.aboutTitle}</h2>
+            <p className="mt-4 font-display text-4xl font-bold leading-tight lg:text-5xl">Charlotte <span className="text-gradient">Götz</span></p>
+            <p className="mt-3 text-sm font-semibold text-foreground/80">{t.aboutRole}</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">{t.aboutIntro}</p>
+            <ul className="mt-6 grid gap-3 border-y border-border py-5">
+              {t.aboutProof.map((proof, i) => {
+                const Icon = [PenLine, Layers, ChartNoAxesCombined][i] ?? PenLine;
+                return <li key={proof} className="about-proof flex items-center gap-3 text-sm"><Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />{proof}</li>;
+              })}
+            </ul>
+            <Accordion key={t.aboutTitle} type="single" collapsible className="mt-4">
+              <AccordionItem value="background" className="about-detail">
+                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-4"><span aria-hidden="true" className="text-xs font-normal text-accent">01</span>{t.aboutDetails.background}</span></AccordionTrigger>
+                <AccordionContent className="space-y-3 px-3 leading-relaxed text-muted-foreground">
                   <p>{t.aboutP1}</p>
                   <p>{t.aboutP2}</p>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="skills">
-                <AccordionTrigger className="gap-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.skills}</AccordionTrigger>
-                <AccordionContent>
-                  <div className="flex flex-wrap gap-2">
+              <AccordionItem value="skills" className="about-detail">
+                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-4"><span aria-hidden="true" className="text-xs font-normal text-accent">02</span>{t.aboutDetails.skills}</span></AccordionTrigger>
+                <AccordionContent className="px-3 pt-2">
+                  <ul className="flex flex-wrap gap-2">
                     {t.skills.map((s) => (
-                      <span key={s} className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-foreground/80">{s}</span>
+                      <li key={s} className="about-skill rounded-lg border border-border bg-secondary px-3 py-2 text-xs text-foreground/80">{s}</li>
                     ))}
-                  </div>
+                  </ul>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
