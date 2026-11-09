@@ -8,6 +8,13 @@
       "when": 1794225103014,
       "tag": "0000_blog_cms_core",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794225543608,
+      "tag": "0001_cms_public_snapshot_boundaries",
+      "breakpoints": true
     }
   ]
 }

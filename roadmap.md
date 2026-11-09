@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Vollständiges Blog-CMS: geschützte Verwaltung, visueller Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung und Änderungshistorie (offen: Nutzerprofile und Übersetzungsablauf klären)
+- [ ] Vollständiges Blog-CMS: geschützte Verwaltung, visueller Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung und Änderungshistorie (Umsetzung und Prüfung laufen; Nutzerprofile und verknüpfte Übersetzungen gewählt)
 
 - [x] Explizite Sprachversionen /de, /en, /es mit bidirektionalem hreflang und Haupt-URL als x-default
 

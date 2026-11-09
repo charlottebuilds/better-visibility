@@ -1,10 +1,134 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useQuery,useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { adminData } from '@/lib/cms/browser';
-import { supabase } from '@/integrations/supabase/client';
-import { slugify } from '@/lib/cms/types';
-import { Button } from '@/components/ui/button';
-import { Plus,Save,Trash2 } from 'lucide-react';
-export const Route=createFileRoute('/_authenticated/admin/categories')({component:Categories});
-function Categories(){const queryClient=useQueryClient();const {data}=useQuery({queryKey:['cms-admin'],queryFn:adminData});const [name,setName]=useState('');const [message,setMessage]=useState('');return <><h1 className="text-3xl font-bold">Kategorien</h1><form className="mt-6 flex flex-wrap gap-3" onSubmit={async e=>{e.preventDefault();const {error}=await supabase.from('blog_categories').insert({name,slug:slugify(name)});if(error)setMessage(error.message);else{setName('');await queryClient.invalidateQueries({queryKey:['cms-admin']});}}><input className="cms-input" aria-label="Neue Kategorie" placeholder="Neue Kategorie" required value={name} onChange={e=>setName(e.target.value)}/><Button><Plus/>Hinzufügen</Button></form>{message&&<p role="alert" className="mt-4 text-accent">{message}</p>}<div className="mt-8 space-y-4">{data?.categories.map(c=><form key={c.id} className="flex flex-wrap items-center gap-3 border-b border-border pb-4" onSubmit={async e=>{e.preventDefault();const fields=new FormData(e.currentTarget);const {error}=await supabase.from('blog_categories').update({name:String(fields.get('name')),slug:String(fields.get('slug')),active:fields.get('active')==='on'}).eq('id',c.id);if(error)setMessage(error.message);else{setMessage('Kategorie gespeichert.');await queryClient.invalidateQueries({queryKey:['cms-admin']});}}><input aria-label={`Name ${c.name}`} name="name" defaultValue={c.name} required className="cms-input"/><input aria-label={`URL ${c.name}`} name="slug" defaultValue={c.slug} pattern="[a-z0-9]+(-[a-z0-9]+)*" required className="cms-input"/><label className="flex gap-2 text-sm"><input name="active" type="checkbox" defaultChecked={c.active}/>Aktiv</label><Button size="icon" variant="outline" type="submit" aria-label={`Speichern ${c.name}`} title="Speichern"><Save/></Button><Button size="icon" type="button" variant="ghost" aria-label={`Löschen ${c.name}`} title="Löschen" onClick={async()=>{if(!window.confirm('Kategorie löschen? Beiträge bleiben erhalten.'))return;const {error}=await supabase.from('blog_categories').delete().eq('id',c.id);if(error)setMessage(error.message);else await queryClient.invalidateQueries({queryKey:['cms-admin']});}}><Trash2/></Button></form>)}</div></>;}
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { adminData } from "@/lib/cms/browser";
+import { supabase } from "@/integrations/supabase/client";
+import { slugify } from "@/lib/cms/types";
+import { Button } from "@/components/ui/button";
+import { Plus, Save, Trash2 } from "lucide-react";
+export const Route = createFileRoute("/_authenticated/admin/categories")({
+  head: () => ({
+    meta: [
+      { title: "Kategorien – Better Visibility CMS" },
+      { name: "description", content: "Blogkategorien verwalten und bearbeiten." },
+      { property: "og:title", content: "Kategorien – Better Visibility CMS" },
+      { property: "og:description", content: "Blogkategorien verwalten und bearbeiten." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: Categories,
+});
+function Categories() {
+  const queryClient = useQueryClient();
+  const { data } = useQuery({ queryKey: ["cms-admin"], queryFn: adminData });
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  return (
+    <>
+      <h1 className="text-3xl font-bold">Kategorien</h1>
+      <form
+        className="mt-6 flex flex-wrap gap-3"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const { error } = await supabase
+            .from("blog_categories")
+            .insert({ name, slug: slugify(name) });
+          if (error) setMessage(error.message);
+          else {
+            setName("");
+            await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
+          }
+        }}
+      >
+        <input
+          className="cms-input"
+          aria-label="Neue Kategorie"
+          placeholder="Neue Kategorie"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Button>
+          <Plus />
+          Hinzufügen
+        </Button>
+      </form>
+      {message && (
+        <p role="alert" className="mt-4 text-accent">
+          {message}
+        </p>
+      )}
+      <div className="mt-8 space-y-4">
+        {data?.categories.map((c) => (
+          <form
+            key={c.id}
+            className="flex flex-wrap items-center gap-3 border-b border-border pb-4"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const fields = new FormData(e.currentTarget);
+              const { error } = await supabase
+                .from("blog_categories")
+                .update({
+                  name: String(fields.get("name")),
+                  slug: String(fields.get("slug")),
+                  active: fields.get("active") === "on",
+                })
+                .eq("id", c.id);
+              if (error) setMessage(error.message);
+              else {
+                setMessage("Kategorie gespeichert.");
+                await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
+              }
+            }}
+          >
+            <input
+              aria-label={`Name ${c.name}`}
+              name="name"
+              defaultValue={c.name}
+              required
+              className="cms-input"
+            />
+            <input
+              aria-label={`URL ${c.name}`}
+              name="slug"
+              defaultValue={c.slug}
+              pattern="[a-z0-9]+(-[a-z0-9]+)*"
+              required
+              className="cms-input"
+            />
+            <label className="flex gap-2 text-sm">
+              <input name="active" type="checkbox" defaultChecked={c.active} />
+              Aktiv
+            </label>
+            <Button
+              size="icon"
+              variant="outline"
+              type="submit"
+              aria-label={`Speichern ${c.name}`}
+              title="Speichern"
+            >
+              <Save />
+            </Button>
+            <Button
+              size="icon"
+              type="button"
+              variant="ghost"
+              aria-label={`Löschen ${c.name}`}
+              title="Löschen"
+              onClick={async () => {
+                if (!window.confirm("Kategorie löschen? Beiträge bleiben erhalten.")) return;
+                const { error } = await supabase.from("blog_categories").delete().eq("id", c.id);
+                if (error) setMessage(error.message);
+                else await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
+              }}
+            >
+              <Trash2 />
+            </Button>
+          </form>
+        ))}
+      </div>
+    </>
+  );
+}

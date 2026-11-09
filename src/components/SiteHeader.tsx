@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getPublicBlog } from "@/lib/cms/public.functions";
 import { langs, useI18n, localeParam } from "@/lib/i18n";
 import brandMark from "@/assets/brand-mark.png";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,10 @@ import { Button } from "@/components/ui/button";
 export function SiteHeader() {
   const { t, lang } = useI18n();
   const lp = localeParam(lang);
+  const location = useLocation();
+  const slug = location.pathname.match(/\/blog\/([^/]+)\/?$/)?.[1];
+  const { data: blog } = useQuery({ queryKey: ["cms-language-links"], queryFn: () => getPublicBlog({ data: {} }), enabled: Boolean(slug) });
+  const currentPost = blog?.posts.find(p => p.slug === slug && p.locale === lang);
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-x-3 gap-y-4 px-4 py-4 sm:px-6 lg:flex lg:justify-between">
@@ -32,7 +38,7 @@ export function SiteHeader() {
                 {i > 0 && <span aria-hidden className="mx-1.5 text-border">/</span>}
                 <Link
                   to="."
-                  params={(prev: Record<string, string | undefined>) => ({ ...prev, locale: localeParam(l) })}
+                  params={(prev: Record<string, string | undefined>) => ({ ...prev, locale: localeParam(l), ...(slug ? { slug: blog?.posts.find(p => p.translation_group === currentPost?.translation_group && p.locale === l)?.slug ?? slug } : {}) })}
                   hrefLang={l}
                   aria-current={lang === l ? "true" : undefined}
                   className={`uppercase transition-colors ${lang === l ? "text-foreground" : "text-muted-foreground hover:text-accent"}`}
@@ -64,6 +70,7 @@ export function SiteFooter() {
         <Link to="/{-$locale}/blog" params={{ locale: lp }} className={cls}>{t.footerLinks.blog}</Link>
         <Link to="/{-$locale}/impressum" params={{ locale: lp }} className={cls}>{t.footerLinks.imprint}</Link>
         <Link to="/{-$locale}/datenschutz" params={{ locale: lp }} className={cls}>{t.footerLinks.privacy}</Link>
+        <Link to="/auth" className={cls}>CMS</Link>
       </nav>
     </footer>
   );

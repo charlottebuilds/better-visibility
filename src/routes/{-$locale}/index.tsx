@@ -6,7 +6,8 @@ import caseAhrefs from "@/assets/case-ahrefs.png";
 import caseGsc from "@/assets/case2-gsc.png";
 import caseHealth from "@/assets/case2-health.png";
 import portrait from "@/assets/portrait-charlotte-subtle.jpg";
-import { posts } from "@/lib/posts";
+import { getPublicBlog } from "@/lib/cms/public.functions";
+import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -14,6 +15,7 @@ import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react
 
 export const Route = createFileRoute("/{-$locale}/")({
   beforeLoad: ({ params }) => { if (!isValidLocaleParam(params.locale)) throw notFound(); },
+  loader: ({ params }) => getPublicBlog({ data: { locale: langFromParam(params.locale) } }),
   head: ({ params }) => {
     const lang = langFromParam(params.locale);
     const m = getDict(lang).meta.home;
@@ -34,6 +36,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
+  const { posts } = Route.useLoaderData();
   const { t, lang } = useI18n();
   const lp = localeParam(lang);
   const cs = t.caseStudy;
@@ -219,7 +222,7 @@ function Index() {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {posts.slice(0, 2).map((p) => (
             <Link key={p.slug} to="/{-$locale}/blog/$slug" params={{ locale: lp, slug: p.slug }} className="group overflow-hidden rounded-3xl border border-border bg-card">
-              <img src={p.image} alt={p.title} loading="lazy" width={1200} height={752} className="aspect-[16/9] w-full object-cover transition group-hover:scale-105" />
+              {p.cover_path && <img src={mediaUrl(p.cover_path)} alt={p.cover_alt} loading="lazy" width={1200} height={752} className="aspect-[16/9] w-full object-cover transition group-hover:scale-105" />}
               <div className="p-6">
                 <h3 className="text-xl font-bold">{p.title}</h3>
                 <p className="mt-2 text-muted-foreground">{p.excerpt}</p>

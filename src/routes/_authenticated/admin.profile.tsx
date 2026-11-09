@@ -1,9 +1,142 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { uploadImage } from '@/lib/cms/browser';
-import { manageUser } from '@/lib/cms/admin.functions';
-import { Button } from '@/components/ui/button';
-export const Route=createFileRoute('/_authenticated/admin/profile')({component:Profile});
-function Profile(){const [message,setMessage]=useState('');const [avatar,setAvatar]=useState('');const {data}=useQuery({queryKey:['cms-profile'],queryFn:async()=>{const {data:{user}}=await supabase.auth.getUser();if(!user)throw new Error('Bitte anmelden.');const {data:profile,error}=await supabase.from('profiles').select('*').eq('id',user.id).single();if(error)throw error;if(profile.avatar_path){const {data:signed}=await supabase.storage.from('blog-media').createSignedUrl(profile.avatar_path,3600);setAvatar(signed?.signedUrl??'');}return profile;}});return <><h1 className="text-3xl font-bold">Profil & Team</h1><form className="mt-8 max-w-lg space-y-5" onSubmit={async e=>{e.preventDefault();if(!data)return;const f=new FormData(e.currentTarget);const {error}=await supabase.from('profiles').update({display_name:String(f.get('name')),preferences:{language:String(f.get('language'))}}).eq('id',data.id);setMessage(error?.message??'Profil gespeichert.');}}>{avatar&&<img src={avatar} alt="Dein Profilbild" className="h-24 w-24 rounded-lg object-cover"/>}<label className="cms-label">Profilbild<input type="file" accept="image/jpeg,image/png,image/webp" onChange={async e=>{const file=e.target.files?.[0];if(!file||!data)return;try{const image=await uploadImage(file);const {error}=await supabase.from('profiles').update({avatar_path:image.path}).eq('id',data.id);if(error)throw error;setAvatar(image.preview);}catch(e){setMessage(e instanceof Error?e.message:'Upload fehlgeschlagen.');}}}/></label><label className="cms-label">Anzeigename<input name="name" key={data?.id} defaultValue={data?.display_name} className="cms-input w-full"/></label><label className="cms-label">Bevorzugte Beitragssprache<select name="language" className="cms-input w-full"><option value="de">Deutsch</option><option value="en">Englisch</option><option value="es">Spanisch</option></select></label><Button>Profil speichern</Button></form><section className="mt-12 max-w-lg border-t border-border pt-8"><h2 className="text-xl font-bold">Administrator einladen</h2><form className="mt-5 space-y-4" onSubmit={async e=>{e.preventDefault();const f=new FormData(e.currentTarget);try{await manageUser({data:{email:String(f.get('email')),admin:true}});setMessage('Einladung versendet.');}catch(e){setMessage(e instanceof Error?e.message:'Einladung fehlgeschlagen.');}}}><label className="cms-label">E-Mail-Adresse<input name="email" type="email" required className="cms-input w-full"/></label><Button variant="outline">Einladung senden</Button></form></section>{message&&<p role="status" className="mt-6 text-accent">{message}</p>}</>;}
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { uploadImage } from "@/lib/cms/browser";
+import { manageUser } from "@/lib/cms/admin.functions";
+import { Button } from "@/components/ui/button";
+export const Route = createFileRoute("/_authenticated/admin/profile")({
+  head: () => ({
+    meta: [
+      { title: "Profil und Team – Better Visibility CMS" },
+      { name: "description", content: "Nutzerprofil und Administrator-Einladungen verwalten." },
+      { property: "og:title", content: "Profil und Team – Better Visibility CMS" },
+      {
+        property: "og:description",
+        content: "Nutzerprofil und Administrator-Einladungen verwalten.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: Profile,
+});
+function Profile() {
+  const [message, setMessage] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const { data } = useQuery({
+    queryKey: ["cms-profile"],
+    queryFn: async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Bitte anmelden.");
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+      if (error) throw error;
+      if (profile.avatar_path) {
+        const { data: signed } = await supabase.storage
+          .from("blog-media")
+          .createSignedUrl(profile.avatar_path, 3600);
+        setAvatar(signed?.signedUrl ?? "");
+      }
+      return profile;
+    },
+  });
+  return (
+    <>
+      <h1 className="text-3xl font-bold">Profil & Team</h1>
+      <form
+        className="mt-8 max-w-lg space-y-5"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          if (!data) return;
+          const f = new FormData(e.currentTarget);
+          const { error } = await supabase
+            .from("profiles")
+            .update({
+              display_name: String(f.get("name")),
+              preferences: { language: String(f.get("language")) },
+            })
+            .eq("id", data.id);
+          setMessage(error?.message ?? "Profil gespeichert.");
+        }}
+      >
+        {avatar && (
+          <img src={avatar} alt="Dein Profilbild" className="h-24 w-24 rounded-lg object-cover" />
+        )}
+        <label className="cms-label">
+          Profilbild
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file || !data) return;
+              try {
+                const image = await uploadImage(file);
+                const { error } = await supabase
+                  .from("profiles")
+                  .update({ avatar_path: image.path })
+                  .eq("id", data.id);
+                if (error) throw error;
+                setAvatar(image.preview);
+              } catch (e) {
+                setMessage(e instanceof Error ? e.message : "Upload fehlgeschlagen.");
+              }
+            }}
+          />
+        </label>
+        <label className="cms-label">
+          Anzeigename
+          <input
+            name="name"
+            key={data?.id}
+            defaultValue={data?.display_name}
+            className="cms-input w-full"
+          />
+        </label>
+        <label className="cms-label">
+          Bevorzugte Beitragssprache
+          <select name="language" className="cms-input w-full">
+            <option value="de">Deutsch</option>
+            <option value="en">Englisch</option>
+            <option value="es">Spanisch</option>
+          </select>
+        </label>
+        <Button>Profil speichern</Button>
+      </form>
+      <section className="mt-12 max-w-lg border-t border-border pt-8">
+        <h2 className="text-xl font-bold">Administrator einladen</h2>
+        <form
+          className="mt-5 space-y-4"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const f = new FormData(e.currentTarget);
+            try {
+              await manageUser({ data: { email: String(f.get("email")), admin: true } });
+              setMessage("Einladung versendet.");
+            } catch (e) {
+              setMessage(e instanceof Error ? e.message : "Einladung fehlgeschlagen.");
+            }
+          }}
+        >
+          <label className="cms-label">
+            E-Mail-Adresse
+            <input name="email" type="email" required className="cms-input w-full" />
+          </label>
+          <Button variant="outline">Einladung senden</Button>
+        </form>
+      </section>
+      {message && (
+        <p role="status" className="mt-6 text-accent">
+          {message}
+        </p>
+      )}
+    </>
+  );
+}
