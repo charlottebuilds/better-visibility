@@ -39,15 +39,8 @@ function Auth() {
       else setMessage("Angemeldet, aber noch nicht für die Blogverwaltung freigeschaltet.");
     }
     void check();
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (["SIGNED_IN", "SIGNED_OUT", "USER_UPDATED"].includes(event))
-        setTimeout(() => void check(), 0);
-    });
     return () => {
       live = false;
-      subscription.unsubscribe();
     };
   }, [navigate]);
   async function login(event: React.FormEvent) {

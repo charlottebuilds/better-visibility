@@ -1,5 +1,7 @@
 import { mediaUrl, type PublicPost } from "@/lib/cms/types";
 import { cmsText } from "@/locales/cms";
+import { useEffect, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
 export function Article({
   post,
   categories = [],
@@ -9,6 +11,19 @@ export function Article({
   categories?: { id: string; name: string }[];
   previewImage?: string;
 }) {
+  const body = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!previewImage || !body.current) return;
+    let live = true;
+    body.current.querySelectorAll<HTMLImageElement>('img').forEach(async (img) => {
+      const url = new URL(img.src, window.location.origin);
+      const path = url.pathname === '/api/public/blog-media' ? url.searchParams.get('path') : null;
+      if (!path) return;
+      const { data } = await supabase.storage.from('blog-media').createSignedUrl(path, 3600);
+      if (live && data) img.src = data.signedUrl;
+    });
+    return () => { live = false; };
+  }, [post.content, previewImage]);
   const lang = post.locale === "en" || post.locale === "es" ? post.locale : "de";
   const text = cmsText[lang];
   const date = (value: string) =>
@@ -39,7 +54,7 @@ export function Article({
           className="mt-8 aspect-[16/9] w-full rounded-lg object-cover"
         />
       )}
-      <div className="cms-content mt-10" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div ref={body} className="cms-content mt-10" dangerouslySetInnerHTML={{ __html: post.content }} />
     </article>
   );
 }

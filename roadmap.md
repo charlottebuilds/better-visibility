@@ -1,6 +1,9 @@
 # Roadmap
 
-- [ ] Vollständiges Blog-CMS: geschützte Verwaltung, visueller Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung und Änderungshistorie (Umsetzung und Prüfung laufen; Nutzerprofile und verknüpfte Übersetzungen gewählt)
+- [x] Blog-CMS mit geschützter Verwaltung, visuellem Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung, Änderungshistorie und verknüpften Übersetzungen umgesetzt
+- [x] Echte Abläufe geprüft: Anmeldung, Erstellen, Upload, Speichern, Vorschau, Veröffentlichung, Bearbeitung, Weiterleitung, Wiederherstellung, Übersetzungen, Zukunftsplanung, Suche und Handyansicht
+- [ ] Charlotte als Administratorin freischalten (wartet auf erste Anmeldung unter /auth; keine automatische Rechtevergabe an beliebige Erstnutzer)
+- [ ] Abschließende Vollprüfung aller 27 Einzelpunkte des Briefings mit Charlottes Konto; E-Mail-Einladungen und Passwort-Wiederherstellung benötigen tatsächliche E-Mail-Zustellung
 
 - [x] Explizite Sprachversionen /de, /en, /es mit bidirektionalem hreflang und Haupt-URL als x-default
 

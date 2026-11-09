@@ -13,11 +13,14 @@ export async function uploadImage(file: File) {
   return uploadMedia({ data: { name: file.name, type: file.type, base64 } });
 }
 export async function adminData() {
-  const [posts, categories] = await Promise.all([
-    supabase.from("blog_posts").select("*").order("modified_at", { ascending: false }),
-    supabase.from("blog_categories").select("*").order("name"),
-  ]);
-  if (posts.error || categories.error)
-    throw new Error(posts.error?.message ?? categories.error?.message);
-  return { posts: posts.data ?? [], categories: categories.data ?? [] };
+  const posts = [];
+  for (let offset = 0; ; offset += 500) {
+    const { data, error } = await supabase.from("blog_posts").select("*").order("modified_at", { ascending: false }).range(offset, offset + 499);
+    if (error) throw error;
+    posts.push(...(data ?? []));
+    if (!data || data.length < 500) break;
+  }
+  const categories = await supabase.from("blog_categories").select("*").order("name");
+  if (categories.error) throw categories.error;
+  return { posts, categories: categories.data ?? [] };
 }
