@@ -9,9 +9,10 @@ import portrait from "@/assets/portrait-charlotte-subtle.jpg";
 import { getPublicBlog } from "@/lib/cms/public.functions";
 import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
-import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
+import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam, SITE_URL } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { BookingDialog, packageMailto, whatsappLink } from "@/components/ContactActions";
+import { siteGraph } from "@/lib/schema";
 import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
@@ -33,23 +34,14 @@ export const Route = createFileRoute("/{-$locale}/")({
       links: seoLinks("/", lang, params.locale === "de"),
       scripts: [{
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Person", "@id": "https://better-visibility.com/#charlotte", name: "Charlotte Götz",
-              jobTitle: "Organic Growth Specialist · Content Strategist", email: "mailto:visibility@better-technologies.com",
-              url: "https://better-visibility.com/", sameAs: ["https://www.linkedin.com/in/charlotte-goetz-public/"],
-              knowsAbout: getDict(lang).skills, knowsLanguage: ["de", "en", "es"],
-            },
-            {
-              "@type": "ProfessionalService", "@id": "https://better-visibility.com/#service", name: "Better Visibility",
-              url: "https://better-visibility.com/", email: "visibility@better-technologies.com", areaServed: "Worldwide",
-              description: m.description, founder: { "@id": "https://better-visibility.com/#charlotte" },
-              hasOfferCatalog: { "@type": "OfferCatalog", name: getDict(lang).packagesTitle, itemListElement: getDict(lang).packages.map((p) => ({ "@type": "Offer", name: p.n, description: p.d })) },
-            },
-          ],
-        }),
+        children: JSON.stringify(siteGraph({
+          lang,
+          pageUrl: SITE_URL + (params.locale ? `/${params.locale}` : "/"),
+          description: m.description,
+          skills: getDict(lang).skills,
+          offerCatalogName: getDict(lang).packagesTitle,
+          offers: getDict(lang).packages,
+        })),
       }],
     };
   },

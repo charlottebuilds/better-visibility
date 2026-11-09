@@ -1,3 +1,4 @@
+import { PERSON_ID, ORG_ID, WEBSITE_ID } from "@/lib/schema";
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { getPublicBlog, getPublicRedirect } from "@/lib/cms/public.functions";
 import { getDict, langFromParam, isValidLocaleParam, SITE_URL } from "@/lib/i18n";
@@ -80,7 +81,12 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
             headline: p.title,
             datePublished: p.original_published_at ?? p.published_at,
             dateModified: p.updated_at ?? p.published_at,
-            author: { "@type": "Person", name: p.author },
+            description: p.meta_description || p.excerpt,
+            inLanguage: p.locale,
+            author: { "@type": "Person", "@id": PERSON_ID, name: p.author || "Charlotte Götz" },
+            publisher: { "@id": ORG_ID },
+            isPartOf: { "@id": WEBSITE_ID },
+            mainEntityOfPage: canonical,
             url: canonical,
             ...(image ? { image } : {}),
           }),
