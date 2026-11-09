@@ -9,7 +9,7 @@ const de = {
     aboutIntro: "Ich mache Unternehmen in Google und KI-Suchen sichtbar – mit klarer Strategie, guten Inhalten und eigener Umsetzung.",
     aboutDetails: { background: "Mein Ansatz", skills: "Expertise & Tools", languages: "Sprachen" },
     aboutProof: ["Journalistischer Hintergrund", "Strategie & Hands-on-Umsetzung", "Ergebnisse statt Bauchgefühl"],
-    nav: { services: "Leistungen", process: "Ablauf", stories: "Referenzen", about: "Über mich", blog: "Blog", contact: "Kontakt" },
+    nav: { services: "Leistungen", process: "Ablauf", stories: "Anwendungsfälle", about: "Über mich", blog: "Blog", contact: "Kontakt" },
     hero: { h1a: "Gefunden werden – ", h1b: "bei Google und in der KI.", p: "Beratung und Umsetzung von SEO- und GEO-Kampagnen, die Ihre Marke dort sichtbar machen, wo Kunden suchen.", cta: "Erstgespräch buchen" },
     services: [{ t: "Beratung", s: "Strategie & Know-how", d: "Audit, Wettbewerbs- und Keyword-Analyse, Search Intent und KI-Sichtbarkeit: Sie erhalten eine klare Roadmap und setzen selbst oder mit Ihrem Team um.", f: ["SEO- & GEO-Audit", "Keyword- & Search-Intent-Recherche", "AI Search & LLM Visibility", "Content-Strategie & E-E-A-T", "Workshops & Team-Coaching"] }, { t: "Hands-on Umsetzung", s: "Organic Growth aus einer Hand", d: "Ich setze um, was Inbound-Leads bringt – messbar und Schritt für Schritt optimiert.", f: ["SEO- & GEO-Kampagnen", "Technical SEO", "Websiteerstellung & Relaunch", "Content Marketing & Digital PR", "Online- & Social-Media-Marketing"] }],
     servicesIntro: "Organic Growth, der planbar Inbound-Leads bringt – ob Sie die Strategie selbst umsetzen oder alles aus einer Hand möchten.",
