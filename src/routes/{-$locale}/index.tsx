@@ -11,6 +11,7 @@ import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { BookingDialog, packageMailto } from "@/components/ContactActions";
 import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
@@ -56,7 +57,7 @@ function Index() {
             </h1>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">{t.hero.p}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#kontakt" className="rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</a>
+              <BookingDialog className="rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</BookingDialog>
               <a href="#leistungen" className="rounded-full border border-border px-6 py-3 font-semibold hover:bg-secondary">{t.nav.services}</a>
             </div>
           </div>
@@ -94,7 +95,7 @@ function Index() {
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
-                <a href="#kontakt" className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+                <a href={packageMailto(t, pk.n)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
               </div>
             ))}
           </div>
@@ -106,7 +107,7 @@ function Index() {
                 {t.custom.f.map((f) => <li key={f} className="rounded-full border border-border bg-card px-3 py-1 text-xs">{f}</li>)}
               </ul>
             </div>
-            <a href="#kontakt" className="shrink-0 rounded-full bg-gradient-brand px-6 py-3 text-center font-semibold text-primary-foreground">{t.custom.cta}</a>
+            <a href={packageMailto(t, t.custom.n)} className="shrink-0 rounded-full bg-gradient-brand px-6 py-3 text-center font-semibold text-primary-foreground">{t.custom.cta}</a>
           </div>
         </div>
       </section>
@@ -238,8 +239,8 @@ function Index() {
         <div className="rounded-3xl bg-gradient-brand p-12 text-center text-primary-foreground">
           <h2 className="text-4xl font-bold md:text-5xl">{t.contactTitle}</h2>
           <p className="mx-auto mt-4 max-w-lg opacity-90">{t.contactP}</p>
-          <a href="mailto:hallo@better-visibility.com" className="mt-8 inline-block rounded-full bg-background px-8 py-3 font-semibold text-foreground">
-            hallo@better-visibility.com
+          <a href="mailto:visibility@better-technologies.com" className="mt-8 inline-block rounded-full bg-background px-8 py-3 font-semibold text-foreground">
+            visibility@better-technologies.com
           </a>
         </div>
       </section>
