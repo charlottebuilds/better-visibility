@@ -90,6 +90,6 @@ const es = {
     mail: { subject: "Consulta: paquete «{pkg}»", body: "Hola Charlotte:\n\nMe interesa el paquete «{pkg}» y me gustaría recibir más información y una oferta sin compromiso.\n\nEmpresa / web:\nObjetivos:\nInicio deseado:\n\nUn saludo\n" },
     booking: { title: "Reservar llamada", close: "Cerrar" },
     whatsapp: { cta: "Contactar por WhatsApp", text: "Hola Charlotte, me interesan sus servicios de SEO/GEO y agradecería que me contactara.\n\nNombre:\nEmpresa / web:\nMi consulta:\nMi número de móvil (obligatorio):\n" },
-    footer: "Consultoría SEO y GEO",
+    footer: "Crecimiento orgánico",
   } satisfies Dict;
 export default es;
