@@ -89,7 +89,7 @@ const de = {
     mail: { subject: "Anfrage: Paket „{pkg}“", body: "Hallo Charlotte,\n\nich interessiere mich für das Paket „{pkg}“ und freue mich über weitere Informationen sowie ein unverbindliches Angebot.\n\nUnternehmen / Website:\nZiele:\nGewünschter Start:\n\nViele Grüße\n" },
     booking: { title: "Erstgespräch buchen", close: "Schließen" },
     whatsapp: { cta: "Per WhatsApp kontaktieren", text: "Hallo Charlotte, ich interessiere mich für Ihre SEO-/GEO-Leistungen und bitte um Rückmeldung.\n\nName:\nUnternehmen / Website:\nMein Anliegen:\nMeine Handynummer (Pflichtangabe):\n" },
-    footer: "SEO & GEO Beratung",
+    footer: "Organic Growth",
   };
 export default de;
 export type DictShape = typeof de;
