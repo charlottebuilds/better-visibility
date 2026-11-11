@@ -11,7 +11,7 @@ const settings = config as unknown as {
   tanstackStart: {
     server: { entry: string };
     pages: { path: string }[];
-    prerender: { enabled: boolean; autoStaticPathsDiscovery: boolean; failOnError: boolean };
+    prerender: { enabled: boolean; autoStaticPathsDiscovery: boolean; crawlLinks: boolean; failOnError: boolean };
   };
 };
 
@@ -19,6 +19,7 @@ describe("Static deployment configuration", () => {
   it("enables prerendering without discovering private pages", () => {
     expect(settings.tanstackStart.prerender.enabled).toBe(true);
     expect(settings.tanstackStart.prerender.autoStaticPathsDiscovery).toBe(false);
+    expect(settings.tanstackStart.prerender.crawlLinks).toBe(false);
     expect(settings.tanstackStart.prerender.failOnError).toBe(true);
     expect(settings.tanstackStart.pages.some(({ path }) => path.startsWith("/admin"))).toBe(false);
   });

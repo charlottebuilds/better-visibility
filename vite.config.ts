@@ -23,6 +23,6 @@ export default defineConfig({
         path: path === "/" ? locale || "/" : `${locale}${path}`,
       })),
     ),
-    prerender: { enabled: true, autoStaticPathsDiscovery: false, failOnError: true },
+    prerender: { enabled: true, autoStaticPathsDiscovery: false, crawlLinks: false, failOnError: true },
   },
 });
