@@ -16,13 +16,15 @@ export const localeParam = (l: Lang) => l;
 export const langFromParam = (p?: string): Lang => (p === "en" || p === "es" ? p : "de");
 export const isValidLocaleParam = (p?: string) => p === undefined || p === "de" || p === "en" || p === "es";
 
-/** hreflang alternates + canonical for a path without locale prefix (e.g. "/blog"). */
-export function seoLinks(path: string, lang: Lang, prefixedGerman = false) {
-  const url = (l: Lang) => SITE_URL + (path === "/" ? `/${l}` : `/${l}${path}`);
+/** Canonical + hreflang for a path without locale prefix. German is always the unprefixed URL
+ * (/de duplicates it), and every URL ends with a slash to match the live canonical form. */
+export function seoLinks(path: string, lang: Lang, _prefixedGerman = false) {
+  const clean = path === "/" ? "" : path.replace(/\/$/, "");
+  const url = (l: Lang) => `${SITE_URL}${l === "de" ? "" : `/${l}`}${clean}/`;
   return [
-    { rel: "canonical", href: lang === "de" && !prefixedGerman ? SITE_URL + path : url(lang) },
+    { rel: "canonical", href: url(lang) },
     ...langs.map((l) => ({ rel: "alternate", hrefLang: l, href: url(l) })),
-    { rel: "alternate", hrefLang: "x-default", href: SITE_URL + path },
+    { rel: "alternate", hrefLang: "x-default", href: url("de") },
   ];
 }
 
