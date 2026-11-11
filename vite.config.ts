@@ -7,9 +7,18 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Keep Nitro's existing target detection and server output; Pages serves this directory.
+  nitro: { output: { publicDir: ".output/public" } },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // Optional locale routes need concrete URLs. Do not discover private CMS pages.
+    pages: ["", "/de", "/en", "/es"].flatMap((locale) =>
+      ["/", "/blog", "/impressum", "/datenschutz"].map((path) => ({
+        path: path === "/" ? locale || "/" : `${locale}${path}`,
+      })),
+    ),
+    prerender: { enabled: true, autoStaticPathsDiscovery: false },
   },
 });
