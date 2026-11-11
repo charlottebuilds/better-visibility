@@ -27,7 +27,7 @@ describe("Static deployment configuration", () => {
   it("keeps the existing server entry and writes public output to .output/public", () => {
     expect(settings.tanstackStart.server.entry).toBe("server");
     expect(settings.nitro.output.publicDir).toBe(".output/public");
-    expect(settings.nitro.preset).toBe("node-server");
+    expect(settings.nitro.preset).toBe("cloudflare-module");
     expect(settings.nitro.output.serverDir).toBe(".output/server");
   });
 

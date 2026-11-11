@@ -5,12 +5,16 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { buildDiagnostics } from "./scripts/build-diagnostics.mjs";
 
 export default defineConfig({
   // Build a server only for prerendering; never emit a Pages Worker in the static directory.
   // The server stays outside the Pages upload and can be hosted separately for the CMS.
+  // cloudflare-module exports a fetch handler; node-server started a real HTTP listener on
+  // port 3000 when the prerender step imported it, which kept the build process alive forever.
+  vite: { plugins: [buildDiagnostics()] },
   nitro: {
-    preset: "node-server",
+    preset: "cloudflare-module",
     output: { dir: ".output", publicDir: ".output/public", serverDir: ".output/server" },
   },
   tanstackStart: {

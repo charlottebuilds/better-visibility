@@ -1,0 +1,47 @@
+// Timestamped build phases for external CI (Cloudflare Pages), plus a last-resort exit
+// that only arms after the static output has been fully verified.
+import { verifyStaticOutput } from "./verify-static-output.mjs";
+
+const started = Date.now();
+const stamp = (phase, detail = "") =>
+  console.log(`[build ${new Date().toISOString()} +${((Date.now() - started) / 1000).toFixed(1)}s] ${phase}${detail ? ` – ${detail}` : ""}`);
+
+const openHandles = () => {
+  const counts = {};
+  for (const type of process.getActiveResourcesInfo?.() ?? []) counts[type] = (counts[type] ?? 0) + 1;
+  return Object.entries(counts).map(([t, n]) => `${t}×${n}`).join(", ") || "none";
+};
+
+export function buildDiagnostics({ graceMs = 30_000 } = {}) {
+  return [
+    {
+      name: "better-visibility:build-diagnostics-start",
+      apply: "build",
+      enforce: "pre",
+      buildStart() { stamp(`bundling ${this.environment?.name ?? "app"} started`); },
+      writeBundle() { stamp(`bundling ${this.environment?.name ?? "app"} written`); },
+      buildApp: { order: "pre", handler() { stamp("build started"); } },
+    },
+    {
+      name: "better-visibility:build-diagnostics-finish",
+      apply: "build",
+      enforce: "post",
+      buildApp: {
+        order: "post",
+        async handler() {
+          stamp("prerendering finished");
+          stamp("verification started");
+          const result = await verifyStaticOutput(); // throws → non-zero exit
+          stamp("verification passed", result);
+          stamp("cleanup", `open handles: ${openHandles()}`);
+          process.once("beforeExit", () => stamp("finalization – process exiting normally"));
+          // Fallback only: everything is built and verified; normal cleanup gets graceMs to finish.
+          setTimeout(() => {
+            stamp("finalization fallback", `still alive after ${graceMs}ms, handles: ${openHandles()}`);
+            process.exit(Number(process.exitCode ?? 0) || 0);
+          }, graceMs).unref();
+        },
+      },
+    },
+  ];
+}

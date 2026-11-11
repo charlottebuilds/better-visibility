@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from "node:fs/promises";
 import { resolve, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const root = resolve(".output/public");
 const routes = ["", "de", "en", "es"].flatMap((locale) =>
@@ -17,6 +18,7 @@ async function inspect(directory) {
   }
 }
 
+export async function verifyStaticOutput() {
 await inspect(root);
 let assetCount = 0;
 for (const route of routes) {
@@ -36,4 +38,7 @@ for (const route of routes) {
     assetCount++;
   }
 }
-console.log(`Verified ${routes.length} static HTML pages and ${assetCount} asset references in .output/public; no Pages Worker.`);
+return `Verified ${routes.length} static HTML pages and ${assetCount} asset references in .output/public; no Pages Worker.`;
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) console.log(await verifyStaticOutput());
