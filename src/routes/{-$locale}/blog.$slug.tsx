@@ -1,6 +1,7 @@
 import { PERSON_ID, ORG_ID, WEBSITE_ID } from "@/lib/schema";
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
-import { getPublicBlog, getPublicRedirect } from "@/lib/cms/public.functions";
+import { getWebsiteBlog, getWebsiteRedirect } from "@/lib/cms/website-data";
+import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 import { getDict, langFromParam, isValidLocaleParam, SITE_URL } from "@/lib/i18n";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Article } from "@/components/cms/Article";
@@ -8,13 +9,14 @@ import { mediaUrl } from "@/lib/cms/types";
 export const Route = createFileRoute("/{-$locale}/blog/$slug")({
   beforeLoad: ({ params }) => {
     if (!isValidLocaleParam(params.locale)) throw notFound();
+    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}", params: { locale: params.locale } });
   },
   loader: async ({ params }) => {
     const lang = langFromParam(params.locale);
-    const data = await getPublicBlog({ data: {} });
+    const data = await getWebsiteBlog({ data: {} });
     const post = data.posts.find((p) => p.locale === lang && p.slug === params.slug);
     if (!post) {
-      const target = await getPublicRedirect({ data: { locale: lang, slug: params.slug } });
+      const target = await getWebsiteRedirect({ data: { locale: lang, slug: params.slug } });
       if (target)
         throw redirect({
           to: "/{-$locale}/blog/$slug",

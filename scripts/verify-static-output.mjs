@@ -3,7 +3,7 @@ import { resolve, join } from "node:path";
 
 const root = resolve(".output/public");
 const routes = ["", "de", "en", "es"].flatMap((locale) =>
-  ["", "blog", "impressum", "datenschutz"].map((page) =>
+  ["", "impressum", "datenschutz"].map((page) =>
     [locale, page, "index.html"].filter(Boolean).join("/"),
   ),
 );

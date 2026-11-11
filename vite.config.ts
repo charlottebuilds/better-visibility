@@ -19,7 +19,7 @@ export default defineConfig({
     server: { entry: "server" },
     // Optional locale routes need concrete URLs. Do not discover private CMS pages.
     pages: ["", "/de", "/en", "/es"].flatMap((locale) =>
-      ["/", "/blog", "/impressum", "/datenschutz"].map((path) => ({
+      ["/", "/impressum", "/datenschutz"].map((path) => ({
         path: path === "/" ? locale || "/" : `${locale}${path}`,
       })),
     ),

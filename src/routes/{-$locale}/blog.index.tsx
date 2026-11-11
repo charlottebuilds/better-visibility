@@ -1,13 +1,15 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import { getDict, langFromParam, isValidLocaleParam, seoLinks, useI18n } from "@/lib/i18n";
-import { getPublicBlog } from "@/lib/cms/public.functions";
+import { getWebsiteBlog } from "@/lib/cms/website-data";
+import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { BlogList } from "@/components/cms/BlogList";
 export const Route = createFileRoute("/{-$locale}/blog/")({
   beforeLoad: ({ params }) => {
     if (!isValidLocaleParam(params.locale)) throw notFound();
+    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}", params: { locale: params.locale } });
   },
-  loader: ({ params }) => getPublicBlog({ data: { locale: langFromParam(params.locale) } }),
+  loader: ({ params }) => getWebsiteBlog({ data: { locale: langFromParam(params.locale) } }),
   head: ({ params }) => {
     const lang = langFromParam(params.locale);
     const m = getDict(lang).meta.blog;

@@ -15,7 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
 import { CookieConsent } from "../components/CookieConsent";
-import { supabase } from "@/integrations/supabase/client";
+import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 
 function NotFoundComponent() {
   return (
@@ -117,14 +117,21 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    if (!PUBLIC_CMS_ENABLED) return;
+    let live = true;
+    let unsubscribe: (() => void) | undefined;
+    void import("@/integrations/supabase/client").then(({ supabase }) => {
+      if (!live) return;
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event !== 'SIGNED_IN' && event !== 'SIGNED_OUT' && event !== 'USER_UPDATED') return;
       setTimeout(() => {
         void router.invalidate();
         if (event !== 'SIGNED_OUT') void queryClient.invalidateQueries();
       }, 0);
     });
-    return () => subscription.unsubscribe();
+      unsubscribe = () => subscription.unsubscribe();
+    });
+    return () => { live = false; unsubscribe?.(); };
   }, [router, queryClient]);
 
   return (

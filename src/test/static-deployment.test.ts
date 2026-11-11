@@ -31,12 +31,12 @@ describe("Static deployment configuration", () => {
     expect(settings.nitro.output.serverDir).toBe(".output/server");
   });
 
-  it("enumerates all four public page types in each supported locale", () => {
+  it("enumerates only CMS-independent public pages in each supported locale", () => {
     expect(settings.tanstackStart.pages.map(({ path }) => path)).toEqual([
-      "/", "/blog", "/impressum", "/datenschutz",
-      "/de", "/de/blog", "/de/impressum", "/de/datenschutz",
-      "/en", "/en/blog", "/en/impressum", "/en/datenschutz",
-      "/es", "/es/blog", "/es/impressum", "/es/datenschutz",
+      "/", "/impressum", "/datenschutz",
+      "/de", "/de/impressum", "/de/datenschutz",
+      "/en", "/en/impressum", "/en/datenschutz",
+      "/es", "/es/impressum", "/es/datenschutz",
     ]);
   });
 });

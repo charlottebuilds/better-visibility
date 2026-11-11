@@ -16,3 +16,4 @@
 - CMS writes use authenticated server functions and admin RLS; private media is served only after a published-snapshot reference check, preventing draft image exposure.
 - Blog translations share a group ID but have independent content, slugs, SEO and publication states; public links reference published translations only.
 - Prerender only enumerated public locale pages with automatic discovery disabled; use a build-time Node server outside `.output/public` to prevent Cloudflare Pages Worker auto-detection, and verify HTML/assets in postbuild. CMS functions, private media and the dynamic sitemap still require separately hosted server output.
+- Gate public CMS loaders, blog links, blog previews and auth subscriptions behind `PUBLIC_CMS_ENABLED`; static deployment disables it and redirects old blog URLs while preserving the original CMS for restoration.

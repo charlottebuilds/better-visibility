@@ -6,7 +6,8 @@ import caseAhrefs from "@/assets/case-ahrefs.png";
 import caseGsc from "@/assets/case2-gsc.png";
 import caseHealth from "@/assets/case2-health.png";
 import portrait from "@/assets/portrait-charlotte-subtle.jpg";
-import { getPublicBlog } from "@/lib/cms/public.functions";
+import { getWebsiteBlog } from "@/lib/cms/website-data";
+import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam, SITE_URL } from "@/lib/i18n";
@@ -17,7 +18,7 @@ import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react
 
 export const Route = createFileRoute("/{-$locale}/")({
   beforeLoad: ({ params }) => { if (!isValidLocaleParam(params.locale)) throw notFound(); },
-  loader: ({ params }) => getPublicBlog({ data: { locale: langFromParam(params.locale) } }),
+  loader: ({ params }) => getWebsiteBlog({ data: { locale: langFromParam(params.locale) } }),
   head: ({ params }) => {
     const lang = langFromParam(params.locale);
     const m = getDict(lang).meta.home;
@@ -229,7 +230,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      {PUBLIC_CMS_ENABLED && <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between">
           <h2 className="text-4xl font-bold">{t.blogTitle}</h2>
           <Link to="/{-$locale}/blog" params={{ locale: lp }} className="text-accent hover:underline">{t.allPosts}</Link>
@@ -245,7 +246,7 @@ function Index() {
             </Link>
           ))}
         </div>
-      </section>
+      </section>}
 
       <section id="kontakt" className="mx-auto max-w-6xl px-6 py-20">
         <div className="rounded-3xl bg-gradient-brand p-12 text-center text-primary-foreground">

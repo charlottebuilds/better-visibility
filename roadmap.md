@@ -1,8 +1,9 @@
 # Roadmap
 
 - [x] Static Pages upload isolated from server output; postbuild rejects missing HTML/assets and Pages Worker artifacts
+- [x] Temporary static release: disconnect public CMS loaders and auth subscription, hide blog/CMS links and preview, retain original implementation and add static blog redirects
 - [ ] Verify actual production prerender output and clean build exit (production build output unavailable in this sandbox)
-- [ ] Preserve CMS, live blog navigation, private media and dynamic sitemap on static Pages (requires a separately hosted server and an agreed connection approach)
+- [ ] Future CMS restoration after temporary static release (requires separately hosted server and an agreed connection approach)
 
 - [x] Blog-CMS mit geschützter Verwaltung, visuellem Editor, Medien, Kategorien, SEO, Vorschau, Zeitplanung, Änderungshistorie und verknüpften Übersetzungen umgesetzt
 - [x] Echte Abläufe geprüft: Anmeldung, Erstellen, Upload, Speichern, Vorschau, Veröffentlichung, Bearbeitung, Weiterleitung, Wiederherstellung, Übersetzungen, Zukunftsplanung, Suche und Handyansicht
