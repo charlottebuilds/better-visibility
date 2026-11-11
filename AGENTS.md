@@ -15,4 +15,4 @@
 - CMS uses separate draft fields and published snapshots with timestamp-derived scheduled visibility, so autosaves never expose unfinished edits and publishing needs no permanent polling job.
 - CMS writes use authenticated server functions and admin RLS; private media is served only after a published-snapshot reference check, preventing draft image exposure.
 - Blog translations share a group ID but have independent content, slugs, SEO and publication states; public links reference published translations only.
-- Prerender only enumerated public locale pages, with Nitro public output at `.output/public`; disable automatic route discovery to avoid capturing private CMS pages, and retain server output for CMS functions, media and the dynamic sitemap.
+- Prerender only enumerated public locale pages with automatic discovery disabled; use a build-time Node server outside `.output/public` to prevent Cloudflare Pages Worker auto-detection, and verify HTML/assets in postbuild. CMS functions, private media and the dynamic sitemap still require separately hosted server output.

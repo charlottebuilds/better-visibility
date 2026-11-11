@@ -7,8 +7,12 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  // Keep Nitro's existing target detection and server output; Pages serves this directory.
-  nitro: { output: { publicDir: ".output/public" } },
+  // Build a server only for prerendering; never emit a Pages Worker in the static directory.
+  // The server stays outside the Pages upload and can be hosted separately for the CMS.
+  nitro: {
+    preset: "node-server",
+    output: { dir: ".output", publicDir: ".output/public", serverDir: ".output/server" },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
@@ -19,6 +23,6 @@ export default defineConfig({
         path: path === "/" ? locale || "/" : `${locale}${path}`,
       })),
     ),
-    prerender: { enabled: true, autoStaticPathsDiscovery: false },
+    prerender: { enabled: true, autoStaticPathsDiscovery: false, failOnError: true },
   },
 });

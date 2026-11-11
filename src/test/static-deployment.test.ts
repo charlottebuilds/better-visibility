@@ -7,11 +7,11 @@ vi.mock("@lovable.dev/vite-tanstack-config", () => ({
 import config from "../../vite.config";
 
 const settings = config as unknown as {
-  nitro: { output: { publicDir: string } };
+  nitro: { preset: string; output: { publicDir: string; serverDir: string } };
   tanstackStart: {
     server: { entry: string };
     pages: { path: string }[];
-    prerender: { enabled: boolean; autoStaticPathsDiscovery: boolean };
+    prerender: { enabled: boolean; autoStaticPathsDiscovery: boolean; failOnError: boolean };
   };
 };
 
@@ -19,12 +19,15 @@ describe("Static deployment configuration", () => {
   it("enables prerendering without discovering private pages", () => {
     expect(settings.tanstackStart.prerender.enabled).toBe(true);
     expect(settings.tanstackStart.prerender.autoStaticPathsDiscovery).toBe(false);
+    expect(settings.tanstackStart.prerender.failOnError).toBe(true);
     expect(settings.tanstackStart.pages.some(({ path }) => path.startsWith("/admin"))).toBe(false);
   });
 
   it("keeps the existing server entry and writes public output to .output/public", () => {
     expect(settings.tanstackStart.server.entry).toBe("server");
     expect(settings.nitro.output.publicDir).toBe(".output/public");
+    expect(settings.nitro.preset).toBe("node-server");
+    expect(settings.nitro.output.serverDir).toBe(".output/server");
   });
 
   it("enumerates all four public page types in each supported locale", () => {
