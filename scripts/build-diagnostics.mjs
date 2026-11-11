@@ -30,6 +30,11 @@ export function buildDiagnostics({ graceMs = 30_000 } = {}) {
         order: "post",
         async handler() {
           stamp("prerendering finished");
+          // Lovable's own build writes to dist/ with its own checks; verify only external builds.
+          if (process.env.LOVABLE_SANDBOX === "1" || process.env.DEV_SERVER__PROJECT_PATH) {
+            stamp("verification skipped", "Lovable build environment");
+            return;
+          }
           stamp("verification started");
           const result = await verifyStaticOutput(); // throws → non-zero exit
           stamp("verification passed", result);
