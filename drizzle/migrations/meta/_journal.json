@@ -78,6 +78,13 @@
       "when": 1794489961076,
       "tag": "0010_harden_cms_public_media_and_drop_probe",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794495964825,
+      "tag": "0011_cms_apply_translation",
+      "breakpoints": true
     }
   ]
 }

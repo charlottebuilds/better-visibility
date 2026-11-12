@@ -266,6 +266,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cms_apply_translation: {
+        Args: {
+          p_content: string
+          p_cover_alt: string
+          p_excerpt: string
+          p_locale: string
+          p_meta_description: string
+          p_meta_title: string
+          p_slug: string
+          p_source_id: string
+          p_title: string
+        }
+        Returns: string
+      }
       cms_is_admin: { Args: never; Returns: boolean }
       cms_public_media: { Args: { p_path: string }; Returns: boolean }
       cms_public_posts: { Args: { p_locale?: string }; Returns: Json[] }
