@@ -228,8 +228,8 @@ function Index() {
       </section>
 
       <section id="ueber-mich" className="about-section relative overflow-hidden py-24">
-        <img src={portrait} alt="" aria-hidden="true" width={1024} height={1024} className="about-watermark pointer-events-none absolute -right-24 top-1/2 w-[42rem] max-w-none -translate-y-1/2 select-none opacity-[0.07] grayscale md:-right-10 md:w-[52rem]" />
-        <div className="relative mx-auto max-w-4xl px-6">
+        <img src={portrait} alt="" aria-hidden="true" width={1024} height={1024} className="about-watermark pointer-events-none absolute -right-24 top-1/2 w-[42rem] max-w-none -translate-y-1/2 select-none opacity-20 md:-right-10 md:w-[52rem]" />
+        <div className="relative mx-auto max-w-6xl px-6">
           <div className="min-w-0">
             <h2 className="flex items-center gap-3 text-sm font-semibold text-accent"><span aria-hidden="true" className="h-px w-8 bg-gradient-brand" />{t.aboutTitle}</h2>
             <p className="mt-4 font-display text-4xl font-bold leading-tight lg:text-5xl">Charlotte <span className="text-gradient">Götz</span></p>
@@ -247,14 +247,14 @@ function Index() {
             </ul>
             <Accordion key={t.aboutTitle} type="single" collapsible className="mt-4">
               <AccordionItem value="background" className="about-detail">
-                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-4"><span aria-hidden="true" className="text-xs font-normal text-accent">01</span>{t.aboutDetails.background}</span></AccordionTrigger>
+                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.background}</AccordionTrigger>
                 <AccordionContent className="space-y-3 px-3 leading-relaxed text-muted-foreground">
                   <p>{t.aboutP1}</p>
                   <p>{t.aboutP2}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="skills" className="about-detail">
-                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-4"><span aria-hidden="true" className="text-xs font-normal text-accent">02</span>{t.aboutDetails.skills}</span></AccordionTrigger>
+                <AccordionTrigger className="about-trigger gap-4 px-3 py-5 text-base font-semibold hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t.aboutDetails.skills}</AccordionTrigger>
                 <AccordionContent className="px-3 pt-2">
                   <ul className="flex flex-wrap gap-2">
                     {t.skills.map((s) => (
