@@ -119,7 +119,6 @@ function Index() {
                   </div>
                 </div>
                 <p className="mt-1 text-xs uppercase tracking-wider text-foreground/60">{pk.u} · {t.priceNote}</p>
-                <p className="mt-4 border-l-2 border-accent pl-3 text-sm text-foreground/90">{pk.r}</p>
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
