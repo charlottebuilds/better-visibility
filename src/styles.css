@@ -109,8 +109,10 @@
 .site-nav-link:focus-visible { color: var(--accent); }
 .site-nav-link:hover::after,
 .site-nav-link:focus-visible::after { transform: scaleX(1); }
-.about-portrait { transition: border-color 220ms ease; }
-.about-portrait:hover { border-color: var(--accent); }
+.about-watermark {
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 75%);
+}
 .about-proof { transition: color 180ms ease, transform 180ms ease; }
 .about-proof:hover { color: var(--accent); transform: translateX(4px); }
 .about-detail { border-radius: 8px; transition: background-color 180ms ease; }
@@ -150,7 +152,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .site-nav-link, .site-nav-link::after { transition: none; }
-  .about-portrait, .about-proof, .about-detail, .about-skill { transition: none; }
+  .about-proof, .about-detail, .about-skill { transition: none; }
   .about-proof:hover { transform: none; }
   .cta-hover { transition: none; }
   .cta-hover:hover, .cta-hover:active { transform: none; }

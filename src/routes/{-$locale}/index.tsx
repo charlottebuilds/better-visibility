@@ -227,20 +227,17 @@ function Index() {
 
       </section>
 
-      <section id="ueber-mich" className="about-section mx-auto max-w-6xl px-6 py-20">
-        <div className="grid items-start gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-12">
-          <div className="about-portrait group relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-border md:max-w-none">
-            <img src={portrait} alt={t.aboutImgAlt} width={1024} height={1024} className="aspect-[4/5] w-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.025]" />
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-4 border-t border-border bg-background/90 px-6 py-5 backdrop-blur-md">
-              <p className="font-display text-4xl font-bold text-gradient">10+</p>
-              <p className="max-w-32 text-sm text-foreground">{t.years}</p>
-              <ArrowUpRight aria-hidden="true" className="ml-auto h-6 w-6 text-accent" />
-            </div>
-          </div>
-          <div className="min-w-0 md:py-2">
+      <section id="ueber-mich" className="about-section relative overflow-hidden py-24">
+        <img src={portrait} alt="" aria-hidden="true" width={1024} height={1024} className="about-watermark pointer-events-none absolute -right-24 top-1/2 w-[42rem] max-w-none -translate-y-1/2 select-none opacity-[0.07] grayscale md:-right-10 md:w-[52rem]" />
+        <div className="relative mx-auto max-w-4xl px-6">
+          <div className="min-w-0">
             <h2 className="flex items-center gap-3 text-sm font-semibold text-accent"><span aria-hidden="true" className="h-px w-8 bg-gradient-brand" />{t.aboutTitle}</h2>
             <p className="mt-4 font-display text-4xl font-bold leading-tight lg:text-5xl">Charlotte <span className="text-gradient">Götz</span></p>
             <p className="mt-3 text-sm font-semibold text-foreground/80">{t.aboutRole}</p>
+            <div className="mt-6 flex items-center gap-4">
+              <p className="font-display text-4xl font-bold text-gradient">10+</p>
+              <p className="max-w-40 text-sm text-foreground">{t.years}</p>
+            </div>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">{t.aboutIntro}</p>
             <ul className="mt-6 grid gap-3 border-y border-border py-5">
               {t.aboutProof.map((proof, i) => {
@@ -270,6 +267,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {PUBLIC_CMS_ENABLED && <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between">
