@@ -110,7 +110,7 @@ function Index() {
                 <p className="mt-1 font-display text-xl font-bold">{pk.n}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{pk.d}</p>
                 <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
-                  <p className="font-display text-4xl font-bold tabular-nums text-gradient"><data value={price.amount}>{shown}</data></p>
+                  <p className="font-display text-4xl font-bold tabular-nums"><span className="mr-1.5 text-base font-semibold text-muted-foreground">{t.from}</span><data className="text-gradient" value={price.amount}>{shown}</data></p>
                   <div role="radiogroup" aria-label={t.currencyLabel} className="flex rounded-full border border-border p-0.5 text-[11px] font-semibold">
                     {CURRENCIES.map((c) => (
                       <button key={c} type="button" role="radio" aria-checked={currency === c} onClick={() => setCurrency(c)}
@@ -123,7 +123,7 @@ function Index() {
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
-                <a href={packageMailto(t, pk.n, `${t.mailPrice}: ${shown} (${pk.u}, ${t.priceNote})`)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+                <a href={packageMailto(t, pk.n, `${t.mailPrice}: ${t.from} ${shown} (${pk.u}, ${t.priceNote})`)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
               </div>
             );})}
           </div>
