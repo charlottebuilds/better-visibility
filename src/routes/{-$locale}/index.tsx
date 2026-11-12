@@ -12,9 +12,9 @@ import { mediaUrl } from "@/lib/cms/types";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localeParam, SITE_URL } from "@/lib/i18n";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { BookingDialog, packageMailto, whatsappLink } from "@/components/ContactActions";
+import { BookingDialog, CONTACT_EMAIL, contactMailto, packageMailto, whatsappLink } from "@/components/ContactActions";
 import { siteGraph } from "@/lib/schema";
-import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight } from "lucide-react";
+import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight, MessageCircle, Mail, CalendarDays } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
   beforeLoad: ({ params }) => { if (!isValidLocaleParam(params.locale)) throw notFound(); },
@@ -249,12 +249,31 @@ function Index() {
       </section>}
 
       <section id="kontakt" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="rounded-3xl bg-gradient-brand p-12 text-center text-primary-foreground">
-          <h2 className="text-4xl font-bold md:text-5xl">{t.contactTitle}</h2>
-          <p className="mx-auto mt-4 max-w-lg opacity-90">{t.contactP}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full bg-background px-8 py-3 font-semibold text-foreground">{t.whatsapp.cta}</a>
-            <a href="mailto:visibility@better-technologies.com" className="inline-block rounded-full border border-primary-foreground/40 px-8 py-3 font-semibold">visibility@better-technologies.com</a>
+        <div className="rounded-3xl bg-gradient-brand p-8 text-primary-foreground md:p-12">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold md:text-5xl">{t.contactTitle}</h2>
+            <p className="mx-auto mt-4 max-w-lg opacity-90">{t.contactP}</p>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="flex flex-col rounded-2xl border border-primary-foreground/25 bg-background/10 p-6 text-left backdrop-blur-sm">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><MessageCircle aria-hidden="true" className="h-5 w-5" /></span>
+              <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.whatsappTitle}</p>
+              <p className="mt-2 text-sm opacity-90">{t.contactWays.whatsappText}</p>
+              <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold transition hover:bg-background/15">{t.contactWays.whatsappCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
+            </div>
+            <div className="flex flex-col rounded-2xl border border-primary-foreground/25 bg-background/10 p-6 text-left backdrop-blur-sm">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><Mail aria-hidden="true" className="h-5 w-5" /></span>
+              <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.mailTitle}</p>
+              <p className="mt-2 text-sm opacity-90">{t.contactWays.mailText}</p>
+              <p className="mt-3 mb-4 break-all text-xs text-primary-foreground/80">{CONTACT_EMAIL}</p>
+              <a href={contactMailto(t)} className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold transition hover:bg-background/15">{t.contactWays.mailCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
+            </div>
+            <div className="flex flex-col rounded-2xl border border-primary-foreground/25 bg-background/10 p-6 text-left backdrop-blur-sm">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><CalendarDays aria-hidden="true" className="h-5 w-5" /></span>
+              <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.bookingTitle}</p>
+              <p className="mt-2 text-sm opacity-90">{t.contactWays.bookingText}</p>
+              <BookingDialog className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 font-semibold text-foreground transition hover:bg-primary-foreground">{t.contactWays.bookingCta}</BookingDialog>
+            </div>
           </div>
         </div>
       </section>

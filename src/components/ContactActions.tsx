@@ -13,6 +13,10 @@ export function packageMailto(t: { mail: { subject: string; body: string } }, pk
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(fill(t.mail.subject))}&body=${encodeURIComponent(fill(t.mail.body))}`;
 }
 
+export function contactMailto(t: { contactWays: { mailSubject: string; mailBody: string } }) {
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(t.contactWays.mailSubject)}&body=${encodeURIComponent(t.contactWays.mailBody)}`;
+}
+
 export function BookingDialog({ className, children }: { className?: string; children: ReactNode }) {
   const { t } = useI18n();
   return (
