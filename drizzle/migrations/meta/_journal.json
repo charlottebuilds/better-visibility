@@ -15,6 +15,34 @@
       "when": 1794225543608,
       "tag": "0001_cms_public_snapshot_boundaries",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794454858998,
+      "tag": "0002_published_blog_media_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794454908190,
+      "tag": "0003_correct_blog_media_download_operation",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794454981751,
+      "tag": "0004_support_blog_media_download_operation_alias",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794455026736,
+      "tag": "0005_published_media_snapshot_read_policy",
+      "breakpoints": true
     }
   ]
 }

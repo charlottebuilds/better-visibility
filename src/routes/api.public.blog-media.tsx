@@ -4,7 +4,7 @@ import type { Database } from "@/integrations/supabase/types";
 
 // Uploads get a fresh random file name, so a replaced image always has a new URL.
 // Deletions/unpublishing are honoured after at most the short edge TTL below.
-const CACHE_OK = "public, max-age=300, s-maxage=3600, stale-while-revalidate=60";
+const CACHE_OK = "public, max-age=300, s-maxage=1800, stale-while-revalidate=30";
 const notFound = () =>
   new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
 
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/api/public/blog-media")({
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
         if (!url || !key) return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
         const client = createClient<Database>(url, key, {
-          auth: { persistSession: false },
+          auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
           global: {
             fetch: (i, o) => {
               const h = new Headers(o?.headers);
@@ -34,13 +34,8 @@ export const Route = createFileRoute("/api/public/blog-media")({
           return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
         }
         if (!allowed) return notFound();
-        const { storageAdmin } = await import("@/lib/blog-media.server");
-        const admin = storageAdmin();
-        if (!admin) {
-          console.error("[blog-media] SUPABASE_SECRET_KEY / SUPABASE_SERVICE_ROLE_KEY missing");
-          return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
-        }
-        const { data, error } = await admin.storage.from("blog-media").download(path);
+        // The private bucket's SELECT policy rechecks publication; no privileged key is used.
+        const { data, error } = await client.storage.from("blog-media").download(path);
         if (error || !data) return notFound();
         const etag = `"${path}-${data.size}"`;
         if (request.headers.get("If-None-Match") === etag)

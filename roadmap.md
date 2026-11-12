@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Apply published-image snapshot RLS, remove privileged image client, verify both real covers and six private-file denials, and pass all 35 tests; no deployment. Public object listing is restricted to already-published references. Current harness build OK; production Worker output is from the previous build.
+
 - [x] Static Pages upload isolated from server output; postbuild rejects missing HTML/assets and Pages Worker artifacts
 - [x] Temporary static release: disconnect public CMS loaders and auth subscription, hide blog/CMS links and preview, retain original implementation and add static blog redirects
 - [ ] Verify actual production prerender output and clean build exit (production build output unavailable in this sandbox)
