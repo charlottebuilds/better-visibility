@@ -8,9 +8,12 @@ const CALENDAR_URL =
 
 export const whatsappLink = (text: string) => `https://wa.me/4917677883219?text=${encodeURIComponent(text)}`;
 
-export function packageMailto(t: { mail: { subject: string; body: string } }, pkg: string) {
+export function packageMailto(t: { mail: { subject: string; body: string } }, pkg: string, extra?: string) {
   const fill = (s: string) => s.replaceAll("{pkg}", pkg);
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(fill(t.mail.subject))}&body=${encodeURIComponent(fill(t.mail.body))}`;
+  const parts = fill(t.mail.body).split("\n\n");
+  if (extra) parts.splice(2, 0, extra);
+  const body = parts.join("\n\n");
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(fill(t.mail.subject))}&body=${encodeURIComponent(body)}`;
 }
 
 export function contactMailto(t: { contactWays: { mailSubject: string; mailBody: string } }) {

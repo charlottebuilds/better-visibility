@@ -14,6 +14,7 @@ import { useI18n, getDict, langFromParam, isValidLocaleParam, seoLinks, localePa
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { BookingDialog, CONTACT_EMAIL, contactMailto, packageMailto, whatsappLink } from "@/components/ContactActions";
 import { siteGraph } from "@/lib/schema";
+import { BASE_PRICES_EUR, CURRENCIES, convertPrice, formatPrice, setCurrency, useCurrency, useRates } from "@/lib/currency";
 import { PenLine, Layers, ChartNoAxesCombined, ArrowUpRight, MessageCircle, Mail, CalendarDays } from "lucide-react";
 
 export const Route = createFileRoute("/{-$locale}/")({
@@ -52,6 +53,8 @@ export const Route = createFileRoute("/{-$locale}/")({
 function Index() {
   const { posts } = Route.useLoaderData();
   const { t, lang } = useI18n();
+  const currency = useCurrency();
+  const rates = useRates();
   const lp = localeParam(lang);
   const cs = t.caseStudy;
   const cases = [
@@ -97,21 +100,37 @@ function Index() {
           <h3 className="text-3xl font-bold">{t.packagesTitle}</h3>
           <p className="mt-3 text-muted-foreground">{t.packagesSub}</p>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {t.packages.map((pk, i) => (
+            {t.packages.map((pk, i) => {
+              const price = convertPrice(BASE_PRICES_EUR[i], currency, rates);
+              const shown = formatPrice(price.amount, price.currency, t.blogPage.dateLocale);
+              return (
               <div key={i} className={`relative flex flex-col rounded-3xl border bg-card p-8 ${i === 2 ? "border-primary glow" : "border-border"}`}>
                 {i === 2 && <span className="absolute -top-3 left-8 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground">{t.popular}</span>}
                 <p className="text-xs uppercase tracking-widest text-accent">{pk.k}</p>
                 <p className="mt-1 font-display text-xl font-bold">{pk.n}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{pk.d}</p>
-                <p className="mt-6 font-display text-4xl font-bold text-gradient">{pk.p}</p>
+                <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
+                  <p className="font-display text-4xl font-bold tabular-nums text-gradient"><data value={price.amount}>{shown}</data></p>
+                  <div role="radiogroup" aria-label={t.currencyLabel} className="flex rounded-full border border-border p-0.5 text-[11px] font-semibold">
+                    {CURRENCIES.map((c) => (
+                      <button key={c} type="button" role="radio" aria-checked={currency === c} onClick={() => setCurrency(c)}
+                        className={`rounded-full px-2 py-1 transition-colors ${currency === c ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{c}</button>
+                    ))}
+                  </div>
+                </div>
                 <p className="mt-1 text-xs uppercase tracking-wider text-foreground/60">{pk.u} · {t.priceNote}</p>
+                <p className="mt-4 border-l-2 border-accent pl-3 text-sm text-foreground/90">{pk.r}</p>
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
-                <a href={packageMailto(t, pk.n)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+                <a href={packageMailto(t, pk.n, `${t.mailPrice}: ${shown} (${pk.u}, ${t.priceNote})`)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
               </div>
-            ))}
+            );})}
           </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            {t.fxNote}
+            {currency !== "EUR" && rates?.date && <> {t.fxUpdated} {new Date(rates.date).toLocaleDateString(t.blogPage.dateLocale)} (EZB/ECB).</>}
+          </p>
           <div className="mt-5 flex flex-col gap-6 rounded-3xl border border-dashed border-accent bg-secondary/60 p-8 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="font-display text-xl font-bold">{t.custom.n} <span className="ml-2 text-sm font-normal text-accent">{t.custom.p}</span></p>
