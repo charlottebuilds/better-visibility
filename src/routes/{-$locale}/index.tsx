@@ -228,7 +228,7 @@ function Index() {
       </section>
 
       <section id="ueber-mich" className="about-section relative overflow-hidden py-24">
-        <img src={portrait} alt="" aria-hidden="true" width={1024} height={1024} className="about-watermark pointer-events-none absolute -right-24 top-1/2 w-[42rem] max-w-none -translate-y-1/2 select-none opacity-30 md:-right-10 md:w-[52rem]" />
+        <img src={portrait} alt="" aria-hidden="true" width={1024} height={1024} className="about-watermark pointer-events-none absolute -right-16 top-0 w-80 max-w-none select-none opacity-25 md:-right-10 md:top-1/2 md:w-[52rem] md:-translate-y-1/2 md:opacity-30" />
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="min-w-0">
             <h2 className="flex items-center gap-3 text-sm font-semibold text-accent"><span aria-hidden="true" className="h-px w-8 bg-gradient-brand" />{t.aboutTitle}</h2>
