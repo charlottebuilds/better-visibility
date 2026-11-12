@@ -77,11 +77,11 @@ export function CookieConsent() {
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <Button
                 onClick={() => apply(true)}
-                className="rounded-full bg-gradient-brand px-5 font-semibold text-primary-foreground"
+                className="cta-hover rounded-full bg-gradient-brand px-5 font-semibold text-primary-foreground"
               >
                 {c.accept}
               </Button>
-              <Button variant="outline" onClick={() => apply(false)} className="rounded-full px-5">
+              <Button variant="outline" onClick={() => apply(false)} className="cta-hover rounded-full px-5">
                 {c.decline}
               </Button>
               <button
@@ -121,11 +121,11 @@ export function CookieConsent() {
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <Button
                 onClick={() => apply(analytics)}
-                className="rounded-full bg-gradient-brand px-5 font-semibold text-primary-foreground"
+                className="cta-hover rounded-full bg-gradient-brand px-5 font-semibold text-primary-foreground"
               >
                 {c.save}
               </Button>
-              <Button variant="outline" onClick={() => setPanel("banner")} className="rounded-full px-5">
+              <Button variant="outline" onClick={() => setPanel("banner")} className="cta-hover rounded-full px-5">
                 {c.back}
               </Button>
               <Link

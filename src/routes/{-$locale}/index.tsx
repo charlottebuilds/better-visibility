@@ -73,8 +73,8 @@ function Index() {
             </h1>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">{t.hero.p}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <BookingDialog className="rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</BookingDialog>
-              <a href="#leistungen" className="rounded-full border border-border px-6 py-3 font-semibold hover:bg-secondary">{t.nav.services}</a>
+              <BookingDialog className="cta-hover rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</BookingDialog>
+              <a href="#leistungen" className="cta-hover rounded-full border border-border px-6 py-3 font-semibold hover:border-accent hover:bg-secondary">{t.nav.services}</a>
             </div>
           </div>
           <img src={hero} alt={t.heroImgAlt} width={1600} height={1008} className="rounded-3xl glow" />
@@ -122,7 +122,7 @@ function Index() {
                 <ul className="mt-6 flex-1 space-y-2 text-sm">
                   {pk.f.map((f) => <li key={f} className="flex gap-2"><span className="text-accent">✓</span>{f}</li>)}
                 </ul>
-                <a href={packageMailto(t, pk.n, `${t.mailPrice}: ${t.from} ${shown} (${pk.u}, ${t.priceNote})`)} className={`mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:bg-secondary"}`}>{t.choose}</a>
+                <a href={packageMailto(t, pk.n, `${t.mailPrice}: ${t.from} ${shown} (${pk.u}, ${t.priceNote})`)} className={`cta-hover mt-8 rounded-full px-6 py-3 text-center font-semibold ${i === 2 ? "bg-gradient-brand text-primary-foreground" : "border border-border hover:border-accent hover:bg-secondary"}`}>{t.choose}</a>
               </div>
             );})}
           </div>
@@ -138,7 +138,7 @@ function Index() {
                 {t.custom.f.map((f) => <li key={f} className="rounded-full border border-border bg-card px-3 py-1 text-xs">{f}</li>)}
               </ul>
             </div>
-            <a href={packageMailto(t, t.custom.n)} className="shrink-0 rounded-full bg-gradient-brand px-6 py-3 text-center font-semibold text-primary-foreground">{t.custom.cta}</a>
+            <a href={packageMailto(t, t.custom.n)} className="cta-hover shrink-0 rounded-full bg-gradient-brand px-6 py-3 text-center font-semibold text-primary-foreground">{t.custom.cta}</a>
           </div>
         </div>
       </section>
@@ -277,20 +277,20 @@ function Index() {
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><MessageCircle aria-hidden="true" className="h-5 w-5" /></span>
               <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.whatsappTitle}</p>
               <p className="mt-2 text-sm opacity-90">{t.contactWays.whatsappText}</p>
-              <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold transition hover:bg-background/15">{t.contactWays.whatsappCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
+              <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer" className="cta-hover mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold hover:bg-background/15">{t.contactWays.whatsappCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
             </div>
             <div className="flex flex-col rounded-2xl border border-primary-foreground/25 bg-background/10 p-6 text-left backdrop-blur-sm">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><Mail aria-hidden="true" className="h-5 w-5" /></span>
               <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.mailTitle}</p>
               <p className="mt-2 text-sm opacity-90">{t.contactWays.mailText}</p>
               <p className="mt-3 mb-4 break-all text-xs text-primary-foreground/80">{CONTACT_EMAIL}</p>
-              <a href={contactMailto(t)} className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold transition hover:bg-background/15">{t.contactWays.mailCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
+              <a href={contactMailto(t)} className="cta-hover mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-3 font-semibold hover:bg-background/15">{t.contactWays.mailCta}<ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
             </div>
             <div className="flex flex-col rounded-2xl border border-primary-foreground/25 bg-background/10 p-6 text-left backdrop-blur-sm">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-background/15"><CalendarDays aria-hidden="true" className="h-5 w-5" /></span>
               <p className="mt-4 font-display text-lg font-semibold">{t.contactWays.bookingTitle}</p>
               <p className="mt-2 text-sm opacity-90">{t.contactWays.bookingText}</p>
-              <BookingDialog className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 font-semibold text-foreground transition hover:bg-primary-foreground">{t.contactWays.bookingCta}</BookingDialog>
+              <BookingDialog className="cta-hover mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 font-semibold text-foreground hover:bg-primary-foreground">{t.contactWays.bookingCta}</BookingDialog>
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ lo
               </span>
             ))}
           </nav>
-          <Button asChild className="hidden rounded-full bg-gradient-brand px-4 py-2 font-semibold text-primary-foreground xl:inline-flex">
+          <Button asChild className="cta-hover hidden rounded-full bg-gradient-brand px-4 py-2 font-semibold text-primary-foreground xl:inline-flex">
           <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer">
             {t.nav.contact}
           </a>

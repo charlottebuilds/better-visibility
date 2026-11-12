@@ -76,6 +76,18 @@
 @utility glow {
   box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--primary) 60%, transparent);
 }
+/* Standard hover effect for every CTA: subtle lift, soft brand glow, gentle brightening. */
+@utility cta-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.07);
+    box-shadow: 0 14px 34px -14px color-mix(in oklab, var(--primary) 60%, transparent);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
 
 .site-nav-link {
   position: relative;
@@ -112,6 +124,8 @@
   .site-nav-link, .site-nav-link::after { transition: none; }
   .about-portrait, .about-proof, .about-detail, .about-skill { transition: none; }
   .about-proof:hover { transform: none; }
+  .cta-hover { transition: none; }
+  .cta-hover:hover, .cta-hover:active { transform: none; }
 }
 
 @layer base {
