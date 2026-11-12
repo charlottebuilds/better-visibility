@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import hero from "@/assets/hero.jpg";
+import heroBg from "@/assets/hero-bg.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
 import caseGa4 from "@/assets/case-ga4.png";
 import caseAhrefs from "@/assets/case-ahrefs.png";
@@ -64,20 +64,20 @@ function Index() {
   return (
     <div>
       <SiteHeader />
-      <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2 md:py-28">
-          <div>
-            <p className="mb-4 inline-block rounded-full border border-border px-3 py-1 text-xs uppercase tracking-widest text-accent">SEO · GEO</p>
-            <h1 className="text-5xl font-bold leading-[1.05] md:text-6xl">
-              {t.hero.h1a}<span className="text-gradient">{t.hero.h1b}</span>
-            </h1>
-            <p className="mt-6 max-w-md text-lg text-muted-foreground">{t.hero.p}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <BookingDialog className="cta-hover rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</BookingDialog>
-              <a href="#leistungen" className="cta-hover rounded-full border border-border px-6 py-3 font-semibold hover:border-accent hover:bg-secondary">{t.nav.services}</a>
-            </div>
+      <section className="relative -mt-24 flex min-h-[88vh] items-center overflow-hidden pt-24">
+        <img src={heroBg} alt="" aria-hidden width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover opacity-90" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background" />
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_90%)] opacity-50" />
+        <div className="relative mx-auto max-w-4xl px-6 py-20 text-center md:py-28">
+          <p className="mb-5 inline-block rounded-full border border-border bg-background/40 px-3 py-1 text-xs uppercase tracking-widest text-accent backdrop-blur">SEO · GEO</p>
+          <h1 className="text-5xl font-bold leading-[1.05] md:text-7xl">
+            {t.hero.h1a}<span className="text-gradient">{t.hero.h1b}</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">{t.hero.p}</p>
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <BookingDialog className="cta-hover rounded-full bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground glow">{t.hero.cta}</BookingDialog>
+            <a href="#leistungen" className="cta-hover rounded-full border border-border bg-background/40 px-6 py-3 font-semibold backdrop-blur hover:border-accent hover:bg-secondary">{t.nav.services}</a>
           </div>
-          <img src={hero} alt={t.heroImgAlt} width={1600} height={1008} className="rounded-3xl glow" />
         </div>
       </section>
 
