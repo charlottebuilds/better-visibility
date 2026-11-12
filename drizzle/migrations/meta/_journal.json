@@ -43,6 +43,34 @@
       "when": 1794455026736,
       "tag": "0005_published_media_snapshot_read_policy",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794455596969,
+      "tag": "0006_published_media_download_request_only",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794455618449,
+      "tag": "0007_diagnose_media_request_context",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794455641486,
+      "tag": "0008_restore_published_media_after_context_probe",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794455656069,
+      "tag": "0009_published_media_read_without_listing",
+      "breakpoints": true
     }
   ]
 }
