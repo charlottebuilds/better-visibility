@@ -101,7 +101,7 @@ function Index() {
           <p className="mt-3 text-muted-foreground">{t.packagesSub}</p>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {t.packages.map((pk, i) => {
-              const price = convertPrice(BASE_PRICES_EUR[i], currency, rates);
+              const price = convertPrice(BASE_PRICES_EUR[i] ?? 0, currency, rates);
               const shown = formatPrice(price.amount, price.currency, t.blogPage.dateLocale);
               return (
               <div key={i} className={`relative flex flex-col rounded-3xl border bg-card p-8 ${i === 2 ? "border-primary glow" : "border-border"}`}>
