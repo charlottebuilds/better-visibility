@@ -4,11 +4,23 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { adminData, uploadImage } from "@/lib/cms/browser";
 import { savePost, restoreRevision } from "@/lib/cms/admin.functions";
+import { translatePost } from "@/lib/cms/translate.functions";
+import { useServerFn } from "@tanstack/react-start";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { emptyPost, slugify, mediaUrl, type CmsPost, type PublicPost } from "@/lib/cms/types";
 import { RichEditor } from "@/components/cms/RichEditor";
 import { Article } from "@/components/cms/Article";
 import { Button } from "@/components/ui/button";
-import { Save, Eye, Send, ImagePlus, X, History } from "lucide-react";
+import { Save, Eye, Send, ImagePlus, X, History, Languages, Loader2 } from "lucide-react";
 export const Route = createFileRoute("/_authenticated/admin/edit/$id")({
   head: () => ({
     meta: [
@@ -50,6 +62,11 @@ function Edit() {
   const saved = useRef("");
   const latest = useRef<CmsPost | null>(null);
   const lock = useRef(false);
+  const translateFn = useServerFn(translatePost);
+  const [translating, setTranslating] = useState(false);
+  const [dialog, setDialog] = useState<
+    { kind: "new"; locale: "en" | "es" | "de" } | { kind: "overwrite"; locale: "en" | "es" | "de" } | null
+  >(null);
   const { data: revisions } = useQuery({
     queryKey: ["cms-revisions", id],
     queryFn: async () => {
@@ -133,6 +150,55 @@ function Edit() {
       window.removeEventListener("beforeunload", unload);
     };
   }, [id]);
+  async function createEmpty(locale: "en" | "es" | "de") {
+    setDialog(null);
+    const current = latest.current;
+    if (!current) return;
+    try {
+      const created = await savePost({
+        data: { post: { ...emptyPost(locale, current.translation_group), author: current.author }, action: "save" },
+      });
+      await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
+      await navigate({ to: "/admin/edit/$id/", params: { id: created.id } });
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "Fehler");
+    }
+  }
+  async function runTranslation(locale: "en" | "es" | "de", overwrite: boolean) {
+    setDialog(null);
+    const current = latest.current;
+    if (!current) return;
+    const group = (all?.posts ?? []).filter((p) => p.translation_group === current.translation_group);
+    const source = current.locale === "de" ? current : group.find((p) => p.locale === "de");
+    if (!source) {
+      setMessage("Kein deutsches Original gefunden.");
+      return;
+    }
+    if (current.locale === "de") await persist("save");
+    setTranslating(true);
+    setMessage("");
+    try {
+      const result = await translateFn({ data: { sourceId: source.id, locale, overwrite } });
+      await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
+      if (result.status === "exists") {
+        setMessage("Diese Sprachversion existiert bereits; sie wurde nicht überschrieben.");
+        await navigate({ to: "/admin/edit/$id/", params: { id: result.id } });
+        return;
+      }
+      await queryClient.invalidateQueries({ queryKey: ["cms-post", result.id] });
+      await queryClient.invalidateQueries({ queryKey: ["cms-revisions", result.id] });
+      if (result.id === current.id) {
+        saved.current = "";
+        latest.current = null;
+      }
+      setMessage(overwrite ? "Neu übersetzt und als Arbeitsstand gespeichert (nicht veröffentlicht)." : "Übersetzung als Entwurf gespeichert (nicht veröffentlicht).");
+      await navigate({ to: "/admin/edit/$id/", params: { id: result.id } });
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "Übersetzung fehlgeschlagen. Nichts wurde gespeichert.");
+    } finally {
+      setTranslating(false);
+    }
+  }
   if (error) return <p role="alert">{error.message}</p>;
   if (!post || post.id !== id || !data || data.id !== id) return <p>Beitrag wird geladen …</p>;
   const categories = all?.categories ?? [];
@@ -221,33 +287,65 @@ function Edit() {
             key={locale}
             size="sm"
             variant={locale === post.locale ? "secondary" : "ghost"}
-            disabled={busy}
+            disabled={busy || translating}
             onClick={async () => {
               if (locale === post.locale) return;
               await persist("save");
               if (status === "Speicherfehler") return;
               const found = translations.find((p) => p.locale === locale);
               if (found) await navigate({ to: "/admin/edit/$id/", params: { id: found.id } });
-              else
-                try {
-                  const translated = await savePost({
-                    data: {
-                      post: { ...emptyPost(locale, post.translation_group), author: post.author },
-                      action: "save",
-                    },
-                  });
-                  await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
-                  await navigate({ to: "/admin/edit/$id/", params: { id: translated.id } });
-                } catch (e) {
-                  setMessage(e instanceof Error ? e.message : "Fehler");
-                }
+              else setDialog({ kind: "new", locale });
             }}
           >
             {locale.toUpperCase()}
             {translations.some((p) => p.locale === locale) ? "" : " +"}
           </Button>
         ))}
+        {post.locale !== "de" && translations.some((p) => p.locale === "de") && (
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={busy || translating}
+            onClick={() => setDialog({ kind: "overwrite", locale: post.locale as "en" | "es" })}
+          >
+            <Languages />
+            Aus Original neu übersetzen
+          </Button>
+        )}
       </div>
+      {translating && (
+        <p role="status" className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Übersetzung wird generiert und validiert …
+        </p>
+      )}
+      <AlertDialog open={!!dialog} onOpenChange={(open) => !open && setDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {dialog?.kind === "overwrite"
+                ? "Arbeitsstand neu übersetzen?"
+                : `${dialog?.locale.toUpperCase()}-Version anlegen`}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {dialog?.kind === "overwrite"
+                ? "Der aktuelle Arbeitsstand dieser Sprachversion wird durch eine neue Übersetzung des deutschen Originals ersetzt. Er wird vorher in der Versionshistorie gesichert. Eine veröffentlichte Fassung bleibt unverändert, bis du erneut veröffentlichst."
+                : "Möchtest du einen leeren Entwurf anlegen oder das deutsche Original automatisch übersetzen lassen? Die Übersetzung wird als Entwurf gespeichert und nicht veröffentlicht."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            {dialog?.kind === "new" && (
+              <Button variant="outline" onClick={() => dialog && void createEmpty(dialog.locale)}>
+                Leeren Entwurf anlegen
+              </Button>
+            )}
+            <AlertDialogAction onClick={() => dialog && void runTranslation(dialog.locale, dialog.kind === "overwrite")}>
+              {dialog?.kind === "overwrite" ? "Neu übersetzen" : "Automatisch übersetzen"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="mt-6 grid gap-7 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div className="min-w-0">
           <label className="cms-label">
