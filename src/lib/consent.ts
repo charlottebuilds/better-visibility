@@ -45,8 +45,11 @@ export function saveConsent(analytics: boolean): ConsentState {
 /** Build-time value (Cloudflare env or the Google Analytics connector). */
 export function gaMeasurementId(): string {
   const env = import.meta.env as unknown as Record<string, string | undefined>;
-  return env["VITE_GA_MEASUREMENT_ID"] ?? env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"] ?? "";
+  return env["VITE_GA_MEASUREMENT_ID"] ?? env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"] ?? GTM_CONTAINER_ID;
 }
+
+/** Charlotte's Google Tag Manager container (loaded only after consent). */
+export const GTM_CONTAINER_ID = "GTM-5QKB69J2";
 
 declare global {
   interface Window {
@@ -70,14 +73,21 @@ export function loadGoogleAnalytics(measurementId = gaMeasurementId()): boolean 
     window.dataLayer!.push(arguments);
   } as unknown as (...args: unknown[]) => void;
   window.gtag = gtag;
-  gtag("set", "developer_id.dZjgwMW", true);
+  const isGtm = measurementId.startsWith("GTM-");
   gtag("js", new Date());
-  gtag("config", measurementId);
+  if (isGtm) {
+    window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+  } else {
+    gtag("set", "developer_id.dZjgwMW", true);
+    gtag("config", measurementId);
+  }
 
   const script = document.createElement("script");
   script.async = true;
   script.dataset["gaId"] = measurementId;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+  script.src = isGtm
+    ? `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(measurementId)}`
+    : `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
   return true;
 }
