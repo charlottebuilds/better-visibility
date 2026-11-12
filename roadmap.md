@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Complete strict blog-image access audit: anonymous listing currently exposes published filenames; download-only operation policies previously denied valid downloads. Requires a supported download/list distinction before changing RLS again. Admin live test also requires Charlotte to sign in; no matching account could be minted. No deployment.
+
 - [x] Apply published-image snapshot RLS, remove privileged image client, verify both real covers and six private-file denials, and pass all 35 tests; no deployment. Public object listing is restricted to already-published references. Current harness build OK; production Worker output is from the previous build.
 
 - [x] Static Pages upload isolated from server output; postbuild rejects missing HTML/assets and Pages Worker artifacts

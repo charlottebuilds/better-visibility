@@ -28,9 +28,23 @@ describe("Public blog media", () => {
     expect(mocks.createClient.mock.calls[0]?.slice(0, 2)).toEqual(["https://storage.example.test", "sb_publishable_test"]);
     expect(response.headers.get("Cache-Control")).toBe("public, max-age=300, s-maxage=1800, stale-while-revalidate=30");
   });
-  it("does not download unreferenced private files", async () => {
+  it.each([
+    ["draft", "draft.jpg"],
+    ["future scheduled", "scheduled.jpg"],
+    ["withdrawn", "withdrawn.jpg"],
+    ["unreferenced", "unreferenced.jpg"],
+  ])("returns 404 for %s images denied by the publication RPC", async (_state, path) => {
     mocks.rpc.mockResolvedValue({ data: false, error: null });
-    expect((await request("draft.jpg")).status).toBe(404);
+    const response = await request(path);
+    expect(response.status).toBe(404);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+    expect(mocks.download).not.toHaveBeenCalled();
+  });
+  it("fails closed when the publication check fails", async () => {
+    mocks.rpc.mockResolvedValue({ data: null, error: { message: "unavailable" } });
+    const response = await request("cover.jpg");
+    expect(response.status).toBe(503);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
     expect(mocks.download).not.toHaveBeenCalled();
   });
   it("rejects traversal paths before storage access", async () => {
