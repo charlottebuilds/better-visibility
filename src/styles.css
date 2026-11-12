@@ -120,12 +120,41 @@
 .about-trigger:hover, .about-trigger[data-state="open"] { color: var(--accent); }
 .about-skill { transition: border-color 180ms ease, color 180ms ease; }
 .about-skill:hover { border-color: var(--accent); color: var(--foreground); }
+/* H1: staggered word reveal, slowly drifting brand gradient, pointer-tracked sheen. */
+@keyframes hero-word-in {
+  from { opacity: 0; transform: translateY(0.32em); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-accent-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes hero-gradient-drift {
+  0%, 100% { background-position: 0 0, 0% 50%; }
+  50% { background-position: 0 0, 100% 50%; }
+}
+.hero-word {
+  display: inline-block;
+  animation: hero-word-in 720ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.hero-h1-accent {
+  background-image:
+    radial-gradient(220px 130px at var(--mx, -400px) var(--my, -400px), color-mix(in oklab, var(--foreground) 88%, transparent), transparent 70%),
+    linear-gradient(110deg, var(--primary), var(--accent), var(--primary));
+  background-size: 100% 100%, 250% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-accent-in 900ms ease both, hero-gradient-drift 12s ease-in-out infinite;
+}
 @media (prefers-reduced-motion: reduce) {
   .site-nav-link, .site-nav-link::after { transition: none; }
   .about-portrait, .about-proof, .about-detail, .about-skill { transition: none; }
   .about-proof:hover { transform: none; }
   .cta-hover { transition: none; }
   .cta-hover:hover, .cta-hover:active { transform: none; }
+  .hero-word, .hero-h1-accent { animation: none; }
 }
 
 @layer base {

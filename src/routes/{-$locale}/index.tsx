@@ -1,3 +1,4 @@
+import { Fragment, useRef } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import heroBg from "@/assets/hero-bg.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
@@ -57,6 +58,17 @@ function Index() {
   const rates = useRates();
   const lp = localeParam(lang);
   const cs = t.caseStudy;
+  const accentRef = useRef<HTMLSpanElement>(null);
+  const heroWords = t.hero.h1a.trim().split(/\s+/);
+  // The sheen follows the pointer across the headline; coordinates are taken from the
+  // gradient phrase itself so the highlight lands exactly under the cursor.
+  const moveSheen = (e: { clientX: number; clientY: number }) => {
+    const el = accentRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
   const cases = [
     { d: cs, imgs: [{ src: caseRank, w: 1408, h: 480 }, { src: caseGa4, w: 1008, h: 656 }, { src: caseAhrefs, w: 1168, h: 720 }] },
     { d: t.caseStudy2, imgs: [{ src: caseGsc, w: 1280, h: 528 }, { src: caseHealth, w: 1168, h: 576 }] },
@@ -70,8 +82,19 @@ function Index() {
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_90%)] opacity-50" />
         <div className="relative mx-auto max-w-4xl px-6 py-20 text-center md:py-28">
           <p className="mb-5 inline-block rounded-full border border-border bg-background/40 px-3 py-1 text-xs uppercase tracking-widest text-accent backdrop-blur">SEO · GEO</p>
-          <h1 className="text-5xl font-bold leading-[1.05] md:text-7xl">
-            {t.hero.h1a}<span className="text-gradient">{t.hero.h1b}</span>
+          <h1 onPointerMove={moveSheen} className="text-5xl font-bold leading-[1.05] md:text-7xl">
+            {heroWords.map((w, i) => (
+              <Fragment key={i}>
+                <span className="hero-word" style={{ animationDelay: `${i * 90}ms` }}>{w}</span>{" "}
+              </Fragment>
+            ))}
+            <span
+              ref={accentRef}
+              className="hero-h1-accent"
+              style={{ animationDelay: `${heroWords.length * 90 + 120}ms` }}
+            >
+              {t.hero.h1b}
+            </span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">{t.hero.p}</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
