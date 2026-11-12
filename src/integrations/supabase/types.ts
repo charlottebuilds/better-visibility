@@ -267,7 +267,6 @@ export type Database = {
     }
     Functions: {
       cms_is_admin: { Args: never; Returns: boolean }
-      cms_media_request_probe: { Args: never; Returns: boolean }
       cms_public_media: { Args: { p_path: string }; Returns: boolean }
       cms_public_posts: { Args: { p_locale?: string }; Returns: Json[] }
       cms_public_redirect: {

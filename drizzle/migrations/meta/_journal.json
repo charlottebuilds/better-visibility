@@ -71,6 +71,13 @@
       "when": 1794455656069,
       "tag": "0009_published_media_read_without_listing",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794489961076,
+      "tag": "0010_harden_cms_public_media_and_drop_probe",
+      "breakpoints": true
     }
   ]
 }
