@@ -11,7 +11,7 @@ export function parseAttrs(raw: string): Record<string, string> {
   const out: Record<string, string> = {};
   for (const m of raw.matchAll(ATTR_RE)) {
     const v = m[2] ?? "";
-    out[m[1].toLowerCase()] = v.replace(/^["']|["']$/g, "");
+    out[(m[1] ?? "").toLowerCase()] = v.replace(/^["']|["']$/g, "");
   }
   return out;
 }
@@ -21,13 +21,13 @@ export function skeleton(html: string): string[] {
   const sig: string[] = [];
   let depth = 0;
   for (const m of html.matchAll(TAG_RE)) {
-    const [, close, tagRaw, rawAttrs] = m;
+    const close = m[1], tagRaw = m[2] ?? "", rawAttrs = m[3] ?? "";
     const tag = tagRaw.toLowerCase();
     if (close) { depth--; sig.push(`${depth}</${tag}>`); continue; }
     const attrs = parseAttrs(rawAttrs);
     const fixed = Object.keys(attrs).filter((k) => !TRANSLATABLE_ATTRS.has(k)).sort()
       .map((k) => `${k}=${attrs[k]}`).join(" ");
-    const hasAlt = "alt" in attrs ? (attrs["alt"].trim() ? " alt+" : " alt-") : "";
+    const hasAlt = "alt" in attrs ? ((attrs["alt"] ?? "").trim() ? " alt+" : " alt-") : "";
     sig.push(`${depth}<${tag} ${fixed}${hasAlt}>`);
     if (!VOID.has(tag) && !rawAttrs.trim().endsWith("/")) depth++;
   }
@@ -49,7 +49,7 @@ export function validateTranslatedHtml(source: string, output: string): Validati
   const issues: ValidationIssue[] = [];
   if (!textOf(output)) return ["empty"];
   const a = skeleton(source), b = skeleton(output);
-  if (a.length !== b.length || a.some((t, i) => t.replace(/ .*$/, "") !== b[i].replace(/ .*$/, "")))
+  if (a.length !== b.length || a.some((t, i) => t.replace(/ .*$/, "") !== (b[i] ?? "").replace(/ .*$/, "")))
     issues.push("structure");
   else if (a.some((t, i) => t !== b[i])) issues.push("attributes");
   if (textPresence(source) !== textPresence(output)) issues.push("text_missing");
@@ -77,12 +77,13 @@ export function mapHref(href: string, ctx: LinkContext): string {
   let rest = h;
   const abs = h.match(/^(https?:)?\/\/([^/?#]+)(.*)$/i);
   if (abs) {
-    if (!ctx.siteHosts.includes(abs[2].toLowerCase())) return href;
-    origin = h.slice(0, h.length - abs[3].length);
-    rest = abs[3] || "/";
+    const host = (abs[2] ?? "").toLowerCase(), tail = abs[3] ?? "";
+    if (!ctx.siteHosts.includes(host)) return href;
+    origin = h.slice(0, h.length - tail.length);
+    rest = tail || "/";
   } else if (!h.startsWith("/")) return href; // relative URLs are ambiguous: keep
   const m = rest.match(/^([^?#]*)(.*)$/)!;
-  const segs = m[1].split("/").filter(Boolean);
+  const segs = (m[1] ?? "").split("/").filter(Boolean);
   let locale: Locale = "de";
   if (segs[0] === "en" || segs[0] === "es" || segs[0] === "de") locale = segs.shift() as Locale;
   if (locale !== ctx.sourceLocale) return href; // already points to another language
@@ -96,7 +97,7 @@ export function mapHref(href: string, ctx: LinkContext): string {
   } else if (segs.length <= 1 && STATIC_PAGES.has(segs[0] ?? "")) {
     path = `${prefix(ctx.targetLocale)}/${segs[0] ? segs[0] + "/" : ""}`;
   } else return href;
-  return origin + path + m[2];
+  return origin + path + (m[2] ?? "");
 }
 
 export function mapInternalLinks(html: string, ctx: LinkContext): string {
