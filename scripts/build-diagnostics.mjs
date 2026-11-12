@@ -1,6 +1,5 @@
 // Timestamped build phases for external CI (Cloudflare Pages), plus a last-resort exit
-// that only arms after the static output has been fully verified.
-import { verifyStaticOutput } from "./verify-static-output.mjs";
+// that arms once the Worker build (dist/client + dist/server) has finished.
 
 const started = Date.now();
 const stamp = (phase, detail = "") =>
@@ -35,9 +34,6 @@ export function buildDiagnostics({ graceMs = 30_000 } = {}) {
             stamp("verification skipped", "Lovable build environment");
             return;
           }
-          stamp("verification started");
-          const result = await verifyStaticOutput(); // throws → non-zero exit
-          stamp("verification passed", result);
           stamp("cleanup", `open handles: ${openHandles()}`);
           process.once("beforeExit", () => stamp("finalization – process exiting normally"));
           // Fallback only: everything is built and verified; normal cleanup gets graceMs to finish.

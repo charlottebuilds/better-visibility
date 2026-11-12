@@ -91,11 +91,11 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
   component: Post,
 });
 function Post() {
-  const { post, categories } = Route.useLoaderData();
+  const { post, categories, translations } = Route.useLoaderData();
   const t = getDict(langFromParam(post.locale));
   return (
     <>
-      <SiteHeader />
+      <SiteHeader postTranslations={translations} />
       <div className="mx-auto max-w-3xl px-6 pt-10">
         <Link
           to="/{-$locale}/blog/"

@@ -1,6 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { getWebsiteBlog } from "@/lib/cms/website-data";
+import { Link } from "@tanstack/react-router";
 import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 import { langs, useI18n, localeParam } from "@/lib/i18n";
 import brandMark from "@/assets/brand-mark.png";
@@ -8,13 +6,11 @@ import { Button } from "@/components/ui/button";
 import { whatsappLink } from "@/components/ContactActions";
 import { openCookieSettings } from "@/lib/consent";
 
-export function SiteHeader() {
+export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ locale: string; slug: string }> } = {}) {
   const { t, lang } = useI18n();
   const lp = localeParam(lang);
-  const location = useLocation();
-  const slug = location.pathname.match(/\/blog\/([^/]+)\/?$/)?.[1];
-  const { data: blog } = useQuery({ queryKey: ["cms-language-links"], queryFn: () => getWebsiteBlog({ data: {} }), enabled: PUBLIC_CMS_ENABLED && Boolean(slug) });
-  const currentPost = blog?.posts.find(p => p.slug === slug && p.locale === lang);
+  // On articles, only languages with a published translation are offered and linked.
+  const shownLangs = postTranslations ? langs.filter(l => postTranslations.some(p => p.locale === l)) : langs;
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-x-3 gap-y-4 px-4 py-4 sm:px-6 lg:flex lg:justify-between">
@@ -36,12 +32,12 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-3">
           <nav aria-label={t.blogPage.switchLabel} className="flex items-center text-xs font-medium tracking-widest">
-            {langs.map((l, i) => (
+            {shownLangs.map((l, i) => (
               <span key={l} className="flex items-center">
                 {i > 0 && <span aria-hidden className="mx-1.5 text-border">/</span>}
                 <Link
                   to="./"
-                  params={(prev: Record<string, string | undefined>) => ({ ...prev, locale: localeParam(l), ...(slug ? { slug: blog?.posts.find(p => p.translation_group === currentPost?.translation_group && p.locale === l)?.slug ?? slug } : {}) })}
+                  params={(prev: Record<string, string | undefined>) => ({ ...prev, locale: localeParam(l), ...(postTranslations ? { slug: postTranslations.find(p => p.locale === l)!.slug } : {}) })}
                   hrefLang={l}
                   aria-current={lang === l ? "true" : undefined}
                   className={`uppercase transition-colors ${lang === l ? "text-foreground" : "text-muted-foreground hover:text-accent"}`}
