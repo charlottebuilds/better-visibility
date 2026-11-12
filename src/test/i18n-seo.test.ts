@@ -7,7 +7,7 @@ const S = "https://better-visibility.com";
 describe("Language URLs and hreflang", () => {
   it("accepts /de as an explicit German destination", () => {
     expect(isValidLocaleParam("de")).toBe(true);
-    expect(localeParam("de")).toBe("de");
+    expect(localeParam("de")).toBeUndefined();
   });
 
   it.each(["de", "en", "es"] as const)("provides reciprocal alternates for %s", (lang) => {

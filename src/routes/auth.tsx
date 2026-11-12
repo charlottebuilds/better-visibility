@@ -35,7 +35,7 @@ function Auth() {
       } = await supabase.auth.getUser();
       if (!user || !live) return;
       const { data: admin } = await supabase.rpc("cms_is_admin");
-      if (admin) await navigate({ to: "/admin" });
+      if (admin) await navigate({ to: "/admin/" });
       else setMessage("Angemeldet, aber noch nicht für die Blogverwaltung freigeschaltet.");
     }
     void check();
@@ -55,7 +55,7 @@ function Auth() {
         setMessage("Dein Konto hat noch keine Administratorrechte.");
         return;
       }
-      await navigate({ to: "/admin" });
+      await navigate({ to: "/admin/" });
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Anmeldung fehlgeschlagen.");
     } finally {
@@ -83,14 +83,14 @@ function Auth() {
     if (result.error) setMessage(result.error.message);
     if (!result.error && !result.redirected) {
       const { data: admin } = await supabase.rpc("cms_is_admin");
-      if (admin) await navigate({ to: "/admin" });
+      if (admin) await navigate({ to: "/admin/" });
       else setMessage("Dein Konto muss für die Blogverwaltung freigeschaltet werden.");
     }
   }
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-12">
       <Link
-        to="/{-$locale}"
+        to="/{-$locale}/"
         params={{ locale: undefined }}
         className="mb-10 font-display text-xl font-bold"
       >

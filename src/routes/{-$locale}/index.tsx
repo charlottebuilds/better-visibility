@@ -251,11 +251,11 @@ function Index() {
       {PUBLIC_CMS_ENABLED && <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between">
           <h2 className="text-4xl font-bold">{t.blogTitle}</h2>
-          <Link to="/{-$locale}/blog" params={{ locale: lp }} className="text-accent hover:underline">{t.allPosts}</Link>
+          <Link to="/{-$locale}/blog/" params={{ locale: lp }} className="text-accent hover:underline">{t.allPosts}</Link>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {posts.slice(0, 2).map((p) => (
-            <Link key={p.slug} to="/{-$locale}/blog/$slug" params={{ locale: lp, slug: p.slug }} className="group overflow-hidden rounded-3xl border border-border bg-card">
+            <Link key={p.slug} to="/{-$locale}/blog/$slug/" params={{ locale: lp, slug: p.slug }} className="group overflow-hidden rounded-3xl border border-border bg-card">
               {p.cover_path && <img src={mediaUrl(p.cover_path)} alt={p.cover_alt} loading="lazy" width={1200} height={752} className="aspect-[16/9] w-full object-cover transition group-hover:scale-105" />}
               <div className="p-6">
                 <h3 className="text-xl font-bold">{p.title}</h3>

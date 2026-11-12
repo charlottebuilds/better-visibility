@@ -6,9 +6,9 @@ export const Route = createFileRoute("/_authenticated")({
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) throw redirect({ to: "/auth" });
+    if (!user) throw redirect({ to: "/auth/" });
     const { data: admin, error } = await supabase.rpc("cms_is_admin");
-    if (error || !admin) throw redirect({ to: "/auth" });
+    if (error || !admin) throw redirect({ to: "/auth/" });
   },
   component: Outlet,
 });

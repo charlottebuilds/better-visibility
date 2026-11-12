@@ -13,19 +13,19 @@ export function AdminShell({ children }: { children: ReactNode }) {
     queryClient.clear();
     await supabase.auth.signOut();
     await router.invalidate();
-    await navigate({ to: "/auth", replace: true });
+    await navigate({ to: "/auth/", replace: true });
   }
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4">
-          <Link to="/admin" className="font-display text-lg font-bold">
+          <Link to="/admin/" className="font-display text-lg font-bold">
             better<span className="text-gradient">visibility</span>
             <span className="ml-3 text-xs font-normal text-muted-foreground">CMS</span>
           </Link>
           <div className="flex gap-2">
             <Button asChild variant="ghost">
-              <Link to="/{-$locale}" params={{ locale: undefined }}>
+              <Link to="/{-$locale}/" params={{ locale: undefined }}>
                 <ArrowUpRight />
                 Website
               </Link>
@@ -43,25 +43,25 @@ export function AdminShell({ children }: { children: ReactNode }) {
           className="flex gap-1 overflow-auto border-b border-border p-4 md:flex-col md:border-r md:border-b-0"
         >
           <Button asChild variant="ghost" className="justify-start">
-            <Link to="/admin">
+            <Link to="/admin/">
               <FileText />
               Beiträge
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">
-            <Link to="/admin/categories">
+            <Link to="/admin/categories/">
               <Tag />
               Kategorien
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">
-            <Link to="/admin/ki-optimierung">
+            <Link to="/admin/ki-optimierung/">
               <Sparkles />
               KI-Optimierung
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">
-            <Link to="/admin/profile">
+            <Link to="/admin/profile/">
               <UserRound />
               Profil & Team
             </Link>

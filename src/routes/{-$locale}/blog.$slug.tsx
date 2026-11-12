@@ -10,7 +10,7 @@ import { mediaUrl } from "@/lib/cms/types";
 export const Route = createFileRoute("/{-$locale}/blog/$slug")({
   beforeLoad: ({ params }) => {
     if (!isValidLocaleParam(params.locale)) throw notFound();
-    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}", params: { locale: params.locale } });
+    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}/", params: { locale: params.locale } });
   },
   loader: async ({ params }) => {
     const lang = langFromParam(params.locale);
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
       const target = await getWebsiteRedirect({ data: { locale: lang, slug: params.slug } });
       if (target)
         throw redirect({
-          to: "/{-$locale}/blog/$slug",
+          to: "/{-$locale}/blog/$slug/",
           params: { locale: params.locale, slug: target },
           statusCode: 301,
         });
@@ -98,7 +98,7 @@ function Post() {
       <SiteHeader />
       <div className="mx-auto max-w-3xl px-6 pt-10">
         <Link
-          to="/{-$locale}/blog"
+          to="/{-$locale}/blog/"
           params={{ locale: post.locale }}
           className="text-sm text-accent"
         >

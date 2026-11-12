@@ -79,7 +79,7 @@ export function BlogList({ posts, categories }: { posts: PublicPost[]; categorie
           {filtered.slice(page * 9, page * 9 + 9).map((p) => (
             <Link
               key={p.id}
-              to="/{-$locale}/blog/$slug"
+              to="/{-$locale}/blog/$slug/"
               params={{ locale: lang, slug: p.slug }}
               className="group overflow-hidden rounded-lg border border-border bg-card transition-colors hover:border-accent"
             >

@@ -7,7 +7,7 @@ import { BlogList } from "@/components/cms/BlogList";
 export const Route = createFileRoute("/{-$locale}/blog/")({
   beforeLoad: ({ params }) => {
     if (!isValidLocaleParam(params.locale)) throw notFound();
-    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}", params: { locale: params.locale } });
+    if (!PUBLIC_CMS_ENABLED) throw redirect({ to: "/{-$locale}/", params: { locale: params.locale } });
   },
   loader: ({ params }) => getWebsiteBlog({ data: { locale: langFromParam(params.locale) } }),
   head: ({ params }) => {

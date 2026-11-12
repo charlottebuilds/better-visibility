@@ -51,7 +51,7 @@ function Dashboard() {
     try {
       const post = await savePost({ data: { post: emptyPost(), action: "save" } });
       await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
-      await navigate({ to: "/admin/edit/$id", params: { id: post.id } });
+      await navigate({ to: "/admin/edit/$id/", params: { id: post.id } });
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Fehler");
     }
@@ -161,7 +161,7 @@ function Dashboard() {
                 >
                   <td className="max-w-64 px-3 py-4">
                     <Link
-                      to="/admin/edit/$id"
+                      to="/admin/edit/$id/"
                       params={{ id: p.id }}
                       className="font-semibold hover:text-accent"
                     >
@@ -198,7 +198,7 @@ function Dashboard() {
                         aria-label="Bearbeiten"
                         asChild
                       >
-                        <Link to="/admin/edit/$id" params={{ id: p.id }}>
+                        <Link to="/admin/edit/$id/" params={{ id: p.id }}>
                           <Pencil />
                         </Link>
                       </Button>

@@ -129,7 +129,7 @@ export function CookieConsent() {
                 {c.back}
               </Button>
               <Link
-                to="/{-$locale}/datenschutz"
+                to="/{-$locale}/datenschutz/"
                 params={{ locale: lp }}
                 className="ml-auto text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-accent hover:underline"
               >

@@ -12,7 +12,8 @@ export const SITE_URL = "https://better-visibility.com";
 const dict = { de, en, es };
 
 /** Language-switcher destinations use explicit prefixes; / remains the fallback. */
-export const localeParam = (l: Lang) => l;
+/** German is the unprefixed default, so internal links never carry /de/. */
+export const localeParam = (l: Lang) => (l === "de" ? undefined : l);
 export const langFromParam = (p?: string): Lang => (p === "en" || p === "es" ? p : "de");
 export const isValidLocaleParam = (p?: string) => p === undefined || p === "de" || p === "en" || p === "es";
 

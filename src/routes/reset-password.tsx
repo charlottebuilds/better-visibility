@@ -47,7 +47,7 @@ function Reset() {
             e.preventDefault();
             const { error } = await supabase.auth.updateUser({ password });
             if (error) setMessage(error.message);
-            else await navigate({ to: "/auth" });
+            else await navigate({ to: "/auth/" });
           }}
         >
           <label className="cms-label">

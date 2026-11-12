@@ -227,7 +227,7 @@ function Edit() {
               await persist("save");
               if (status === "Speicherfehler") return;
               const found = translations.find((p) => p.locale === locale);
-              if (found) await navigate({ to: "/admin/edit/$id", params: { id: found.id } });
+              if (found) await navigate({ to: "/admin/edit/$id/", params: { id: found.id } });
               else
                 try {
                   const translated = await savePost({
@@ -237,7 +237,7 @@ function Edit() {
                     },
                   });
                   await queryClient.invalidateQueries({ queryKey: ["cms-admin"] });
-                  await navigate({ to: "/admin/edit/$id", params: { id: translated.id } });
+                  await navigate({ to: "/admin/edit/$id/", params: { id: translated.id } });
                 } catch (e) {
                   setMessage(e instanceof Error ? e.message : "Fehler");
                 }
