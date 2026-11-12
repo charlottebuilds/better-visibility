@@ -1,16 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+
+// Uploads get a fresh random file name, so a replaced image always has a new URL.
+// Deletions/unpublishing are honoured after at most the short edge TTL below.
+const CACHE_OK = "public, max-age=300, s-maxage=3600, stale-while-revalidate=60";
+const notFound = () =>
+  new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
+
 export const Route = createFileRoute("/api/public/blog-media")({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const path = new URL(request.url).searchParams.get("path");
-        if (!path || !/^[a-zA-Z0-9_.-]+$/.test(path))
-          return new Response("Not found", { status: 404 });
+        if (!path || !/^[a-zA-Z0-9_.-]+$/.test(path)) return notFound();
         const url = process.env["SUPABASE_URL"];
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
-        if (!url || !key) return new Response("Unavailable", { status: 503 });
+        if (!url || !key) return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
         const client = createClient<Database>(url, key, {
           auth: { persistSession: false },
           global: {
@@ -22,15 +28,28 @@ export const Route = createFileRoute("/api/public/blog-media")({
             },
           },
         });
-        const { data: allowed } = await client.rpc("cms_public_media", { p_path: path });
-        if (!allowed) return new Response("Not found", { status: 404 });
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin.storage.from("blog-media").download(path);
-        if (error || !data) return new Response("Not found", { status: 404 });
+        const { data: allowed, error: checkError } = await client.rpc("cms_public_media", { p_path: path });
+        if (checkError) {
+          console.error("[blog-media] publication check failed:", checkError.message);
+          return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
+        }
+        if (!allowed) return notFound();
+        const { storageAdmin } = await import("@/lib/blog-media.server");
+        const admin = storageAdmin();
+        if (!admin) {
+          console.error("[blog-media] SUPABASE_SECRET_KEY / SUPABASE_SERVICE_ROLE_KEY missing");
+          return new Response("Unavailable", { status: 503, headers: { "Cache-Control": "no-store" } });
+        }
+        const { data, error } = await admin.storage.from("blog-media").download(path);
+        if (error || !data) return notFound();
+        const etag = `"${path}-${data.size}"`;
+        if (request.headers.get("If-None-Match") === etag)
+          return new Response(null, { status: 304, headers: { ETag: etag, "Cache-Control": CACHE_OK } });
         return new Response(data, {
           headers: {
             "Content-Type": data.type,
-            "Cache-Control": "no-store",
+            "Cache-Control": CACHE_OK,
+            ETag: etag,
             "X-Content-Type-Options": "nosniff",
           },
         });

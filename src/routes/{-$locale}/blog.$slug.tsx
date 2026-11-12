@@ -2,7 +2,8 @@ import { PERSON_ID, ORG_ID, WEBSITE_ID } from "@/lib/schema";
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { getWebsiteBlog, getWebsiteRedirect } from "@/lib/cms/website-data";
 import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
-import { getDict, langFromParam, isValidLocaleParam, SITE_URL } from "@/lib/i18n";
+import { getDict, langFromParam, isValidLocaleParam, SITE_URL, type Lang } from "@/lib/i18n";
+import { postCanonicalUrl, alternates } from "@/lib/sitemap";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Article } from "@/components/cms/Article";
 import { mediaUrl } from "@/lib/cms/types";
@@ -41,7 +42,7 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
       };
     const p = loaderData.post;
     const canonical =
-      p.canonical_url || SITE_URL + (params.locale ? `/${params.locale}` : "") + "/blog/" + p.slug;
+      p.canonical_url || postCanonicalUrl(p.locale as Lang, p.slug);
     const image = p.cover_path ? SITE_URL + mediaUrl(p.cover_path) : null;
     return {
       meta: [
@@ -61,18 +62,9 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
       ],
       links: [
         { rel: "canonical", href: canonical },
-        ...loaderData.translations.map((t) => ({
-          rel: "alternate",
-          hrefLang: t.locale,
-          href: SITE_URL + `/${t.locale}/blog/${t.slug}`,
-        })),
-        ...loaderData.translations
-          .filter((t) => t.locale === "de")
-          .map((t) => ({
-            rel: "alternate",
-            hrefLang: "x-default",
-            href: SITE_URL + "/blog/" + t.slug,
-          })),
+        ...alternates(
+          loaderData.translations.map((t) => ({ lang: t.locale as Lang, href: postCanonicalUrl(t.locale as Lang, t.slug) })),
+        ).map((l) => ({ rel: "alternate", hrefLang: l.hreflang, href: l.href })),
       ],
       scripts: [
         {

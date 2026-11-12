@@ -29,23 +29,38 @@ describe("Language URLs and hreflang", () => {
 });
 
 describe("Sitemap", () => {
-  const xml = buildSitemapXml();
+  const posts = [
+    { locale: "de", slug: "was-ist-geo", translation_group: "g1" },
+    { locale: "en", slug: "what-is-geo", translation_group: "g1" },
+    { locale: "en", slug: "only-en", translation_group: "g2" },
+    { locale: "de", slug: "fremd", translation_group: "g3", canonical_url: "https://example.com/x" },
+  ];
+  const xml = buildSitemapXml(posts);
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
-  it("lists exactly the 9 canonical slash URLs", () => {
-    expect(locs).toEqual([
+  it("lists the 12 static slash URLs including the blog overviews", () => {
+    expect(locs.slice(0, 12)).toEqual([
       `${S}/`, `${S}/en/`, `${S}/es/`,
       `${S}/impressum/`, `${S}/en/impressum/`, `${S}/es/impressum/`,
       `${S}/datenschutz/`, `${S}/en/datenschutz/`, `${S}/es/datenschutz/`,
+      `${S}/blog/`, `${S}/en/blog/`, `${S}/es/blog/`,
     ]);
   });
 
-  it("excludes /de and blog URLs", () => {
-    expect(xml).not.toContain(`${S}/de`);
-    expect(xml).not.toContain("/blog");
+  it("adds published articles with German unprefixed, skipping foreign canonicals", () => {
+    expect(locs.slice(12)).toEqual([`${S}/blog/was-ist-geo/`, `${S}/en/blog/what-is-geo/`, `${S}/en/blog/only-en/`]);
+    expect(xml).not.toContain(`${S}/de/`);
+    expect(xml).not.toContain("fremd");
   });
 
-  it("gives every URL four hreflang alternates", () => {
-    expect(xml.match(/<xhtml:link /g)?.length).toBe(36);
+  it("links only existing translations; x-default only when a German version exists", () => {
+    expect(xml).toContain(`hreflang="x-default" href="${S}/blog/was-ist-geo/"`);
+    const onlyEn = xml.split("<url>").find((b) => b.includes("<loc>" + S + "/en/blog/only-en/"))!;
+    expect(onlyEn.match(/<xhtml:link /g)?.length).toBe(1);
+    expect(onlyEn).not.toContain("x-default");
+  });
+
+  it("without articles still lists static pages with four alternates each", () => {
+    expect(buildSitemapXml().match(/<xhtml:link /g)?.length).toBe(48);
   });
 });
