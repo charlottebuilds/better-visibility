@@ -37,6 +37,7 @@ export function siteGraph(opts: {
   skills: string[];
   offerCatalogName: string;
   offers: { n: string; d: string; k: string }[];
+  faq?: { q: string; a: string }[];
 }) {
   const address = postalAddress();
   return {
@@ -95,6 +96,18 @@ export function siteGraph(opts: {
           })),
         },
       },
+      ...(opts.faq?.length
+        ? [{
+            "@type": "FAQPage",
+            "@id": `${opts.pageUrl}#faq`,
+            inLanguage: opts.lang,
+            mainEntity: opts.faq.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          }]
+        : []),
     ],
   };
 }

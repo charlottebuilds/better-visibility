@@ -44,6 +44,7 @@ export const Route = createFileRoute("/{-$locale}/")({
           skills: getDict(lang).skills,
           offerCatalogName: getDict(lang).packagesTitle,
           offers: getDict(lang).packages,
+          faq: getDict(lang).faq,
         })),
       }],
     };
@@ -268,6 +269,19 @@ function Index() {
         </div>
       </section>
 
+
+      <section id="faq" className="mx-auto max-w-6xl px-6 py-20">
+        <h2 className="text-4xl font-bold">{t.faqTitle}</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">{t.faqIntro}</p>
+        <Accordion type="single" collapsible className="mt-10 rounded-3xl border border-border bg-card px-6 md:px-8">
+          {t.faq.map((item, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="last:border-b-0">
+              <AccordionTrigger className="py-5 text-left text-lg font-semibold hover:text-accent hover:no-underline">{item.q}</AccordionTrigger>
+              <AccordionContent className="text-base leading-relaxed text-muted-foreground">{item.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </section>
 
       {PUBLIC_CMS_ENABLED && <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between">
