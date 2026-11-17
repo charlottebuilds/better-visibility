@@ -3,7 +3,6 @@ import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 import { langs, useI18n, localeParam } from "@/lib/i18n";
 import brandMark from "@/assets/brand-mark.png";
 import { Button } from "@/components/ui/button";
-import { whatsappLink } from "@/components/ContactActions";
 import { openCookieSettings } from "@/lib/consent";
 
 export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ locale: string; slug: string }> } = {}) {
@@ -48,9 +47,9 @@ export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ lo
             ))}
           </nav>
           <Button asChild className="cta-hover hidden rounded-full bg-gradient-brand px-4 py-2 font-semibold text-primary-foreground xl:inline-flex">
-          <a href={whatsappLink(t.whatsapp.text)} target="_blank" rel="noopener noreferrer">
+          <Link to="/{-$locale}/" params={{ locale: lp }} hash="kontakt">
             {t.nav.contact}
-          </a>
+          </Link>
           </Button>
         </div>
       </div>
