@@ -150,7 +150,18 @@
   color: transparent;
   animation: hero-accent-in 900ms ease both, hero-gradient-drift 12s ease-in-out infinite;
 }
+.hero-drift {
+  transform-origin: center;
+  animation: hero-drift 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes hero-drift {
+  0% { transform: scale(1.04) translate3d(-1%, 0, 0); }
+  50% { transform: scale(1.07) translate3d(0.5%, -0.6%, 0); }
+  100% { transform: scale(1.05) translate3d(1%, 0.4%, 0); }
+}
 @media (prefers-reduced-motion: reduce) {
+  .hero-drift { animation: none; transform: scale(1.04); }
   .site-nav-link, .site-nav-link::after { transition: none; }
   .about-proof, .about-detail, .about-skill { transition: none; }
   .about-proof:hover { transform: none; }

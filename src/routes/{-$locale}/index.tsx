@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import heroBg from "@/assets/hero-bg-search-cards.jpg";
 import caseRank from "@/assets/case-rank-tracking.png";
@@ -60,6 +60,22 @@ function Index() {
   const lp = localeParam(lang);
   const cs = t.caseStudy;
   const accentRef = useRef<HTMLSpanElement>(null);
+  const heroParallaxRef = useRef<HTMLDivElement>(null);
+  // Scroll parallax: the background moves at ~35% of scroll speed; skipped for reduced motion.
+  useEffect(() => {
+    const el = heroParallaxRef.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = Math.min(window.scrollY, window.innerHeight);
+      el.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); if (frame) cancelAnimationFrame(frame); };
+  }, []);
   const heroWords = t.hero.h1a.trim().split(/\s+/);
   // The sheen follows the pointer across the headline; coordinates are taken from the
   // gradient phrase itself so the highlight lands exactly under the cursor.
@@ -78,7 +94,9 @@ function Index() {
     <div>
       <SiteHeader />
       <section className="relative -mt-24 flex min-h-[88vh] items-center overflow-hidden pt-24">
-        <img src={heroBg} alt="" aria-hidden width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover object-[80%_50%] opacity-100 md:object-center" />
+        <div ref={heroParallaxRef} aria-hidden className="absolute inset-0 will-change-transform">
+          <img src={heroBg} alt="" width={1920} height={1080} className="hero-drift absolute inset-0 h-full w-full object-cover object-[80%_50%] md:object-center" />
+        </div>
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background" />
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_90%)] opacity-35" />
         <div className="relative mx-auto max-w-4xl px-6 py-20 text-center md:py-28">
