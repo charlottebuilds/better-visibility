@@ -13,7 +13,20 @@ export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ lo
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
       <div className="mx-auto grid max-w-6xl rounded-3xl border border-border/60 bg-background/60 shadow-lg backdrop-blur-md lg:rounded-full grid-cols-[1fr_auto] items-center gap-x-3 gap-y-4 px-4 py-3 sm:px-6 lg:flex lg:justify-between">
-        <Link to="/{-$locale}/" params={{ locale: lp }} className="flex items-center gap-2 whitespace-nowrap font-display text-base font-bold sm:text-lg">
+        <Link
+          to="/{-$locale}/"
+          params={{ locale: lp }}
+          hash="top"
+          aria-label={t.nav.toTop}
+          onClick={(e) => {
+            // Same page: the router would keep the current scroll offset, so scroll to top ourselves.
+            if (e.currentTarget.pathname === window.location.pathname) {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          className="flex items-center gap-2 whitespace-nowrap font-display text-base font-bold sm:text-lg"
+        >
           <img
             src={brandMark}
             alt=""

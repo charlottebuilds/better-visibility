@@ -10,7 +10,7 @@ const es = {
     aboutIntro: "Doy visibilidad a las empresas en Google y en las búsquedas con IA, con una estrategia clara, contenido relevante y ejecución directa.",
     aboutDetails: { background: "Mi enfoque", skills: "Especialidades y herramientas", languages: "Idiomas" },
     aboutProof: ["Formación periodística", "Estrategia y ejecución hands-on", "Decisiones basadas en datos"],
-    nav: { services: "Servicios", process: "Proceso", stories: "Casos de éxito", about: "Sobre mí", blog: "Blog", contact: "Contacto" },
+    nav: { services: "Servicios", process: "Proceso", stories: "Casos de éxito", about: "Sobre mí", blog: "Blog", contact: "Contacto", toTop: "Volver arriba" },
     hero: { h1a: "Que te encuentren – ", h1b: "en Google y en la IA.", p: "Consultoría y ejecución de campañas SEO y GEO que hacen visible tu marca donde buscan tus clientes.", cta: "Reservar llamada" },
     services: [{ t: "Consultoría", s: "Estrategia y know-how", d: "Auditoría, análisis de competencia y keywords, intención de búsqueda y visibilidad en IA: recibe una hoja de ruta clara y la implementa usted o su equipo.", f: ["Auditoría SEO y GEO", "Keywords e intención de búsqueda", "AI Search y visibilidad en LLM", "Estrategia de contenidos y E-E-A-T", "Talleres y coaching de equipos"] }, { t: "Ejecución hands-on", s: "Crecimiento orgánico de una sola mano", d: "Implemento lo que genera leads inbound – medible y optimizado paso a paso.", f: ["Campañas SEO y GEO", "SEO técnico", "Creación y relanzamiento de webs", "Content marketing y digital PR", "Marketing online y en redes sociales"] }],
     servicesIntro: "Crecimiento orgánico que genera leads inbound de forma constante – tanto si implementa la estrategia usted mismo como si lo quiere todo de una sola mano.",

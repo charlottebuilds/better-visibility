@@ -93,7 +93,7 @@ function Index() {
   return (
     <div>
       <SiteHeader />
-      <section className="relative -mt-24 flex min-h-[88vh] items-center overflow-hidden pt-24">
+      <section id="top" className="relative -mt-24 flex min-h-[88vh] items-center overflow-hidden pt-24">
         <div ref={heroParallaxRef} aria-hidden className="absolute inset-0 will-change-transform">
           <img src={heroBg} alt="" width={1920} height={1080} className="hero-drift absolute inset-0 h-full w-full object-cover object-[80%_50%] md:object-center" />
         </div>

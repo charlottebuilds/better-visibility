@@ -9,7 +9,7 @@ const de = {
     aboutIntro: "Ich mache Unternehmen in Google und KI-Suchen sichtbar – mit klarer Strategie, guten Inhalten und eigener Umsetzung.",
     aboutDetails: { background: "Mein Ansatz", skills: "Expertise & Tools", languages: "Sprachen" },
     aboutProof: ["Journalistischer Hintergrund", "Strategie & Hands-on-Umsetzung", "Ergebnisse statt Bauchgefühl"],
-    nav: { services: "Leistungen", process: "Ablauf", stories: "Referenzen", about: "Über mich", blog: "Blog", contact: "Kontakt" },
+    nav: { services: "Leistungen", process: "Ablauf", stories: "Referenzen", about: "Über mich", blog: "Blog", contact: "Kontakt", toTop: "Zur Startseite nach oben" },
     hero: { h1a: "Gefunden werden – ", h1b: "bei Google und in der KI.", p: "Persönliche SEO Beratung und GEO Optimierung: Ich mache Ihre Marke dort sichtbar, wo Ihre Kunden suchen – in Google und in KI-Antworten.", cta: "Erstgespräch buchen" },
     services: [{ t: "Beratung", s: "Strategie & Know-how", d: "Audit, Wettbewerbs- und Keyword-Analyse, Search Intent und KI-Sichtbarkeit: Ich liefere Ihnen eine klare Roadmap, die Sie selbst oder mit Ihrem Team umsetzen.", f: ["SEO- & GEO-Audit", "Keyword- & Search-Intent-Recherche", "AI Search & LLM Visibility", "Content-Strategie & E-E-A-T", "Workshops & Team-Coaching"] }, { t: "Hands-on Umsetzung", s: "Organic Growth aus einer Hand", d: "Ich setze um, was Inbound-Leads bringt – messbar und Schritt für Schritt optimiert.", f: ["SEO- & GEO-Kampagnen", "Technical SEO", "Websiteerstellung & Relaunch", "Content Marketing & Digital PR", "Online- & Social-Media-Marketing"] }],
     servicesIntro: "Als freie SEO-Beraterin begleite ich Sie persönlich zu planbaren Inbound-Leads – ob Sie die Strategie selbst umsetzen oder alles aus einer Hand möchten.",
