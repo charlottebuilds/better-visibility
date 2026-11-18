@@ -23,6 +23,9 @@ import {
   Undo2,
   Redo2,
   Trash2,
+  ListChecks,
+  HelpCircle,
+  BookMarked,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/cms/browser";
@@ -39,6 +42,17 @@ const InfoBox = Node.create({
     0,
   ],
 });
+const blockNode = (name: string, type: string) =>
+  Node.create({
+    name,
+    group: "block",
+    content: "block+",
+    parseHTML: () => [{ tag: `div[data-type="${type}"]` }],
+    renderHTML: ({ HTMLAttributes }) => ["div", mergeAttributes(HTMLAttributes, { "data-type": type }), 0],
+  });
+const Takeaways = blockNode("takeaways", "takeaways");
+const FaqBlock = blockNode("faqBlock", "faq");
+const Sources = blockNode("sources", "sources");
 const Figure = Node.create({
   name: "figure",
   group: "block",
@@ -104,6 +118,9 @@ export function RichEditor({
       Figure,
       Caption,
       InfoBox,
+      Takeaways,
+      FaqBlock,
+      Sources,
       Placeholder.configure({ placeholder: "Hier beginnt dein Beitrag …" }),
     ],
     content,
@@ -225,6 +242,43 @@ export function RichEditor({
             ],
           })
           .run(),
+    },
+    {
+      label: "„Auf einen Blick“-Box",
+      icon: ListChecks,
+      run: () =>
+        editor.chain().focus().insertContent({
+          type: "takeaways",
+          content: [
+            { type: "heading", attrs: { level: 3 }, content: [{ type: "text", text: "Auf einen Blick" }] },
+            { type: "bulletList", content: ["Kernaussage 1", "Kernaussage 2", "Kernaussage 3"].map((t) => ({ type: "listItem", content: [{ type: "paragraph", content: [{ type: "text", text: t }] }] })) },
+          ],
+        }).run(),
+    },
+    {
+      label: "FAQ-Block (jede H3 = Frage, darunter Antwort)",
+      icon: HelpCircle,
+      run: () =>
+        editor.chain().focus().insertContent({
+          type: "faqBlock",
+          content: [
+            { type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: "Häufige Fragen" }] },
+            { type: "heading", attrs: { level: 3 }, content: [{ type: "text", text: "Deine Frage?" }] },
+            { type: "paragraph", content: [{ type: "text", text: "Kurze, präzise Antwort in zwei bis drei Sätzen." }] },
+          ],
+        }).run(),
+    },
+    {
+      label: "Quellenverzeichnis ([1], [2] im Text verweisen auf die Liste)",
+      icon: BookMarked,
+      run: () =>
+        editor.chain().focus().insertContent({
+          type: "sources",
+          content: [
+            { type: "heading", attrs: { level: 3 }, content: [{ type: "text", text: "Quellen" }] },
+            { type: "orderedList", content: [{ type: "listItem", content: [{ type: "paragraph", content: [{ type: "text", text: "Autor, Titel, Jahr – URL" }] }] }] },
+          ],
+        }).run(),
     },
     { label: "Rückgängig", icon: Undo2, run: () => editor.chain().focus().undo().run() },
     { label: "Wiederholen", icon: Redo2, run: () => editor.chain().focus().redo().run() },

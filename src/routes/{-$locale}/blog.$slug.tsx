@@ -7,6 +7,8 @@ import { postCanonicalUrl, alternates } from "@/lib/sitemap";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Article } from "@/components/cms/Article";
 import { mediaUrl } from "@/lib/cms/types";
+import { extractFaq, relatedPosts, wordCount } from "@/lib/cms/article-seo";
+import { BUSINESS } from "@/lib/schema";
 export const Route = createFileRoute("/{-$locale}/blog/$slug")({
   beforeLoad: ({ params }) => {
     if (!isValidLocaleParam(params.locale)) throw notFound();
@@ -29,6 +31,7 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
     return {
       ...data,
       post,
+      related: relatedPosts(post, data.posts),
       translations: data.posts.filter((p) => p.translation_group === post.translation_group),
     };
   },
@@ -43,6 +46,7 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
     const p = loaderData.post;
     const canonical =
       p.canonical_url || postCanonicalUrl(p.locale as Lang, p.slug);
+    const faq = extractFaq(p.content);
     const image = p.cover_path ? SITE_URL + mediaUrl(p.cover_path) : null;
     return {
       meta: [
@@ -77,7 +81,8 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
             dateModified: p.updated_at ?? p.published_at,
             description: p.meta_description || p.excerpt,
             inLanguage: p.locale,
-            author: { "@type": "Person", "@id": PERSON_ID, name: p.author || "Charlotte Götz" },
+            wordCount: wordCount(p.content),
+            author: { "@type": "Person", "@id": PERSON_ID, name: p.author || "Charlotte Götz", jobTitle: "Organic Growth Specialist · Content Strategist", sameAs: [BUSINESS.linkedin] },
             publisher: { "@id": ORG_ID },
             isPartOf: { "@id": WEBSITE_ID },
             mainEntityOfPage: canonical,
@@ -85,13 +90,25 @@ export const Route = createFileRoute("/{-$locale}/blog/$slug")({
             ...(image ? { image } : {}),
           }),
         },
+        ...(faq.length
+          ? [{
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": `${canonical}#faq`,
+                inLanguage: p.locale,
+                mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+              }),
+            }]
+          : []),
       ],
     };
   },
   component: Post,
 });
 function Post() {
-  const { post, categories, translations } = Route.useLoaderData();
+  const { post, categories, translations, related } = Route.useLoaderData();
   const t = getDict(langFromParam(post.locale));
   return (
     <>
@@ -105,7 +122,7 @@ function Post() {
           {t.blogPage.back}
         </Link>
       </div>
-      <Article post={post} categories={categories} />
+      <Article post={post} categories={categories} related={related} />
       <SiteFooter />
     </>
   );

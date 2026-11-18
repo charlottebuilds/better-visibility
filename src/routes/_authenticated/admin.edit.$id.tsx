@@ -19,6 +19,7 @@ import {
 import { emptyPost, slugify, mediaUrl, type CmsPost, type PublicPost } from "@/lib/cms/types";
 import { RichEditor } from "@/components/cms/RichEditor";
 import { Article } from "@/components/cms/Article";
+import { SeoPanel } from "@/components/cms/SeoPanel";
 import { Button } from "@/components/ui/button";
 import { Save, Eye, Send, ImagePlus, X, History, Languages, Loader2 } from "lucide-react";
 export const Route = createFileRoute("/_authenticated/admin/edit/$id")({
@@ -529,6 +530,7 @@ function Edit() {
                     {post.meta_description || post.excerpt}
                   </p>
                 </div>
+                <SeoPanel post={post} />
               </>
             ) : (
               <>
