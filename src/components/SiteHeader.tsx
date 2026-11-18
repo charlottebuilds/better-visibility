@@ -21,7 +21,7 @@ export function SiteHeader({ postTranslations }: { postTranslations?: Array<{ lo
             height={28}
             className="h-7 w-7 rounded-[9px] ring-1 ring-border"
           />
-          better<span className="text-gradient">visibility</span>
+          <span>better<span className="text-gradient">visibility</span></span>
         </Link>
         <nav aria-label={t.navigationLabel} className="order-3 col-span-2 grid grid-cols-4 items-center gap-1 text-center text-xs text-muted-foreground sm:text-sm lg:order-none lg:flex lg:gap-5">
           <Link to="/{-$locale}/" params={{ locale: lp }} hash="leistungen" className="site-nav-link py-2">{t.nav.services}</Link>
@@ -63,6 +63,10 @@ export function SiteFooter() {
   const cls = "transition-colors hover:text-accent";
   return (
     <footer className="border-t border-border py-10 text-center text-sm text-muted-foreground">
+      <Link to="/{-$locale}/" params={{ locale: lp }} aria-label="better visibility" className="mb-5 inline-flex items-center gap-2 font-display text-base font-bold text-foreground">
+        <img src={brandMark} alt="" width={32} height={32} loading="lazy" className="h-8 w-8 rounded-[10px] ring-1 ring-border" />
+        <span>better<span className="text-gradient">visibility</span></span>
+      </Link>
       <p>© {new Date().getFullYear()} better-visibility.com · {t.footer}</p>
       <nav aria-label="Footer" className="mt-3 flex justify-center gap-5 text-xs text-foreground/50">
         {PUBLIC_CMS_ENABLED && <Link to="/{-$locale}/blog/" params={{ locale: lp }} className={cls}>{t.footerLinks.blog}</Link>}

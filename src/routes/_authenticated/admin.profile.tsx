@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadImage } from "@/lib/cms/browser";
-import { manageUser } from "@/lib/cms/admin.functions";
+import { manageUser, listTeam, removeTeamMember } from "@/lib/cms/admin.functions";
 import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/admin/profile")({
   head: () => ({
@@ -25,6 +25,8 @@ export const Route = createFileRoute("/_authenticated/admin/profile")({
 function Profile() {
   const [message, setMessage] = useState("");
   const [avatar, setAvatar] = useState("");
+  const queryClient = useQueryClient();
+  const team = useQuery({ queryKey: ["cms-team"], queryFn: () => listTeam() });
   const { data } = useQuery({
     queryKey: ["cms-profile"],
     queryFn: async () => {
@@ -111,7 +113,49 @@ function Profile() {
         <Button>Profil speichern</Button>
       </form>
       <section className="mt-12 max-w-lg border-t border-border pt-8">
-        <h2 className="text-xl font-bold">Administrator einladen</h2>
+        <h2 className="text-xl font-bold">Team</h2>
+        <ul className="mt-5 divide-y divide-border rounded-lg border border-border">
+          {team.data?.map((m) => (
+            <li key={m.id} className="flex items-center justify-between gap-4 p-4">
+              <div className="min-w-0">
+                <p className="truncate font-medium">
+                  {m.name || m.email}
+                  {m.self && <span className="ml-2 text-xs text-muted-foreground">(du)</span>}
+                </p>
+                <p className="truncate text-sm text-muted-foreground">
+                  {m.email} · Administrator{m.pending ? " · Einladung offen" : ""}
+                </p>
+              </div>
+              {!m.self && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    if (!confirm(`${m.email} aus dem Team entfernen?`)) return;
+                    try {
+                      await removeTeamMember({ data: { id: m.id } });
+                      setMessage("Teammitglied entfernt.");
+                      await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
+                    } catch (e) {
+                      setMessage(e instanceof Error ? e.message : "Entfernen fehlgeschlagen.");
+                    }
+                  }}
+                >
+                  Entfernen
+                </Button>
+              )}
+            </li>
+          ))}
+          {team.isLoading && <li className="p-4 text-sm text-muted-foreground">Lädt …</li>}
+          {team.error && <li className="p-4 text-sm text-accent">{team.error.message}</li>}
+        </ul>
+      </section>
+      <section className="mt-12 max-w-lg border-t border-border pt-8">
+        <h2 className="text-xl font-bold">Teammitglied einladen</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Die Person erhält eine E-Mail mit einem Link und kann danach Beiträge und Seitentexte bearbeiten.
+        </p>
         <form
           className="mt-5 space-y-4"
           onSubmit={async (e) => {
@@ -120,6 +164,8 @@ function Profile() {
             try {
               await manageUser({ data: { email: String(f.get("email")), admin: true } });
               setMessage("Einladung versendet.");
+              e.currentTarget?.reset();
+              await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
             } catch (e) {
               setMessage(e instanceof Error ? e.message : "Einladung fehlgeschlagen.");
             }

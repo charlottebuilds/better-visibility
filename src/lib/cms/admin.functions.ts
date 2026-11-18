@@ -249,3 +249,40 @@ export const uploadMedia = createServerFn({ method: "POST" })
     return { path, preview: signed?.signedUrl ?? "" };
   });
 export type RevisionSnapshot = Json;
+
+export const listTeam = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: admin } = await context.supabase.rpc("cms_is_admin");
+    if (!admin) throw new Error("Keine Administratorrechte.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles, error } = await supabaseAdmin.from("user_roles").select("user_id, role");
+    if (error) throw error;
+    const { data: list, error: listError } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
+    if (listError) throw listError;
+    const { data: profiles } = await supabaseAdmin.from("profiles").select("id, display_name");
+    return roles.map((r) => {
+      const u = list.users.find((x) => x.id === r.user_id);
+      return {
+        id: r.user_id,
+        role: r.role,
+        email: u?.email ?? "",
+        name: profiles?.find((p) => p.id === r.user_id)?.display_name ?? "",
+        pending: !u?.last_sign_in_at,
+        self: r.user_id === context.userId,
+      };
+    });
+  });
+
+export const removeTeamMember = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { id: string }) => z.object({ id: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { data: admin } = await context.supabase.rpc("cms_is_admin");
+    if (!admin) throw new Error("Keine Administratorrechte.");
+    if (data.id === context.userId) throw new Error("Du kannst dich nicht selbst entfernen.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("user_roles").delete().eq("user_id", data.id);
+    if (error) throw error;
+    return { success: true };
+  });
