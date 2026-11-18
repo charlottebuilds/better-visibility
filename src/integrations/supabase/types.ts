@@ -246,6 +246,27 @@ export type Database = {
         }
         Relationships: []
       }
+      site_texts: {
+        Row: {
+          locale: string
+          path: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          locale: string
+          path: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          locale?: string
+          path?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           role: string

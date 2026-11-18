@@ -21,6 +21,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminKiOptimierungRouteImport } from './routes/_authenticated/admin.ki-optimierung'
 import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin.profile'
+import { Route as AuthenticatedAdminTexteRouteImport } from './routes/_authenticated/admin.texte'
 import { Route as ApiPublicBlogMediaRouteImport } from './routes/api.public.blog-media'
 import { Route as Char123LocaleChar125BlogIndexRouteImport } from './routes/{-$locale}/blog.index'
 import { Route as Char123LocaleChar125BlogSlugRouteImport } from './routes/{-$locale}/blog.$slug'
@@ -91,6 +92,11 @@ const AuthenticatedAdminProfileRoute =
     path: '/profile',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminTexteRoute = AuthenticatedAdminTexteRouteImport.update({
+  id: '/texte',
+  path: '/texte',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const ApiPublicBlogMediaRoute = ApiPublicBlogMediaRouteImport.update({
   id: '/api/public/blog-media',
   path: '/api/public/blog-media',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
+  '/admin/texte': typeof AuthenticatedAdminTexteRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
+  '/admin/texte': typeof AuthenticatedAdminTexteRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
   '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
+  '/_authenticated/admin/texte': typeof AuthenticatedAdminTexteRoute
   '/api/public/blog-media': typeof ApiPublicBlogMediaRoute
   '/{-$locale}/blog/$slug': typeof Char123LocaleChar125BlogSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/ki-optimierung'
     | '/admin/profile'
+    | '/admin/texte'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
     | '/admin/'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/ki-optimierung'
     | '/admin/profile'
+    | '/admin/texte'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
     | '/admin'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/ki-optimierung'
     | '/_authenticated/admin/profile'
+    | '/_authenticated/admin/texte'
     | '/api/public/blog-media'
     | '/{-$locale}/blog/$slug'
     | '/_authenticated/admin/'
@@ -324,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminProfileRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/texte': {
+      id: '/_authenticated/admin/texte'
+      path: '/texte'
+      fullPath: '/admin/texte'
+      preLoaderRoute: typeof AuthenticatedAdminTexteRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/blog-media': {
       id: '/api/public/blog-media'
       path: '/api/public/blog-media'
@@ -359,6 +378,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminKiOptimierungRoute: typeof AuthenticatedAdminKiOptimierungRoute
   AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
+  AuthenticatedAdminTexteRoute: typeof AuthenticatedAdminTexteRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminEditIdRoute: typeof AuthenticatedAdminEditIdRoute
 }
@@ -367,6 +387,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminKiOptimierungRoute: AuthenticatedAdminKiOptimierungRoute,
   AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
+  AuthenticatedAdminTexteRoute: AuthenticatedAdminTexteRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminEditIdRoute: AuthenticatedAdminEditIdRoute,
 }

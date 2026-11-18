@@ -3,6 +3,7 @@ import { useParams } from "@tanstack/react-router";
 import de from "@/locales/de";
 import en from "@/locales/en";
 import es from "@/locales/es";
+import { applyOverrides, emptyTexts, type SiteTexts } from "@/lib/site-texts/core";
 
 export type Lang = "de" | "en" | "es";
 export const langs: Lang[] = ["de", "en", "es"];
@@ -29,15 +30,28 @@ export function seoLinks(path: string, lang: Lang, _prefixedGerman = false) {
   ];
 }
 
-export const getDict = (l: Lang) => dict[l];
+/** Dashboard overrides, set by the root loader. Public published copy, identical for every visitor. */
+let current: SiteTexts = emptyTexts();
+const merged = new Map<string, (typeof dict)["de"]>();
+export function setSiteTexts(t: SiteTexts) {
+  if (t === current) return;
+  current = t;
+  merged.clear();
+}
+export const getDict = (l: Lang) => {
+  let d = merged.get(l);
+  if (!d) merged.set(l, (d = applyOverrides(dict[l], current[l])));
+  return d;
+};
 
 type Ctx = { lang: Lang; t: (typeof dict)["de"] };
 const I18n = createContext<Ctx>({ lang: "de", t: dict.de });
 
-export function I18nProvider({ children }: { children: ReactNode }) {
+export function I18nProvider({ children, texts }: { children: ReactNode; texts?: SiteTexts }) {
   const { locale } = useParams({ strict: false }) as { locale?: string };
   const lang = langFromParam(locale);
-  return <I18n.Provider value={{ lang, t: dict[lang] }}>{children}</I18n.Provider>;
+  if (texts) setSiteTexts(texts);
+  return <I18n.Provider value={{ lang, t: getDict(lang) }}>{children}</I18n.Provider>;
 }
 
 export const useI18n = () => useContext(I18n);

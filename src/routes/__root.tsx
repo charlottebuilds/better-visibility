@@ -13,7 +13,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { I18nProvider } from "../lib/i18n";
+import { I18nProvider, setSiteTexts } from "../lib/i18n";
+import { siteTextsQuery } from "@/lib/site-texts/query";
+import { emptyTexts } from "@/lib/site-texts/core";
 import { CookieConsent } from "../components/CookieConsent";
 import { PUBLIC_CMS_ENABLED } from "@/lib/public-site";
 
@@ -78,6 +80,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: async ({ context }) => {
+    const texts = PUBLIC_CMS_ENABLED
+      ? await context.queryClient.ensureQueryData(siteTextsQuery).catch(() => emptyTexts())
+      : emptyTexts();
+    setSiteTexts(texts);
+    return texts;
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -116,6 +125,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const texts = Route.useLoaderData();
   useEffect(() => {
     if (!PUBLIC_CMS_ENABLED) return;
     let live = true;
@@ -136,7 +146,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
+      <I18nProvider texts={texts}>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <CookieConsent />
