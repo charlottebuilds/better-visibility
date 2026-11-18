@@ -5,7 +5,7 @@ const en = {
       blog: { title: "Blog – Better Visibility | SEO & GEO Insights", ogTitle: "Blog – Better Visibility", description: "Articles on SEO, GEO and visibility in AI search." },
     },
     heroImgAlt: "Magnifying glass and AI network in purple and orange",
-    blogPage: { intro: "Insights on SEO and GEO.", back: "← Back to the blog", dateLocale: "en-US", switchLabel: "Choose language" },
+    blogPage: { intro: "Insights on SEO and GEO.", back: "← Back to the blog", dateLocale: "en-US", switchLabel: "Choose language", authorBio: "I am an organic growth specialist and content strategist. I personally help businesses get found on Google and in AI answers." },
     navigationLabel: "Main navigation",
     aboutIntro: "I make companies visible on Google and in AI search – with a clear strategy, relevant content and hands-on execution.",
     aboutDetails: { background: "My approach", skills: "Expertise & tools", languages: "Languages" },

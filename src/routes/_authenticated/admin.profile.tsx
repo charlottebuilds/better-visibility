@@ -12,6 +12,8 @@ import {
 import { AREA_LABELS, CMS_AREAS, type CmsArea, type CmsRole } from "@/lib/cms/access";
 import { useCmsAccess } from "@/lib/cms/use-access";
 import { Button } from "@/components/ui/button";
+import { AuthorBioEditor } from "@/components/cms/AuthorBioEditor";
+import { canAccess } from "@/lib/cms/access";
 export const Route = createFileRoute("/_authenticated/admin/profile")({
   head: () => ({
     meta: [
@@ -125,6 +127,7 @@ function Profile() {
         </label>
         <Button>Profil speichern</Button>
       </form>
+      {access.data && canAccess(access.data, "texts") && <AuthorBioEditor />}
       {access.data?.role === "admin" ? (
         <>
           <section className="mt-12 max-w-2xl border-t border-border pt-8">

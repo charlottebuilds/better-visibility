@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { enhanceArticle, readingMinutes, wordCount } from "@/lib/cms/article-seo";
 import { BUSINESS } from "@/lib/schema";
+import { getDict } from "@/lib/i18n";
 import portrait from "@/assets/portrait-charlotte.png";
 import { supabase } from "@/integrations/supabase/client";
 export function Article({
@@ -84,7 +85,7 @@ export function Article({
           <div>
             <p className="text-xs uppercase tracking-wide text-muted-foreground">{text.aboutAuthor}</p>
             <p className="mt-1 text-lg font-bold">{post.author}</p>
-            <p className="mt-2 text-sm text-muted-foreground">{text.authorBio}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{getDict(lang).blogPage.authorBio}</p>
             <div className="mt-3 flex flex-wrap gap-4 text-sm">
               <a href={BUSINESS.linkedin} target="_blank" rel="noopener noreferrer me" className="text-accent hover:underline">LinkedIn</a>
               <Link to="/{-$locale}/" params={{ locale: lang === "de" ? undefined : lang }} hash="kontakt" className="text-accent hover:underline">{text.contact}</Link>

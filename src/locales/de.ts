@@ -4,7 +4,7 @@ const de = {
       blog: { title: "Blog – Better Visibility | SEO & GEO Wissen", ogTitle: "Blog – Better Visibility", description: "Artikel rund um SEO, GEO und Sichtbarkeit in KI-Suchen." },
     },
     heroImgAlt: "Lupe und KI-Netzwerk in Lila und Orange",
-    blogPage: { intro: "Wissen rund um SEO und GEO.", back: "← Zurück zum Blog", dateLocale: "de-DE", switchLabel: "Sprache wählen" },
+    blogPage: { intro: "Wissen rund um SEO und GEO.", back: "← Zurück zum Blog", dateLocale: "de-DE", switchLabel: "Sprache wählen", authorBio: "Ich bin Organic Growth Specialist und Content-Strategin. Ich helfe Unternehmen persönlich, bei Google und in KI-Antworten gefunden zu werden." },
     navigationLabel: "Hauptnavigation",
     aboutIntro: "Ich mache Unternehmen in Google und KI-Suchen sichtbar – mit klarer Strategie, guten Inhalten und eigener Umsetzung.",
     aboutDetails: { background: "Mein Ansatz", skills: "Expertise & Tools", languages: "Sprachen" },

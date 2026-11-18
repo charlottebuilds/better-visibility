@@ -5,7 +5,7 @@ const es = {
       blog: { title: "Blog – Better Visibility | Conocimiento SEO & GEO", ogTitle: "Blog – Better Visibility", description: "Artículos sobre SEO, GEO y visibilidad en búsquedas con IA." },
     },
     heroImgAlt: "Lupa y red de IA en morado y naranja",
-    blogPage: { intro: "Conocimiento sobre SEO y GEO.", back: "← Volver al blog", dateLocale: "es-ES", switchLabel: "Elegir idioma" },
+    blogPage: { intro: "Conocimiento sobre SEO y GEO.", back: "← Volver al blog", dateLocale: "es-ES", switchLabel: "Elegir idioma", authorBio: "Soy especialista en crecimiento orgánico y estratega de contenidos. Ayudo personalmente a empresas a ser encontradas en Google y en respuestas de IA." },
     navigationLabel: "Navegación principal",
     aboutIntro: "Doy visibilidad a las empresas en Google y en las búsquedas con IA, con una estrategia clara, contenido relevante y ejecución directa.",
     aboutDetails: { background: "Mi enfoque", skills: "Especialidades y herramientas", languages: "Idiomas" },
