@@ -37,7 +37,7 @@ function Auth() {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user || !live) return;
-      const { data: admin } = await supabase.rpc("cms_is_admin");
+      const { data: admin } = await supabase.rpc("cms_is_member");
       if (admin) await navigate({ to: "/admin/" });
       else setMessage("Angemeldet, aber noch nicht für die Blogverwaltung freigeschaltet.");
     }
@@ -53,7 +53,7 @@ function Auth() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      const { data: admin } = await supabase.rpc("cms_is_admin");
+      const { data: admin } = await supabase.rpc("cms_is_member");
       if (!admin) {
         setMessage("Dein Konto hat noch keine Administratorrechte.");
         return;
@@ -85,7 +85,7 @@ function Auth() {
     });
     if (result.error) setMessage(result.error.message);
     if (!result.error && !result.redirected) {
-      const { data: admin } = await supabase.rpc("cms_is_admin");
+      const { data: admin } = await supabase.rpc("cms_is_member");
       if (admin) await navigate({ to: "/admin/" });
       else setMessage("Dein Konto muss für die Blogverwaltung freigeschaltet werden.");
     }

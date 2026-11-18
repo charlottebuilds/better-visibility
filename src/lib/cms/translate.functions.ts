@@ -25,7 +25,7 @@ export const translatePost = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const sb = context.supabase;
-    const { data: admin } = await sb.rpc("cms_is_admin");
+    const { data: admin } = await sb.rpc("cms_can", { p_area: "posts" });
     if (!admin) throw new Error("Keine Administratorrechte.");
 
     const { data: source, error: srcErr } = await sb.from("blog_posts").select("*").eq("id", data.sourceId).maybeSingle();

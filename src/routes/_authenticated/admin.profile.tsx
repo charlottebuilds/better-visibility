@@ -3,7 +3,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadImage } from "@/lib/cms/browser";
-import { manageUser, listTeam, removeTeamMember } from "@/lib/cms/admin.functions";
+import {
+  manageUser,
+  listTeam,
+  removeTeamMember,
+  updateTeamMember,
+} from "@/lib/cms/admin.functions";
+import { AREA_LABELS, CMS_AREAS, type CmsArea, type CmsRole } from "@/lib/cms/access";
+import { useCmsAccess } from "@/lib/cms/use-access";
 import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/admin/profile")({
   head: () => ({
@@ -26,7 +33,13 @@ function Profile() {
   const [message, setMessage] = useState("");
   const [avatar, setAvatar] = useState("");
   const queryClient = useQueryClient();
-  const team = useQuery({ queryKey: ["cms-team"], queryFn: () => listTeam() });
+  const [inviteEmail, setInviteEmail] = useState("");
+  const access = useCmsAccess();
+  const team = useQuery({
+    queryKey: ["cms-team"],
+    queryFn: () => listTeam(),
+    enabled: access.data?.role === "admin",
+  });
   const { data } = useQuery({
     queryKey: ["cms-profile"],
     queryFn: async () => {
@@ -112,77 +125,185 @@ function Profile() {
         </label>
         <Button>Profil speichern</Button>
       </form>
-      <section className="mt-12 max-w-lg border-t border-border pt-8">
-        <h2 className="text-xl font-bold">Team</h2>
-        <ul className="mt-5 divide-y divide-border rounded-lg border border-border">
-          {team.data?.map((m) => (
-            <li key={m.id} className="flex items-center justify-between gap-4 p-4">
-              <div className="min-w-0">
-                <p className="truncate font-medium">
-                  {m.name || m.email}
-                  {m.self && <span className="ml-2 text-xs text-muted-foreground">(du)</span>}
-                </p>
-                <p className="truncate text-sm text-muted-foreground">
-                  {m.email} · Administrator{m.pending ? " · Einladung offen" : ""}
-                </p>
-              </div>
-              {!m.self && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={async () => {
-                    if (!confirm(`${m.email} aus dem Team entfernen?`)) return;
-                    try {
-                      await removeTeamMember({ data: { id: m.id } });
-                      setMessage("Teammitglied entfernt.");
-                      await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
-                    } catch (e) {
-                      setMessage(e instanceof Error ? e.message : "Entfernen fehlgeschlagen.");
-                    }
-                  }}
-                >
-                  Entfernen
-                </Button>
-              )}
-            </li>
-          ))}
-          {team.isLoading && <li className="p-4 text-sm text-muted-foreground">Lädt …</li>}
-          {team.error && <li className="p-4 text-sm text-accent">{team.error.message}</li>}
-        </ul>
-      </section>
-      <section className="mt-12 max-w-lg border-t border-border pt-8">
-        <h2 className="text-xl font-bold">Teammitglied einladen</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Die Person erhält eine E-Mail mit einem Link und kann danach Beiträge und Seitentexte bearbeiten.
-        </p>
-        <form
-          className="mt-5 space-y-4"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const f = new FormData(e.currentTarget);
-            try {
-              await manageUser({ data: { email: String(f.get("email")), admin: true } });
-              setMessage("Einladung versendet.");
-              e.currentTarget?.reset();
-              await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
-            } catch (e) {
-              setMessage(e instanceof Error ? e.message : "Einladung fehlgeschlagen.");
-            }
-          }}
-        >
-          <label className="cms-label">
-            E-Mail-Adresse
-            <input name="email" type="email" required className="cms-input w-full" />
-          </label>
-          <Button variant="outline">Einladung senden</Button>
-        </form>
-      </section>
+      {access.data?.role === "admin" ? (
+        <>
+          <section className="mt-12 max-w-2xl border-t border-border pt-8">
+            <h2 className="text-xl font-bold">Team & Berechtigungen</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Administratoren haben vollen Zugriff inklusive Teamverwaltung. Redakteure sehen nur
+              die Bereiche, die du für sie freigibst.
+            </p>
+            <ul className="mt-5 divide-y divide-border rounded-lg border border-border">
+              {team.data?.map((m) => (
+                <li key={m.id} className="space-y-4 p-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">
+                        {m.name || m.email}
+                        {m.self && <span className="ml-2 text-xs text-muted-foreground">(du)</span>}
+                      </p>
+                      <p className="truncate text-sm text-muted-foreground">
+                        {m.email}
+                        {m.pending ? " · Einladung offen" : ""}
+                      </p>
+                    </div>
+                    {!m.self && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          if (!confirm(`${m.email} aus dem Team entfernen?`)) return;
+                          try {
+                            await removeTeamMember({ data: { id: m.id } });
+                            setMessage("Teammitglied entfernt.");
+                            await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
+                          } catch (e) {
+                            setMessage(e instanceof Error ? e.message : "Entfernen fehlgeschlagen.");
+                          }
+                        }}
+                      >
+                        Entfernen
+                      </Button>
+                    )}
+                  </div>
+                  {m.self ? (
+                    <p className="text-sm text-muted-foreground">Rolle: Administrator</p>
+                  ) : (
+                    <AccessEditor
+                      initialRole={m.role}
+                      initialPermissions={m.permissions}
+                      submitLabel="Rechte speichern"
+                      onSubmit={async (role, permissions) => {
+                        try {
+                          await updateTeamMember({ data: { id: m.id, role, permissions } });
+                          setMessage(`Rechte für ${m.email} gespeichert.`);
+                          await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
+                        } catch (e) {
+                          setMessage(e instanceof Error ? e.message : "Speichern fehlgeschlagen.");
+                        }
+                      }}
+                    />
+                  )}
+                </li>
+              ))}
+              {team.isLoading && <li className="p-4 text-sm text-muted-foreground">Lädt …</li>}
+              {team.error && <li className="p-4 text-sm text-accent">{team.error.message}</li>}
+            </ul>
+          </section>
+          <section className="mt-12 max-w-2xl border-t border-border pt-8">
+            <h2 className="text-xl font-bold">Teammitglied einladen</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Die Person erhält eine E-Mail mit einem Link und sieht danach nur die freigegebenen
+              Bereiche.
+            </p>
+            <label className="cms-label mt-5">
+              E-Mail-Adresse
+              <input
+                type="email"
+                required
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                className="cms-input w-full"
+              />
+            </label>
+            <div className="mt-4">
+              <AccessEditor
+                initialRole="editor"
+                initialPermissions={["posts"]}
+                submitLabel="Einladung senden"
+                onSubmit={async (role, permissions) => {
+                  try {
+                    await manageUser({ data: { email: inviteEmail, role, permissions } });
+                    setMessage("Einladung versendet.");
+                    setInviteEmail("");
+                    await queryClient.invalidateQueries({ queryKey: ["cms-team"] });
+                  } catch (e) {
+                    setMessage(e instanceof Error ? e.message : "Einladung fehlgeschlagen.");
+                  }
+                }}
+              />
+            </div>
+          </section>
+        </>
+      ) : (
+        access.data && (
+          <section className="mt-12 max-w-lg border-t border-border pt-8">
+            <h2 className="text-xl font-bold">Deine Berechtigungen</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Redakteur ·{" "}
+              {access.data.permissions.map((a) => AREA_LABELS[a as CmsArea]).join(", ") ||
+                "noch keine Bereiche freigegeben"}
+            </p>
+          </section>
+        )
+      )}
       {message && (
         <p role="status" className="mt-6 text-accent">
           {message}
         </p>
       )}
     </>
+  );
+}
+
+function AccessEditor({
+  initialRole,
+  initialPermissions,
+  submitLabel,
+  onSubmit,
+}: {
+  initialRole: CmsRole;
+  initialPermissions: CmsArea[];
+  submitLabel: string;
+  onSubmit: (role: CmsRole, permissions: CmsArea[]) => Promise<void>;
+}) {
+  const [role, setRole] = useState<CmsRole>(initialRole);
+  const [permissions, setPermissions] = useState<CmsArea[]>(initialPermissions);
+  const [busy, setBusy] = useState(false);
+  return (
+    <div className="space-y-3">
+      <label className="cms-label">
+        Rolle
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value as CmsRole)}
+          className="cms-input w-full"
+        >
+          <option value="editor">Redakteur – nur freigegebene Bereiche</option>
+          <option value="admin">Administrator – voller Zugriff inkl. Team</option>
+        </select>
+      </label>
+      {role === "editor" && (
+        <fieldset className="flex flex-wrap gap-x-5 gap-y-2">
+          <legend className="mb-2 text-sm font-medium">Zugriff auf</legend>
+          {CMS_AREAS.map((a) => (
+            <label key={a} className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={permissions.includes(a)}
+                onChange={(e) =>
+                  setPermissions((p) => (e.target.checked ? [...p, a] : p.filter((x) => x !== a)))
+                }
+              />
+              {AREA_LABELS[a]}
+            </label>
+          ))}
+        </fieldset>
+      )}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        disabled={busy}
+        onClick={async () => {
+          setBusy(true);
+          await onSubmit(role, permissions);
+          setBusy(false);
+        }}
+      >
+        {submitLabel}
+      </Button>
+    </div>
   );
 }

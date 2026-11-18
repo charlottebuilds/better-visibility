@@ -44,7 +44,7 @@ export const saveSiteTexts = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const sb = context.supabase;
-    const { data: admin } = await sb.rpc("cms_is_admin");
+    const { data: admin } = await sb.rpc("cms_can", { p_area: "texts" });
     if (!admin) throw new Error("Keine Administratorrechte.");
     const allowed = editable();
     const paths = Object.keys(data.changes);
@@ -78,7 +78,7 @@ export const resetSiteText = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const sb = context.supabase;
-    const { data: admin } = await sb.rpc("cms_is_admin");
+    const { data: admin } = await sb.rpc("cms_can", { p_area: "texts" });
     if (!admin) throw new Error("Keine Administratorrechte.");
     let q = sb.from("site_texts").delete().eq("path", data.path);
     if (!data.allLocales) q = q.eq("locale", data.locale);

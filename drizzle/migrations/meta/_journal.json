@@ -92,6 +92,13 @@
       "when": 1795009921997,
       "tag": "0012_site_texts",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1795014582336,
+      "tag": "0013_cms_roles_permissions",
+      "breakpoints": true
     }
   ]
 }

@@ -269,14 +269,17 @@ export type Database = {
       }
       user_roles: {
         Row: {
+          permissions: string[]
           role: string
           user_id: string
         }
         Insert: {
+          permissions?: string[]
           role?: string
           user_id: string
         }
         Update: {
+          permissions?: string[]
           role?: string
           user_id?: string
         }
@@ -301,7 +304,9 @@ export type Database = {
         }
         Returns: string
       }
+      cms_can: { Args: { p_area: string }; Returns: boolean }
       cms_is_admin: { Args: never; Returns: boolean }
+      cms_is_member: { Args: never; Returns: boolean }
       cms_public_media: { Args: { p_path: string }; Returns: boolean }
       cms_public_posts: { Args: { p_locale?: string }; Returns: Json[] }
       cms_public_redirect: {

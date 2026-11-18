@@ -11,7 +11,7 @@ export const analyzeSeoGeo = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { data: admin } = await context.supabase.rpc("cms_is_admin");
+    const { data: admin } = await context.supabase.rpc("cms_can", { p_area: "ai" });
     if (!admin) throw new Error("Keine Administratorrechte.");
     return { result: await generateSeoGeoTips(data) };
   });

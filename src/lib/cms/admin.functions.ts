@@ -5,6 +5,12 @@ import { z } from "zod";
 import { publicationDates } from "./types";
 import type { CmsPost } from "./types";
 import type { Json } from "@/integrations/supabase/types";
+import { CMS_AREAS, normalizePermissions, type CmsArea, type CmsRole } from "./access";
+
+const memberSchema = z.object({
+  role: z.enum(["admin", "editor"]),
+  permissions: z.array(z.enum(CMS_AREAS)),
+});
 
 export const cleanContent = (html: string) =>
   sanitizeHtml(html, {
@@ -95,8 +101,8 @@ export const savePost = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data, context }) => {
-    const { data: admin } = await context.supabase.rpc("cms_is_admin");
-    if (!admin) throw new Error("Keine Administratorrechte.");
+    const { data: allowed } = await context.supabase.rpc("cms_can", { p_area: "posts" });
+    if (!allowed) throw new Error("Keine Berechtigung für Beiträge.");
     const { data: existing, error: readError } = await context.supabase
       .from("blog_posts")
       .select("*")
@@ -170,8 +176,8 @@ export const restoreRevision = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { data: admin } = await context.supabase.rpc("cms_is_admin");
-    if (!admin) throw new Error("Keine Administratorrechte.");
+    const { data: allowed } = await context.supabase.rpc("cms_can", { p_area: "posts" });
+    if (!allowed) throw new Error("Keine Berechtigung für Beiträge.");
     const { data: revision, error } = await context.supabase
       .from("blog_revisions")
       .select("*")
@@ -198,8 +204,8 @@ export const restoreRevision = createServerFn({ method: "POST" })
   });
 export const manageUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: { email: string; admin: boolean }) =>
-    z.object({ email: z.string().email(), admin: z.boolean() }).parse(data),
+  .inputValidator((data: { email: string; role: CmsRole; permissions: CmsArea[] }) =>
+    memberSchema.extend({ email: z.string().email() }).parse(data),
   )
   .handler(async ({ data, context }) => {
     const { data: admin } = await context.supabase.rpc("cms_is_admin");
@@ -207,10 +213,12 @@ export const manageUser = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: invited, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email);
     if (error) throw error;
-    if (data.admin && invited.user) {
-      const { error: roleError } = await supabaseAdmin
-        .from("user_roles")
-        .insert({ user_id: invited.user.id, role: "admin" });
+    if (invited.user) {
+      const { error: roleError } = await supabaseAdmin.from("user_roles").upsert({
+        user_id: invited.user.id,
+        role: data.role,
+        permissions: normalizePermissions(data.role, data.permissions),
+      });
       if (roleError) throw roleError;
     }
     return { success: true };
@@ -227,8 +235,8 @@ export const uploadMedia = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { data: admin } = await context.supabase.rpc("cms_is_admin");
-    if (!admin) throw new Error("Keine Administratorrechte.");
+    const { data: allowed } = await context.supabase.rpc("cms_is_member");
+    if (!allowed) throw new Error("Keine Berechtigung.");
     const bytes = Uint8Array.from(atob(data.base64), (c) => c.charCodeAt(0));
     if (bytes.length > 10 * 1024 * 1024) throw new Error("Bild darf maximal 10 MB groß sein.");
     const path =
@@ -256,7 +264,7 @@ export const listTeam = createServerFn({ method: "POST" })
     const { data: admin } = await context.supabase.rpc("cms_is_admin");
     if (!admin) throw new Error("Keine Administratorrechte.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: roles, error } = await supabaseAdmin.from("user_roles").select("user_id, role");
+    const { data: roles, error } = await supabaseAdmin.from("user_roles").select("user_id, role, permissions");
     if (error) throw error;
     const { data: list, error: listError } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
     if (listError) throw listError;
@@ -265,7 +273,8 @@ export const listTeam = createServerFn({ method: "POST" })
       const u = list.users.find((x) => x.id === r.user_id);
       return {
         id: r.user_id,
-        role: r.role,
+        role: r.role as CmsRole,
+        permissions: r.permissions as CmsArea[],
         email: u?.email ?? "",
         name: profiles?.find((p) => p.id === r.user_id)?.display_name ?? "",
         pending: !u?.last_sign_in_at,
@@ -283,6 +292,25 @@ export const removeTeamMember = createServerFn({ method: "POST" })
     if (data.id === context.userId) throw new Error("Du kannst dich nicht selbst entfernen.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("user_roles").delete().eq("user_id", data.id);
+    if (error) throw error;
+    return { success: true };
+  });
+
+export const updateTeamMember = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { id: string; role: CmsRole; permissions: CmsArea[] }) =>
+    memberSchema.extend({ id: z.string().uuid() }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: admin } = await context.supabase.rpc("cms_is_admin");
+    if (!admin) throw new Error("Keine Administratorrechte.");
+    if (data.id === context.userId && data.role !== "admin")
+      throw new Error("Du kannst dir die Administratorrechte nicht selbst entziehen.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("user_roles")
+      .update({ role: data.role, permissions: normalizePermissions(data.role, data.permissions) })
+      .eq("user_id", data.id);
     if (error) throw error;
     return { success: true };
   });
