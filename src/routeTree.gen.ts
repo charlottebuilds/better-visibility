@@ -17,6 +17,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
 import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-$locale}/datenschutz'
 import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
+import { Route as Char126oauthSplatRouteImport } from './routes/~oauth.$'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminKiOptimierungRouteImport } from './routes/_authenticated/admin.ki-optimierung'
@@ -69,6 +70,11 @@ const Char123LocaleChar125ImpressumRoute =
     path: '/{-$locale}/impressum',
     getParentRoute: () => rootRouteImport,
   } as any)
+const Char126oauthSplatRoute = Char126oauthSplatRouteImport.update({
+  id: '/~oauth/$',
+  path: '/~oauth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
+  '/~oauth/$': typeof Char126oauthSplatRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
+  '/~oauth/$': typeof Char126oauthSplatRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
+  '/~oauth/$': typeof Char126oauthSplatRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/ki-optimierung': typeof AuthenticatedAdminKiOptimierungRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
+    | '/~oauth/$'
     | '/{-$locale}/'
     | '/admin/categories'
     | '/admin/ki-optimierung'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
+    | '/~oauth/$'
     | '/{-$locale}'
     | '/admin/categories'
     | '/admin/ki-optimierung'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
+    | '/~oauth/$'
     | '/{-$locale}/'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/ki-optimierung'
@@ -244,6 +256,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   Char123LocaleChar125DatenschutzRoute: typeof Char123LocaleChar125DatenschutzRoute
   Char123LocaleChar125ImpressumRoute: typeof Char123LocaleChar125ImpressumRoute
+  Char126oauthSplatRoute: typeof Char126oauthSplatRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
   ApiPublicBlogMediaRoute: typeof ApiPublicBlogMediaRoute
   Char123LocaleChar125BlogSlugRoute: typeof Char123LocaleChar125BlogSlugRoute
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/{-$locale}/impressum'
       fullPath: '/{-$locale}/impressum'
       preLoaderRoute: typeof Char123LocaleChar125ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/~oauth/$': {
+      id: '/~oauth/$'
+      path: '/~oauth/$'
+      fullPath: '/~oauth/$'
+      preLoaderRoute: typeof Char126oauthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -413,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   Char123LocaleChar125DatenschutzRoute: Char123LocaleChar125DatenschutzRoute,
   Char123LocaleChar125ImpressumRoute: Char123LocaleChar125ImpressumRoute,
+  Char126oauthSplatRoute: Char126oauthSplatRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
   ApiPublicBlogMediaRoute: ApiPublicBlogMediaRoute,
   Char123LocaleChar125BlogSlugRoute: Char123LocaleChar125BlogSlugRoute,

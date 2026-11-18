@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import "@lovable.dev/cloud-auth-js/styles.css";
+
+// Lovable sign-in is hidden, not removed. Set to true to show it again.
+const SHOW_LOVABLE_LOGIN = false;
 import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -149,9 +152,11 @@ function Auth() {
         </svg>
         Mit Google anmelden
       </Button>
-      <Button className="lovable-auth-button mt-3" onClick={() => social("lovable")}>
-        Sign in with Lovable
-      </Button>
+      {SHOW_LOVABLE_LOGIN && (
+        <Button className="lovable-auth-button mt-3" onClick={() => social("lovable")}>
+          Sign in with Lovable
+        </Button>
+      )}
       {message && (
         <p role="status" className="mt-6 text-sm text-accent">
           {message}
